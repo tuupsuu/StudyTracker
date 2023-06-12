@@ -1,0 +1,25 @@
+[
+    {
+      "type": "Single",
+      "question": "Choose the largest number:",
+      "options": [
+        [9, 18, 54, 69],
+        [3, 7, 21, 12],
+        [25, 6, 9, 11],
+        [4, 13, 22, 29]
+      ],
+      "answer": [3, 2, 0, 3]
+    },
+    {
+      "type": "Single",
+      "question": "Choose the smallest number:",
+      "options": [      
+      [9, 18, 54, 69],
+      [3, 7, 21, 12],
+      [25, 6, 9, 11],
+      [4, 13, 22, 29]
+    ],
+      "answer": [0, 0, 1, 0]
+    }
+  ]
+  
