@@ -1,8 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const config = require('./config');
 
-const sequelize = new Sequelize('users', 'root', 'new', {
-  host: 'localhost',
-  dialect: 'mysql'
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+  host: config.host,
+  dialect: config.dialect
 });
 
 const User = sequelize.define('User', {
