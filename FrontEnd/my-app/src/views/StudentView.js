@@ -5,10 +5,12 @@ class StudentView extends React.Component {
 
   render() {
     return (
-      <div style={{ textAlign: 'center', marginTop: '100px' }}>
-        <h1>Welcome, Student!</h1>
-        <p>You can take tests from this page.</p>
-      </div>
+      <>
+        <div style={{ textAlign: 'center', marginTop: '100px' }}>
+          <h1>Welcome, Student!</h1>
+          <p>You can take tests from this page.</p>
+        </div>
+      </>
     );
   }
 }

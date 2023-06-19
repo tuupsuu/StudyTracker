@@ -1,52 +1,69 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
+import accounts from '../jsonFiles/accounts.json';
 
-class Login extends React.Component {
-  state = {
-    id: '',
-    password: '',
-    role: 'student', // 'student', 'teacher', 'official'
-  };
+function Login() {
+  const [id, setId] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [role, setRole] = React.useState('student'); // 'student', 'teacher', 'official'
+  const navigate = useNavigate();
 
-  handleInputChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+  const handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    if (name === 'id') setId(value);
+    else if (name === 'password') setPassword(value);
+    else if (name === 'role') setRole(value);
   }
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const { role } = this.state;
-    this.props.history.push(`/${role}`);
+
+    // Validate the user's credentials
+    if (role === 'student') {
+      if (!accounts.students.find(student => student.id === id)) {
+        alert('Invalid student ID');
+        return;
+      }
+    } else {  // role is 'teacher'
+      const teacher = accounts.teachers.find(teacher => teacher.id === id);
+      if (!teacher || teacher.password !== password) {
+        alert('Invalid teacher ID or password');
+        return;
+      }
+    }
+
+    navigate(`/${role}`);
   }
 
-  render() {
-    return (
-      <div style={{ width: '300px', margin: '0 auto', marginTop: '200px' }}>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            ID:
-            <input type="text" name="id" onChange={this.handleInputChange} />
-          </label>
-          <br />
+  return (
+    <div className="login-container">
+      <h1> Welcome to StudyTracker</h1>
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label>
+          Role:
+          <select name="role" onChange={handleInputChange}>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+          </select>
+        </label>
+        <label>
+          ID:
+          <input type="text" name="id" onChange={handleInputChange} />
+        </label>
+        {role === 'teacher' && (
           <label>
             Password:
-            <input type="password" name="password" onChange={this.handleInputChange} />
+            <input type="password" name="password" onChange={handleInputChange} />
           </label>
-          <br />
-          <label>
-            Role:
-            <select name="role" onChange={this.handleInputChange}>
-              <option value="student">Student</option>
-              <option value="teacher">Teacher</option>
-            </select>
-          </label>
-          <br />
-          <input type="submit" value="Login" />
-        </form>
-      </div>
-    );
-  }
+        )}
+        <input type="submit" value="Login" />
+      </form>
+    </div>
+  );
 }
 
-export default withRouter(Login);
+export default Login;
