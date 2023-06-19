@@ -1,0 +1,19 @@
+{
+  "name": "studytracker",
+  "version": "1.0.0",
+  "description": "This repository contains a microservice architecture web application designed to facilitate test creation and evaluation for teachers, and test taking for students. The application is built using the MERN stack, with MongoDB being replaced by MySQL as the database.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuupsuu/StudyTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tuupsuu/StudyTracker/issues"
+  },
+  "homepage": "https://github.com/tuupsuu/StudyTracker#readme"
+}
