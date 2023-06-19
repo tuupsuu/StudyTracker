@@ -1,0 +1,13 @@
+{
+    "students": [
+      { "id": "student1" },
+      { "id": "student2" },
+      { "id": "student3" }
+    ],
+    "teachers": [
+      { "id": "teacher1", "password": "pass1" },
+      { "id": "teacher2", "password": "pass2" },
+      { "id": "teacher3", "password": "pass3" }
+    ]
+  }
+  
