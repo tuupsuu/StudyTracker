@@ -2,12 +2,14 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import accounts from '../jsonFiles/accounts.json';
+import AuthContext from '../components/AuthContext';
 
 function Login() {
   const [id, setId] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [role, setRole] = React.useState('student'); // 'student', 'teacher', 'official'
   const navigate = useNavigate();
+  const { setIsLoggedIn } = React.useContext(AuthContext);
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -35,7 +37,7 @@ function Login() {
         return;
       }
     }
-
+    setIsLoggedIn(true);
     navigate(`/${role}`);
   }
 
