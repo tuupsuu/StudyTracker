@@ -1,0 +1,85 @@
+.Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .TopBar {
+    background-color: darkslategrey;
+    color: white;
+    height: 200px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  
+  .TextContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: darkslategrey;
+  }
+  
+  .Title {
+    background-color: darkslategrey;
+  }
+  
+  p {
+    background-color: darkslategrey;
+    color: white;
+  }
+  
+  .LogoutButton {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: darkslategrey;
+  }
+
+  .ContentContainerButton {
+    display: inline-block;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .ContentContainerButton:hover {
+    background-color: #e0e0e0;
+  }
+  
+  
+  .ContentContainer {
+    width: 100%;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .ContentContainerTitle {
+    background-color: lime;
+    color: black;
+  }
+
+  .ContentContainerInfo {
+    display: flex;
+    flex-direction: row;
+    color: red;
+    align-items: center;
+  }
+
+  .InfoText {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    color: black;
+    margin-right: 300px;
+  }
+  
