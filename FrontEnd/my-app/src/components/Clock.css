@@ -1,0 +1,20 @@
+
+.clock-container {
+    text-align: left;
+    background-color: darkslategrey;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .clock-title {
+    font-size: 20px;
+    color: white;
+    background-color: darkslategrey;
+  }
+  
+  .clock-time {
+    font-size: large;
+    color: white;
+    margin-top: 10px;
+    background-color: darkslategrey;
+  }
