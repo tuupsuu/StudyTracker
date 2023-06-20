@@ -14,12 +14,7 @@
     background-color: darkslategrey;
     color: #fff;
   }
-  
-  h2 {
-    color: white;
-    background-color: darkslategrey;
-  }
-  
+
   .sidebar {
     position: fixed;
     width: 200px;
@@ -88,24 +83,26 @@
     bottom: -8px;
   }
   
-  .logout-button {
+  .LogoutButton {
     background-color: #dc3545;
     color: white;
-    padding: 5px 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .TitleTeacher {
+    background-color: darkslategrey;
   }
   
-  .close-button {
-    background-color: #dc3545;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
+  .HeaderTeacher {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: darkslategrey;
+  }  
 
   .alert {
     margin-bottom: 20px; 
