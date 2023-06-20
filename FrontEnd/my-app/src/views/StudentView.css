@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 10px;
   }
   
   .TextContainer {
@@ -31,6 +31,7 @@
   p {
     background-color: darkslategrey;
     color: white;
+    font-size: 18px;
   }
   
   .LogoutButton {
@@ -41,9 +42,11 @@
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 20px;
+    font-size: 24px;
+    margin-right: 50px;
   }
 
-  .ContentContainerButton {
+  .TestContainerButton {
     display: inline-block;
     background-color: white;
     padding: 10px;
@@ -52,29 +55,34 @@
     color: inherit;
   }
   
-  .ContentContainerButton:hover {
+  .TestContainerButton:hover {
     background-color: #e0e0e0;
   }
-  
-  
-  .ContentContainer {
+
+  .TestContainerTitle {
+    background-color: lime;
+    color: black;
     width: 100%;
-    height: 200px;
+  }
+  
+  .TestContainer {
+    width: 1000px;
+    height: auto;
     border: 1px solid black;
     border-radius: 10px;
     margin-top: 20px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
-  .ContentContainerTitle {
-    background-color: lime;
-    color: black;
-  }
-
-  .ContentContainerInfo {
+  .TestContainerInfo {
     display: flex;
     flex-direction: row;
-    color: red;
+    align-items: center;
+    flex-direction: column;
     align-items: center;
   }
 
@@ -83,6 +91,7 @@
     flex-direction: row;
     background-color: white;
     color: black;
-    margin-right: 300px;
+    margin-top: 0px;
   }
+  
   

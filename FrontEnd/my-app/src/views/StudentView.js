@@ -4,6 +4,12 @@ import './StudentView.css';
 import Clock from '../components/Clock';
 
 class StudentView extends React.Component {
+  getRandomColor() {
+    const colors = ['pink', 'lightblue', 'lime', 'red', 'yellow'];
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    return colors[randomIndex];
+  }
+
   render() {
     return (
       <div className='Container'>
@@ -17,13 +23,26 @@ class StudentView extends React.Component {
             Logout
           </Link>
         </div>
-        <Link to='./StartTest' className='ContentContainerButton'>
-          <div className='ContentContainer'>
-            <h2 className='ContentContainerTitle'>Math test 2nd grade Autumn</h2>
-            <div className='ContentContainerInfo'>
+        <Link to='./StartTest' className='TestContainerButton'>
+          <div className='TestContainer'>
+            <h2 className='TestContainerTitle' style={{ backgroundColor: this.getRandomColor() }}>
+              Math test 2nd grade Autumn
+            </h2>
+            <div className='TestContainerInfo'>
               <p className='InfoText'>Teacher: Bill Gates</p>
-              <p className='InfoText'>Not completed</p>
               <p className='InfoText'>20.6 10.15 - 20.6 14.15</p>
+            </div>
+          </div>
+        </Link>
+
+        <Link to='./StartTest' className='TestContainerButton'>
+          <div className='TestContainer'>
+            <h2 className='TestContainerTitle' style={{ backgroundColor: this.getRandomColor() }}>
+              Finnish writing test 2nd grade Winter
+            </h2>
+            <div className='TestContainerInfo'>
+              <p className='InfoText'>Teacher: Antti Valmari</p>
+              <p className='InfoText'>Requires password</p>
             </div>
           </div>
         </Link>
