@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/tuupsuu/StudyTracker/issues"
   },
-  "homepage": "https://github.com/tuupsuu/StudyTracker#readme"
+  "homepage": "https://github.com/tuupsuu/StudyTracker#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
