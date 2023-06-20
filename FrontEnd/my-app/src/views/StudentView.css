@@ -34,10 +34,13 @@
   }
   
   .LogoutButton {
+    background-color: #dc3545;
     color: white;
-    text-decoration: none;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    background-color: darkslategrey;
+    margin-bottom: 20px;
   }
 
   .ContentContainerButton {

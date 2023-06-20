@@ -1,22 +1,20 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import './TeacherView.css';
 import photo from '../components/graphOfGrades.jpg';
+import { Link } from 'react-router-dom';
+
 
 function TeacherView() {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    navigate('..');
-  }
 
   return (
     <div className="teacher-view">
       <header className="header">
         <div className="hamburger" onClick={() => setSidebarOpen(true)} />
-        <h2>Welcome, teacher!</h2>
-        <button className="logout-button" onClick={handleLogout}>Log out</button>
+        <div className='HeaderTeacher'>
+          <h1 className='TitleTeacher'>Welcome, teacher!</h1>
+        </div>
+        <Link to='..' className='LogoutButton'>Logout</Link>
       </header>
 
       {isSidebarOpen && (

@@ -4,8 +4,6 @@ import './StudentView.css';
 import Clock from '../components/Clock';
 
 class StudentView extends React.Component {
-  // state and methods
-
   render() {
     return (
       <div className='Container'>
