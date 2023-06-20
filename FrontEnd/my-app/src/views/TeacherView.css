@@ -14,7 +14,9 @@
     background-color: darkslategrey;
     color: #fff;
   }
-
+  /*
+-----------------------------------------------------
+  */
   .sidebar {
     position: fixed;
     width: 200px;
@@ -23,7 +25,7 @@
     background-color: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
-  
+
   .sidebar ul {
     list-style-type: none;
     padding: 0;
@@ -37,7 +39,11 @@
   .sidebar li:hover {
     text-decoration: underline;
   }
-  
+
+  /*
+-----------------------------------------------------
+  */  
+
   .content {
     padding: 20px;
   }
@@ -58,29 +64,10 @@
   }
 
   .hamburger {
-    width: 30px;
-    height: 3.5px;
-    background: white;
+    font-size: xx-large;
+    background: darkslategrey;
     position: relative;
     cursor: pointer;
-  }
-  
-  .hamburger:before,
-  .hamburger:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    height: 3.7px;
-    background: white;
-    width: 100%;
-  }
-  
-  .hamburger:before {
-    top: -8px;
-  }
-  
-  .hamburger:after {
-    bottom: -8px;
   }
   
   .LogoutButton {

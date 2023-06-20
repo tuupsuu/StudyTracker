@@ -2,7 +2,7 @@ import React from 'react';
 import './TeacherView.css';
 import photo from '../components/graphOfGrades.jpg';
 import { Link } from 'react-router-dom';
-
+import { FaBars } from 'react-icons/fa';
 
 function TeacherView() {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
@@ -10,7 +10,7 @@ function TeacherView() {
   return (
     <div className="teacher-view">
       <header className="header">
-        <div className="hamburger" onClick={() => setSidebarOpen(true)} />
+        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
         <div className='HeaderTeacher'>
           <h1 className='TitleTeacher'>Welcome, teacher!</h1>
         </div>
