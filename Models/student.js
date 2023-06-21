@@ -23,7 +23,7 @@ const Student = sequelize.define('Student', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    StudID: {
+    Stud_ID: {
         type:DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -35,4 +35,4 @@ const Student = sequelize.define('Student', {
 
 sequelize.sync();
 
-module.exports = { User };
+module.exports = { Student };
