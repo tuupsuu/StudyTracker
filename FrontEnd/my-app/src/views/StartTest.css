@@ -1,0 +1,40 @@
+.Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .TopBar {
+    background-color: darkslategrey;
+    color: white;
+    height: 200px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .TextContainer {
+    background-color: darkslategrey;
+    margin-right: 35%;
+  }
+  
+  .Title {
+    background-color: darkslategrey;
+  }
+
+  .StartTestContainer {
+    margin-top: 10%;
+  }
+
+  .StartTestButton {
+    width: 400px;
+    height: 200px;
+    font-size: 24px;
+    border-radius: 10px;
+    border-color: black;
+  }
+
+    .StartTestButton:hover {
+    background-color: rgb(236, 235, 235);
+  }
