@@ -16,9 +16,17 @@
     "url": "https://github.com/tuupsuu/StudyTracker/issues"
   },
   "homepage": "https://github.com/tuupsuu/StudyTracker#readme",
+<<<<<<< HEAD
   "dependencies": {
     "express": "^4.18.2",
     "mysql2": "^3.4.0",
     "sequelize": "^6.32.1"
+=======
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+>>>>>>> 9cfcc5f3566d72688238b6491aeb1d0ee0a26c58
   }
 }
