@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 30px;
     background-color: darkslategrey;
     color: #fff;
   }
@@ -81,6 +81,7 @@
 
   .TitleTeacher {
     background-color: darkslategrey;
+    margin-left: 120px;
   }
   
   .HeaderTeacher {

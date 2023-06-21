@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
-import axios from 'axios';
+import StudentsGrades from '../jsonFiles/grades.json';
 import { 
     Chart, 
     LineController, 
@@ -33,28 +33,22 @@ const GradeChart = () => {
     labels: ['4', '5', '6', '7', '8', '9', '10'],
     datasets: [
       {
-        label: '# of Students',
+        label: 'Number of Students',
         data: Array(7).fill(0),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
         barPercentage: 0.5,
       },
-      {
-        label: 'Average Grade',
-        data: Array(7).fill(0),
-        type: 'line',
-        fill: false,
-        borderColor: '#742774',
-      }
     ]
   });
+
+  const [averageGrade, setAverageGrade] = useState(0);
 
   useEffect(() => {
     const fetchGradesData = async () => {
       try {
-        const response = await axios.get('grades.json');
-        const data = response.data;
+        const data = StudentsGrades;
         const gradeFrequencies = Array(7).fill(0);
         let totalGrades = 0;
 
@@ -64,26 +58,19 @@ const GradeChart = () => {
         });
 
         const avgGrade = totalGrades / data.length;
-        const avgGradeArray = Array(7).fill(avgGrade);
+        setAverageGrade(avgGrade.toFixed(2));
 
         setGradesData({
           labels: ['4', '5', '6', '7', '8', '9', '10'],
           datasets: [
             {
-              label: '# of Students',
+              label: 'Number of Students',
               data: gradeFrequencies,
               backgroundColor: 'rgba(75, 192, 192, 0.6)',
               borderColor: 'rgba(75, 192, 192, 1)',
               borderWidth: 1,
-              barPercentage: 0.5,
+              barPercentage: 0.6,
             },
-            {
-              label: 'Average Grade',
-              data: avgGradeArray,
-              type: 'line',
-              fill: false,
-              borderColor: '#742774',
-            }
           ]
         });
       } catch (error) {
@@ -95,10 +82,11 @@ const GradeChart = () => {
   }, []);
 
   return (
-    <div className="grade-chart">
-      <Bar
-        data={gradesData}
-        options={{
+    <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+      <div className="grade-chart" style={{ width: '55vw', height: '55vh' }}>
+        <Bar
+          data={gradesData}
+          options={{
             responsive: true,
             scales: {
               y: {
@@ -106,6 +94,14 @@ const GradeChart = () => {
                 title: {
                   display: true,
                   text: 'Number of students'
+                },
+                ticks: {
+                  // This will convert floats to integers
+                  callback: function(value) {
+                    if (value % 1 === 0) {
+                      return value;
+                    }
+                  }
                 }
               },
               x: {
@@ -121,11 +117,15 @@ const GradeChart = () => {
               },
               title: {
                 display: true,
-                text: 'Grade Distribution Chart'
               }
             }
           }}
-      />
+        />
+      </div>
+      <div style={{padding: '10px'}}>
+        <h4>Average Grade</h4>
+        <p>{averageGrade}</p>
+      </div>
     </div>
   );
 }
