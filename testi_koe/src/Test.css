@@ -1,0 +1,86 @@
+    body {
+        text-align: center;
+    }
+
+    .question-container { /* The whole question box */
+        color: black;
+    }
+
+    .single-container { /* Single question whole box */
+        justify-content: center; 
+        background-color: white;
+        border: 2px solid black;
+        width: 50%;
+        height: auto;
+        margin-left: 25%;
+        margin-bottom: 200px;
+      }
+      
+    .single-box { /* Singular option boxes */
+        width: 70px;
+        height: 70px;
+        font-size: 48px;
+        color: black;
+        margin: 20px;
+        border: 4px solid black;
+        border-radius: 10px;
+      }
+
+      .row-container { /* Question rows */
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        border: 1px solid black;
+        margin-bottom: 20px;
+      }
+
+      .row-options-container { /* WhatsNext rows */
+        display: flex; 
+        color: rebeccapurple;
+      }
+
+    .selected { /* The color of a selected button */
+        color: red;
+    }
+
+    .submitted {
+        background-color: green;
+        border: 3px solid black;
+    }
+
+    .whats-next-container { /* The whole box of a whats-next question */
+        background-color: white;
+        border: 2px solid black;
+        width: 50%;
+        height: auto;
+        margin-left: 25%;
+      }
+
+    .whats-next-box { /* All the numbers in a whats-next question */
+        width: 70px;
+        height: 70px;
+        font-size: 48px;
+        text-align: right;
+        color: black;
+        margin: 20px;
+        border-radius: 10px;
+        background-color: white;
+      }
+      
+
+    .answer-input { /* Whats-next textbox */
+        width: 200px;
+        height: 60px;
+        margin-left: 10px;
+        font-size: 42px;
+        text-align: center;
+      }
+
+    .submit-button {
+        width: 200px;
+        height: 100px;
+        font-size: 30px;
+        margin-top: 30px;
+    }
+ 
+
