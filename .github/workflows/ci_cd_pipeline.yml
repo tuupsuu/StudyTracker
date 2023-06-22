@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    run: cd UserService/
 
     steps:
     - name: Checkout code
@@ -20,10 +19,13 @@ jobs:
         node-version: 14
 
     - name: Install dependencies
-      run: npm ci
+      run: |
+        cd UserService/
+        npm ci
 
     - name: Build and test
       run: |
+        cd UserService/
         npm start
 
   deploy:
@@ -38,15 +40,18 @@ jobs:
       uses: docker/setup-docker@v1
 
     - name: Build Docker image
+        cd UserService/
       run: docker build -t userservice .
 
     - name: Push Docker image
       run: |
+        cd UserService/
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker push tuupsuu/userservicecontainer
 
     - name: Deploy to Docker server
       run: |
+        cd UserService/
         ssh 172.104.236.131 'docker pull tuupsuu/userservicecontainer'
         ssh 172.104.236.131 'docker stop userservice || true'
         ssh 172.104.236.131 'docker rm userservice || true'
