@@ -38,7 +38,7 @@ jobs:
       uses: docker/setup-docker@v1
 
     - name: Build Docker image
-      run: docker build -t your-image-name .
+      run: docker build -t userservice .
 
     - name: Push Docker image
       run: |
