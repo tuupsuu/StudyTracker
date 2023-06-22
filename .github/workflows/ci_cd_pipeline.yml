@@ -37,16 +37,16 @@ jobs:
       uses: docker/setup-docker@v1
 
     - name: Build Docker image
-      run: docker build -t userservicecontainer .
+      run: docker build -t userservice .
 
     - name: Push Docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push tuupsuu/userservice
+        docker push tuupsuu/userservicecontainer
 
     - name: Deploy to Docker server
       run: |
-        ssh 172.104.236.131 'docker pull tuupsuu/userservice'
-        ssh 172.104.236.131 'docker stop userservicecontainer || true'
-        ssh 172.104.236.131 'docker rm userservicecontainer || true'
-        ssh 172.104.236.131 'docker run -d --name userservicecontainer -p 80:80 tuupsuu/userservice'
+        ssh 172.104.236.131 'docker pull tuupsuu/userservicecontainer'
+        ssh 172.104.236.131 'docker stop userservice || true'
+        ssh 172.104.236.131 'docker rm userservice || true'
+        ssh 172.104.236.131 'docker run -d --name userservice -p 80:80 tuupsuu/userservicecontainer'
