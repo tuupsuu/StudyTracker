@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Print IP Address
-      run: echo "IP Address: ${{ env.GITHUB_IP_ADDRESS }}"
+      run:  echo "IP Address: ${{ env.GITHUB_IP_ADDRESS }}"
 
     - name: Checkout code
       uses: actions/checkout@v2
