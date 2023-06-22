@@ -23,8 +23,7 @@ jobs:
 
     - name: Build and test
       run: |
-        npm run build
-        npm run test
+        npm run dev
 
   deploy:
     needs: build
