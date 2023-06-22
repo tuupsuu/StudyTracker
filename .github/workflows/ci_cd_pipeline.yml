@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    runs-on: debian-latest
 
     steps:
     - name: Checkout code
@@ -27,6 +28,7 @@ jobs:
 
   deploy:
     needs: build
+    runs-on: debian-latest
 
     steps:
     - name: Checkout code
