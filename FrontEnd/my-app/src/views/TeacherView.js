@@ -23,7 +23,7 @@ function TeacherView() {
           <ul>
             <li>Create a test</li>
             <li>Evaluate tests</li>
-            <li>Examine results</li>
+            <Link to='/examine-tests'>ExamineTests</Link>
           </ul>
         </aside>
       )}
