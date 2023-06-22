@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Print IP Address
+      run: echo "IP Address: ${{ env.GITHUB_IP_ADDRESS }}"
+
     - name: Checkout code
       uses: actions/checkout@v2
 
