@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const port = 3002;
 const config = require('../Models/config');
-const handleResult = require('./handleResult');
+const resultController = require('./controllers/resultController');
 const { Sequelize, Datatypes } = require('sequelize');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
@@ -21,13 +21,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.post('/results', handleResult.addResult);
+app.post('/results', resultController.add);
 
-app.put('/results/:id', handleResult.editResult);
+app.put('/results/:id', resultController.edit);
 
-app.delete('/results/:id', handleResult.deleteResult);
+app.delete('/results/:id', resultController.edit);
 
-app.get('/results', handleResult.getResults);
+app.get('/results', resultController.getAll);
 
 sequelize.authenticate()
   .then(() => console.log('Connection has been extablished succesfully'))
