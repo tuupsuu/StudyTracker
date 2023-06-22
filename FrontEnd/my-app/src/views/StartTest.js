@@ -9,7 +9,7 @@ class StartTest extends React.Component {
           <div className="Container">
             <div className="TopBar">
               <Clock />
-              <div className="TextContainer">
+              <div className="StartTest-TextContainer">
                 <h1 className="Title">Math test 2nd grade Autumn</h1>
                 <p>Start the test by pressing the button below</p>
               </div>

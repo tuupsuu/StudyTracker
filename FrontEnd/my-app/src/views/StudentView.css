@@ -17,8 +17,6 @@
   }
   
   .TextContainer {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: darkslategrey;
@@ -53,6 +51,7 @@
     border-radius: 5px;
     text-decoration: none;
     color: inherit;
+    margin-top: 50px;
   }
   
   .TestContainerButton:hover {
