@@ -3,7 +3,7 @@ name: CI/CD Pipeline user service
 on:
   push:
     branches:
-      - main
+      - topias
 
 jobs:
   build:
