@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const handleUser = require('./handleUser');
-const port = 3002;
 const config = require('./config');
-const { Sequelize, Datatypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
+const port = 3002;
+const cors = require('cors');
+const { verifyPassword } = require('./verify');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
@@ -19,11 +21,12 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
-
-sequelize.authenticate()
-  .then(() => console.log('Connection has been extablished succesfully'))
-  .catch(error => console.error('Unable to connect to the database:', error));
+sequelize
+  .authenticate()
+  .then(() => console.log('Connection has been established successfully'))
+  .catch((error) => console.error('Unable to connect to the database:', error));
 
 // Get all users
 app.get('/users', handleUser.getUsers);
@@ -36,6 +39,9 @@ app.put('/users/:id', handleUser.editUser);
 
 // Delete a user
 app.delete('/users/:id', handleUser.removeUser);
+
+// Verify password
+app.post('/verify', verifyPassword);
 
 // Start the server
 app.listen(port, () => {
