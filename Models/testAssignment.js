@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('./config');
-const { School } = require('./school');
+const { Class } = require('./class');
+const { Test } = require('./test');
 const { Teacher } = require('./teacher');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
@@ -15,30 +16,34 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
   }
 });
 
-const Class = sequelize.define('Class', {
-    Class_ID: {
+const TestAssignment = sequelize.define('TestAssignment', {
+    Assi_ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    ClassName: {
-        type: DataTypes.CHAR(2),
-        allowNull: false
-    },
 }, {
-    timestamps: false,
-    tableName: 'Class'
-});
-
-
-Teacher.belongsTo(Teacher, {
-    foreignKey: Teach_ID,
-    onDelete: 'CASCADE'
+    timestamps:false,
+    tableName: 'TestAssignment'
 })
 
-Class.belongsTo(School, {
-    foreignKey: School_ID,
+
+TestAssignment.belongsTo(Test, {
+    foreignKey: 'Test_ID',
     onDelete: 'CASCADE'
 });
 
-module.exports = { Class };
+TestAssignment.belongsTo(Class, {
+    foreignKey: 'Class_ID',
+    onDelete: 'CASCADE'
+});
+
+TestAssignment.belongsTo(Teacher, {
+    foreignKey: 'Teach_ID',
+    onDelete: 'CASCADE'
+});
+
+
+sequelize.sync();
+
+module.exports = TestAssignment;

@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('./config');
-const { Class } = require('./Class');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
@@ -15,7 +14,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 });
 
 
-const Student = sequelize.define('Student', {
+const Teacher = sequelize.define('Teacher', {
     FirstName: {
         type: DataTypes.STRING,
         allowNull: false
@@ -24,22 +23,18 @@ const Student = sequelize.define('Student', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    Stud_ID: {
+    Teach_ID: {
         type:DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
+
 }, {
     timestamps: false,
     tableName: 'Student',
 });
 
 
-Student.belongsTo(Class, {
-  foreignKey: 'Class_ID',
-  onDelete: 'CASCADE'
-});
-
 sequelize.sync();
 
-module.exports = { Student };
+module.exports = { Teacher };
