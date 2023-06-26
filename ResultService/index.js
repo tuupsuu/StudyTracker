@@ -25,7 +25,7 @@ app.post('/results', resultController.add);
 
 app.put('/results/:id', resultController.edit);
 
-app.delete('/results/:id', resultController.edit);
+app.delete('/results/:id', resultController.delete);
 
 app.get('/results', resultController.getAll);
 

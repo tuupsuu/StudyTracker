@@ -16,6 +16,18 @@ class BaseController {
     }
 
 
+    delete = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const entity = await this.model.findByPk(id);
+
+            if (!entity) throw new Error('Entity not found');
+            await entity.destroy();
+            res.status(200).json({ message: 'Entity deleted' });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = BaseController;
