@@ -6,7 +6,7 @@ import WhatsNext from '../Questions/WhatsNext';
 
 const ExampleTest = () => {
   const [userAnswers, setUserAnswers] = useState([]);
-  const [remainingTime, setRemainingTime] = useState(0.5 * 60); // 5 minutes in seconds
+  const [remainingTime, setRemainingTime] = useState(30 * 60); // 5 minutes in seconds
 
   const handleAnswerSubmit = (index, answer) => {
     setUserAnswers((prevAnswers) => {
@@ -14,6 +14,10 @@ const ExampleTest = () => {
       updatedAnswers[index] = answer;
       return updatedAnswers;
     });
+  };
+
+  const redirectToMainMenu = () => {
+    window.location.href = './..';
   };
 
   const downloadUserAnswers = () => {
@@ -30,6 +34,8 @@ const ExampleTest = () => {
     link.href = `data:text/json;charset=utf-8,${encodeURIComponent(jsonDataString)}`;
     link.download = 'UserAnswers.json';
     link.click();
+
+    redirectToMainMenu(); 
   };
 
   useEffect(() => {
@@ -53,11 +59,11 @@ const ExampleTest = () => {
   const seconds = remainingTime % 60;
 
   return (
-    <div className="app">
+    <div className="test">
       <div className="TopBar">
-      <div className="timer">
-        Time Remaining: {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
-      </div>
+        <div className="timer">
+          Time Remaining: {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
+        </div>
         <h1 className="Test-Title">Welcome to the test</h1>
       </div>
       <div className="question-container">
