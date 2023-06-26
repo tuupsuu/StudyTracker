@@ -35,21 +35,6 @@ class ResultsController extends BaseController {
       res.status(500).json({ message: error.message });
     }
   }
-
-
-  // async delete(req, res)  {
-  //   try {
-  //     const { id } = req.params;
-  //     const result = await Result.findByPk(id);
-      
-  //     if (!result) throw new Error('Result not found');
-
-  //     await result.destroy();
-  //     res.status(200).json({ message: 'Result deleted' });
-  //   } catch (error) {
-  //     res.status(500).json({ message: error.message });
-  //   }
-  // }
 }
 
 module.exports = new ResultsController();
