@@ -9,22 +9,33 @@ function ExamineTests() {
   const [sortOption, setSortOption] = useState('name');
   const [displayStudents, setDisplayStudents] = useState(studentsData);
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const [avgGrade, setAvgGrade] = useState(0);
+
+  useEffect(() => {
+    setAvgGrade(studentsData.reduce((sum, student) => sum + student.grade, 0) / studentsData.length);
+  }, []);
 
   useEffect(() => {
     let sortedStudents = [...studentsData];
+
     if (sortOption === 'name') {
       sortedStudents.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortOption === 'grade-high') {
       sortedStudents.sort((a, b) => b.grade - a.grade);
     } else if (sortOption === 'grade-low') {
       sortedStudents.sort((a, b) => a.grade - b.grade);
+    } else if (sortOption === 'below-average') {
+      sortedStudents = sortedStudents.filter(student => student.grade < avgGrade);
     }
+
+
     setDisplayStudents(
       sortedStudents.filter((student) =>
-        student.name.toLowerCase().includes(search.toLowerCase())
+        student.name.toLowerCase().includes(search.toLowerCase()) || 
+        student.grade.toString() === search
       )
     );
-  }, [search, sortOption]);
+  }, [search, sortOption, avgGrade]);
 
   return (
     <div className="examine-tests">
@@ -56,10 +67,11 @@ function ExamineTests() {
             <option value="name">Name</option>
             <option value="grade-high">Grade (High to Low)</option>
             <option value="grade-low">Grade (Low to High)</option>
+            <option value="below-average">Below Average</option>
           </select>
           <input
             type="text"
-            placeholder="Search by name"
+            placeholder="Search by name or grade"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -67,8 +79,10 @@ function ExamineTests() {
         {displayStudents.map((student) => (
           <div key={student.id} className="student">
             <div className="student-info">
-              <h2>{student.name}</h2>
-              <p className='grade'>Grade: {student.grade}</p>
+              <h2 className>{student.name}</h2>
+              <p className='grade' style={{ color: student.grade >= avgGrade ? 'black' : 'red' }}>
+                Grade: {student.grade}
+              </p>
             </div>
           </div>
         ))}
