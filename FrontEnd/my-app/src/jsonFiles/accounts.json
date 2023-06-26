@@ -8,6 +8,11 @@
       { "id": "teacher1", "password": "pass1" },
       { "id": "teacher2", "password": "pass2" },
       { "id": "teacher3", "password": "pass3" }
-    ]
+    ],
+    "officials": [
+      { "id": "official1", "password": "pass1"},
+      { "id": "official2", "password": "pass2" },
+      { "id": "official3", "password": "pass3" }
+    ] 
   }
   
