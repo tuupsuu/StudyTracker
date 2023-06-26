@@ -8,15 +8,9 @@
   .TextContainer {
     justify-content: center;
     align-items: center;
-    background-color: darkslategrey;
-  }
-  
-  .Title {
-    background-color: darkslategrey;
   }
   
   p {
-    background-color: darkslategrey;
     color: white;
     font-size: 18px;
   }
@@ -35,7 +29,6 @@
 
   .TestContainerButton {
     display: inline-block;
-    background-color: white;
     padding: 10px;
     border-radius: 5px;
     text-decoration: none;
@@ -77,7 +70,7 @@
   .InfoText {
     display: flex;
     flex-direction: row;
-    background-color: white;
+
     color: black;
     margin-top: 0px;
   }
