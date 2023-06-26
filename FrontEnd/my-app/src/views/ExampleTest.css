@@ -1,6 +1,3 @@
-body {
-    text-align: center;
-}
 
 .TopBar {
   background-color: darkslategrey;
@@ -58,7 +55,7 @@ body {
 
   .row-options-container { /* WhatsNext rows */
     display: flex; 
-    color: rebeccapurple;
+    
   }
 
 .selected { /* The color of a selected button */
