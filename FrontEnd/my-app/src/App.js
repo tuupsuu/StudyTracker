@@ -9,6 +9,7 @@ import ExamineTests from './views/ExamineTests';
 import StartTest from './views/StartTest';
 import { AuthProvider } from './components/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
+import OfficialView from './views/OfficialView';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/student" element={<PrivateRoute><StudentView /></PrivateRoute>} />
             <Route path="/teacher" element={<PrivateRoute><TeacherView /></PrivateRoute>} />
+            <Route path="/official" element={<PrivateRoute><OfficialView /></PrivateRoute>} />            
             <Route path="/start-test" element={<PrivateRoute><StartTest /></PrivateRoute>} />
             <Route path="/examine-tests" element={<PrivateRoute><ExamineTests /></PrivateRoute>} />
             <Route path="/example-test" element={<PrivateRoute><ExampleTest /></PrivateRoute>} />          
