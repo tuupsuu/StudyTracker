@@ -35,8 +35,7 @@
   {
     "id": 4,
     "type": "audio",
-    "question": "Listen to the audio and answer the following question:",
-    "audioSrc": "audio/question4.mp3",
-    "options": ["Option 1", "Option 2", "Option 3", "Option 4"]
+    "question": "Listen to the audio and write the numbers you hear:",
+    "audioSrc": ["jazz.mp3", "vine.mp3"]
   }
 ]
