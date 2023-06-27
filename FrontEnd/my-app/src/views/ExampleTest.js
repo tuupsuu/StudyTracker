@@ -1,8 +1,10 @@
+// ExampleTest.js
 import React, { useState, useEffect } from 'react';
 import './ExampleTest.css';
 import jsonData from '../jsonFiles/testinfo.json';
 import SingleButtons from '../Questions/SingleButtons';
 import WhatsNext from '../Questions/WhatsNext';
+import Audio from '../Questions/Audio';
 
 const ExampleTest = () => {
   const [userAnswers, setUserAnswers] = useState([]);
@@ -35,7 +37,7 @@ const ExampleTest = () => {
     link.download = 'UserAnswers.json';
     link.click();
 
-    redirectToMainMenu(); 
+    redirectToMainMenu();
   };
 
   useEffect(() => {
@@ -92,13 +94,23 @@ const ExampleTest = () => {
                 />
               </div>
             );
+          } else if (questionData.type === 'audio') {
+            return (
+              <div key={index}>
+                <h1>{questionData.question}</h1>
+                <Audio
+                  index={index}
+                  onSubmit={(answer) => handleAnswerSubmit(index, answer)}
+                />
+              </div>
+            );
           } else {
             return null;
           }
         })}
       </div>
       <button className="submit-button" onClick={downloadUserAnswers}>
-        <strong>End test</strong>
+        End Test
       </button>
     </div>
   );
