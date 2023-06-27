@@ -109,11 +109,17 @@
   .student p {
     margin: 0;
   }
+  
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
 
   .sortButtons {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 10px;  /* Space between buttons */
     margin-bottom: 20px;  /* Space between buttons and names */
   }
@@ -125,4 +131,13 @@
     font-size: 20px;
   }  
   
+  .DownloadCSV {
+    padding: 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
   

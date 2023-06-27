@@ -3,8 +3,29 @@ import './ExamineTests.css';
 import studentsData from '../jsonFiles/grades.json';
 import { FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Papa from 'papaparse';
 
 function ExamineTests() {
+  function downloadCSV() {
+    const csv = Papa.unparse(displayStudents);
+    const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    
+    // Create link element
+    let link = document.createElement('a');
+    link.href = URL.createObjectURL(csvData);
+    link.style.display = 'none';
+    link.download = 'student_data.csv';
+    
+    // Append to html link element page
+    document.body.appendChild(link);
+    
+    // Start download
+    link.click();
+
+    // Clean up and remove the link
+    document.body.removeChild(link);
+  }
+
   const [search, setSearch] = useState('');
   const [sortOption, setSortOption] = useState('name');
   const [displayStudents, setDisplayStudents] = useState(studentsData);
@@ -64,23 +85,29 @@ function ExamineTests() {
       )}
 
       <section className="content">
-        <div className='sortButtons'>
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-          >
-            <option value="name">Name</option>
-            <option value="grade-high">Grade (High to Low)</option>
-            <option value="grade-low">Grade (Low to High)</option>
-            <option value="below-average">Below Average</option>
-          </select>
-          <input
-            type="text"
-            placeholder="Search by name or grade"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        <div className='controls'>
+          <div className='sortButtons'>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="name">Name</option>
+              <option value="grade-high">Grade (High to Low)</option>
+              <option value="grade-low">Grade (Low to High)</option>
+              <option value="below-average">Below Average</option>
+            </select>
+            <input
+              type="text"
+              placeholder="Search by name or grade"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <div className='csvButton'>
+            <button className='DownloadCSV' onClick={downloadCSV}>Download Showing Data</button>
+          </div>
         </div>
+
         {displayStudents.map((student) => (
           <div key={student.id} className="student">
             <div className="student-info">
