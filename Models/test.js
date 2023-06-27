@@ -30,8 +30,11 @@ const Test = sequelize.define('Test', {
     },
     EndTime: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
     },
+}, {
+    timestamps: false,
+    tableName: 'Test'
 });
 
 sequelize.sync();
