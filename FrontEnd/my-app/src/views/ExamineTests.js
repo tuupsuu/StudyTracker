@@ -10,6 +10,10 @@ function ExamineTests() {
   const [displayStudents, setDisplayStudents] = useState(studentsData);
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [avgGrade, setAvgGrade] = useState(0);
+  
+  // Retrieve teacher's school and class from localStorage
+  const teacherSchool = localStorage.getItem('teacherSchool');
+  const teacherClass = localStorage.getItem('teacherClass');
 
   useEffect(() => {
     setAvgGrade(studentsData.reduce((sum, student) => sum + student.grade, 0) / studentsData.length);
@@ -28,14 +32,15 @@ function ExamineTests() {
       sortedStudents = sortedStudents.filter(student => student.grade < avgGrade);
     }
 
-
+    // Filter students by teacher's school and class
     setDisplayStudents(
       sortedStudents.filter((student) =>
-        student.name.toLowerCase().includes(search.toLowerCase()) || 
-        student.grade.toString() === search
+        (student.school === teacherSchool && student.class === teacherClass) &&
+        (student.name.toLowerCase().includes(search.toLowerCase()) || 
+        student.grade.toString() === search)
       )
     );
-  }, [search, sortOption, avgGrade]);
+  }, [search, sortOption, avgGrade, teacherSchool, teacherClass]);
 
   return (
     <div className="examine-tests">

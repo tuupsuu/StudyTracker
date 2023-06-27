@@ -39,6 +39,13 @@ function Login() {
         return;
       }
     }
+
+    // If user is a teacher, save their school and class in localStorage
+    if (role === 'teacher') {
+      localStorage.setItem('teacherSchool', user.school);
+      localStorage.setItem('teacherClass', user.class);
+    }
+
     setIsLoggedIn(true);
     navigate(`/${role}`);
   }
