@@ -32,12 +32,9 @@
   }
   
   .sidebar li {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    margin-top: 30px;
     cursor: pointer;
-  }
-  
-  .sidebar li:hover {
-    text-decoration: underline;
   }
 
   /*
@@ -70,6 +67,12 @@
     cursor: pointer;
   }
   
+  .close-button {
+    font-size: xx-large;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
   .LogoutButton {
     background-color: #dc3545;
     color: white;
