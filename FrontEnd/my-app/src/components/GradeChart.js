@@ -48,7 +48,14 @@ const GradeChart = () => {
   useEffect(() => {
     const fetchGradesData = async () => {
       try {
-        const data = StudentsGrades;
+        const teacherSchool = localStorage.getItem('teacherSchool');
+        const teacherClass = localStorage.getItem('teacherClass');
+
+        const data = StudentsGrades.filter(student => 
+          student.school === teacherSchool && 
+          student.class === teacherClass
+        );
+
         const gradeFrequencies = Array(7).fill(0);
         let totalGrades = 0;
 
