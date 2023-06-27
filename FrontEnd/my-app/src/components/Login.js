@@ -25,40 +25,47 @@ function Login() {
     event.preventDefault();
 
     // Validate the user's credentials
+    let user;
     if (role === 'student') {
-      if (!accounts.students.find(student => student.id === id)) {
+      user = accounts.students.find(student => student.id === id);
+      if (!user) {
         alert('Invalid student ID');
         return;
       }
-    } else {  // role is 'teacher'
-      const teacher = accounts.teachers.find(teacher => teacher.id === id);
-      if (!teacher || teacher.password !== password) {
-        alert('Invalid teacher ID or password');
+    } else if (role === 'teacher' || role === 'official') {
+      user = accounts[role + 's'].find(user => user.id === id);
+      if (!user || user.password !== password) {
+        alert(`Invalid ${role} ID or password`);
         return;
       }
     }
+
+    // If user is a teacher, save their school and class in localStorage
+    if (role === 'teacher') {
+      localStorage.setItem('teacherSchool', user.school);
+      localStorage.setItem('teacherClass', user.class);
+    }
+
     setIsLoggedIn(true);
     navigate(`/${role}`);
   }
 
   return (
     <div className="login-container">
-      <h1> Welcome to StudyTracker</h1>
+      <h1 className='welcommingH1'><u> Welcome to StudyTracker </u></h1>
       <form className="login-form" onSubmit={handleSubmit}>
-        <label>
-          Role:
-          <select name="role" onChange={handleInputChange}>
+        <label className='loginRole'>Role:
+          <select className="loginOptions" name="role" onChange={handleInputChange}>
             <option value="student">Student</option>
             <option value="teacher">Teacher</option>
+            <option value="official">City Official</option>
           </select>
         </label>
-        <label>
-          ID:
+        <label className='loginId'>ID:
           <input type="text" name="id" onChange={handleInputChange} />
         </label>
-        {role === 'teacher' && (
-          <label>
-            Password:
+        {(role === 'teacher' || role === 'official') && (
+          <label className='loginPassword'>Password:
             <input type="password" name="password" onChange={handleInputChange} />
           </label>
         )}

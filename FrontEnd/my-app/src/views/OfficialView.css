@@ -1,4 +1,4 @@
-.teacher-view {
+.official-view {
     display: flex;
     flex-direction: column;
     color: #333;
@@ -32,9 +32,10 @@
   }
   
   .sidebar li {
-    margin-bottom: 30px;
     margin-top: 30px;
+    margin-bottom: 30px;
     cursor: pointer;
+    
   }
 
   /*
@@ -82,7 +83,7 @@
     margin-top: 20px;
   }
 
-  .TitleTeacher {
+  .TitleOfficial {
     background-color: darkslategrey;
     margin-left: 120px;
   }
