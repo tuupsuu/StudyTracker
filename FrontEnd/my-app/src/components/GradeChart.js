@@ -89,8 +89,8 @@ const GradeChart = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-      <div className="grade-chart" style={{ width: '55vw', height: '55vh' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+      <div className="grade-chart" style={{ width: '800px', height: '1000px' }}>
         <Bar
           data={gradesData}
           options={{
@@ -129,9 +129,9 @@ const GradeChart = () => {
           }}
         />
       </div>
-      <div style={{padding: '10px'}}>
-        <h4>Average Grade</h4>
-        <p>{averageGrade}</p>
+      <div style={{padding: '10px', alignContent: 'center', marginBottom: '587px'}}>
+        <h4>Average Grade:</h4>
+        <p style={{backgroundColor: 'rgba(75, 192, 192, 1)'}}>{averageGrade}</p>
       </div>
     </div>
   );

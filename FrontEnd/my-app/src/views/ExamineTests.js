@@ -75,7 +75,7 @@ function ExamineTests() {
 
       {isSidebarOpen && (
         <aside className="sidebar">
-          <button className="close-button" onClick={() => setSidebarOpen(false)}>Close</button>
+          <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
           <ul>
             <li><Link to='/teacher'>Homepage</Link></li>
             <li>Create a test</li>
