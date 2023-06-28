@@ -49,7 +49,7 @@ const Audio = ({ onSubmit }) => {
     const includesEmpty = textInputs.includes('');
     const numTextInputs = textInputs.length;
 
-    if (includesEmpty || textInputs.length !== numTextInputs) {
+    if (includesEmpty === true || textInputs.length !== numTextInputs) {
       alert('Please answer all the questions before submitting.');
       setIsError(true);
       setTimeout(() => {
