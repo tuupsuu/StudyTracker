@@ -4,13 +4,16 @@ import jsonData from '../jsonFiles/testinfo.json';
 import SingleButtons from '../Questions/SingleButtons';
 import WhatsNext from '../Questions/WhatsNext';
 import Audio from '../Questions/Audio';
-import TimedExercise from '../Questions/Timed';
+import Timed from '../Questions/Timed';
+import Money from '../Questions/Money';
+
 
 const ExampleTest = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [remainingTime, setRemainingTime] = useState(30 * 60); // Timer 30 * 60 seconds
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [showTimedExercise, setShowTimedExercise] = useState(false);
+  const [completedTimedExercises, setCompletedTimedExercises] = useState([]);
+  const [showTimedExercise, setShowTimedExercise] = useState(null);
 
   const handleAnswerSubmit = (index, answer) => {
     setUserAnswers((prevAnswers) => {
@@ -77,6 +80,21 @@ const ExampleTest = () => {
   const minutes = Math.floor(remainingTime / 60);
   const seconds = remainingTime % 60;
 
+  const handleStartTimer = (index) => {
+    setUserAnswers((prevAnswers) => {
+      const updatedAnswers = [...prevAnswers];
+      updatedAnswers[index] = [];
+      return updatedAnswers;
+    });
+
+    setShowTimedExercise(index);
+    setCompletedTimedExercises((prevCompletedExercises) => [...prevCompletedExercises, index]);
+  };
+
+  const isTimerStarted = (index) => {
+    return showTimedExercise === index || completedTimedExercises.includes(index);
+  };
+
   return (
     <div className="test">
       <div className="Test-TopBar">
@@ -121,14 +139,36 @@ const ExampleTest = () => {
                 />
               </div>
             );
+
+            } else if (questionData.type === 'money') {
+              return (
+                <div key={index}>
+                  <h1>{questionData.question}</h1>
+                  <Money
+                    index={index}
+                    coins={questionData.coins}
+                    bills={questionData.bills}
+                    onSubmit={handleAnswerSubmit}
+                  />
+                </div>
+              );
+            
           } else if (questionData.type === 'timer') {
+            const isStarted = isTimerStarted(index);
+
             return (
               <div key={index}>
                 <h1>{questionData.question}</h1>
-                {!showTimedExercise ? (
-                  <button className="StartTimer-button" onClick={() => setShowTimedExercise(true)}>Start Timer</button>
-                ) : (
-                  <TimedExercise
+                {!isStarted && (
+                  <button
+                    className="StartTimer-button"
+                    onClick={() => handleStartTimer(index)}
+                  >
+                    Start Timer
+                  </button>
+                )}
+                {isStarted && (
+                  <Timed
                     options={questionData.options}
                     onSubmit={(answer) => handleAnswerSubmit(index, answer)}
                   />
