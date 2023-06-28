@@ -44,15 +44,28 @@ function OfficialView() {
   };
 
   const filteredData = schoolData
-    .filter(school => selectedSchool === 'All' || school.school === selectedSchool)
-    .map(school => ({
-      ...school,
-      classes: school.classes.filter(classInfo => selectedClass === 'All' || classInfo.classNumber === selectedClass)
-    }))
-    .filter(school => school.classes.length > 0)
-    .filter(school => school.school.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      school.classes.some(classInfo => classInfo.classNumber.includes(searchTerm))
-    );
+  .filter(school => selectedSchool === 'All' || school.school === selectedSchool)
+  .map(school => ({
+    ...school,
+    classes: school.classes.filter(classInfo => selectedClass === 'All' || classInfo.classNumber === selectedClass)
+  }))
+  .filter(school => school.classes.length > 0)
+  .filter(school => {
+      const schoolNameMatch = school.school.toLowerCase().includes(searchTerm.toLowerCase());
+      const classNameMatch = school.classes.some(classInfo => classInfo.classNumber.includes(searchTerm));
+      return schoolNameMatch || classNameMatch;
+  })
+  .map(school => {
+      if (school.school.toLowerCase().includes(searchTerm.toLowerCase())) {
+          return school;
+      } else {
+          return {
+              ...school,
+              classes: school.classes.filter(classInfo => classInfo.classNumber.includes(searchTerm))
+          };
+      }
+  });
+
 
   return (
     <div className="official-view">
