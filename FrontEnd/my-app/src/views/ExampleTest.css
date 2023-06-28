@@ -226,3 +226,57 @@
   text-align: center;
   margin-left: -40px;
 }
+
+/*---------------------------------------------------------------------------------------- */
+/* Money exercises */
+
+.money-row-options-container { /* Money rows */
+  display: flex; 
+  border: 1px solid black;
+  margin-bottom: 50px;
+  
+}
+
+.money-container { /* The whole box of a money question */
+  background-color: white;
+  border: 2px solid black;
+  width: 50%;
+  height: auto;
+  margin-left: 25%;
+  margin-bottom: 200px;
+}
+
+.money-box { /* All the single numbers in a money question */
+  width: 70px;
+  height: 70px;
+  font-size: 48px;
+  color: black;
+  margin: 20px;
+}
+
+
+.money-answer-input { /* Money textbox */
+  width: 200px;
+  height: 60px;
+  font-size: 42px;
+  text-align: center;
+}
+
+.coin {
+  width: 80px;
+  height: 80px;
+  border: 3px solid black;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bill {
+  width: 200px;
+  height: 80px;
+  border: 3px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
