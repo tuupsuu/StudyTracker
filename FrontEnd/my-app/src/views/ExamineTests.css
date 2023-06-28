@@ -124,14 +124,20 @@
     margin-bottom: 20px;  /* Space between buttons and names */
   }
 
-  .sortButtons select,
-  .sortButtons input {
+  .sortButtons select {
     width: 500px;  /* Set the width */
+    height: 40px;  /* Set the height */
+    font-size: 20px;    
+  }
+  .sortButtons input {
+    width: 492px;  /* Set the width */
     height: 40px;  /* Set the height */
     font-size: 20px;
   }  
   
   .DownloadCSV {
+    margin-bottom: 20px;
+    margin-left: 10px;
     padding: 10px;
     background-color: #dc3545;
     color: white;
