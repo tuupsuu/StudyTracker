@@ -7,7 +7,6 @@ import Audio from '../Questions/Audio';
 import Timed from '../Questions/Timed';
 import Money from '../Questions/Money';
 
-
 const ExampleTest = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [remainingTime, setRemainingTime] = useState(30 * 60); // Timer 30 * 60 seconds
@@ -105,6 +104,7 @@ const ExampleTest = () => {
       </div>
       <div className="question-container">
         {jsonData.map((questionData, index) => {
+          
           if (questionData.type === 'single') {
             return (
               <div key={index}>
@@ -129,30 +129,14 @@ const ExampleTest = () => {
                 />
               </div>
             );
+
           } else if (questionData.type === 'audio') {
             return (
               <div key={index}>
                 <h1>{questionData.question}</h1>
-                <Audio
-                  index={index}
-                  onSubmit={(answer) => handleAnswerSubmit(index, answer)}
-                />
+                <Audio index={index} onSubmit={(answer) => handleAnswerSubmit(index, answer)} />
               </div>
             );
-
-            } else if (questionData.type === 'money') {
-              return (
-                <div key={index}>
-                  <h1>{questionData.question}</h1>
-                  <Money
-                    index={index}
-                    coins={questionData.coins}
-                    bills={questionData.bills}
-                    onSubmit={handleAnswerSubmit}
-                  />
-                </div>
-              );
-            
           } else if (questionData.type === 'timer') {
             const isStarted = isTimerStarted(index);
 
@@ -160,10 +144,7 @@ const ExampleTest = () => {
               <div key={index}>
                 <h1>{questionData.question}</h1>
                 {!isStarted && (
-                  <button
-                    className="StartTimer-button"
-                    onClick={() => handleStartTimer(index)}
-                  >
+                  <button className="StartTimer-button" onClick={() => handleStartTimer(index)}>
                     Start Timer
                   </button>
                 )}
@@ -175,11 +156,25 @@ const ExampleTest = () => {
                 )}
               </div>
             );
+
+          } else if (questionData.type === 'money') {
+            return (
+              <div key={index}>
+                <h1>{questionData.question}</h1>
+                <Money
+                  options={questionData.options}
+                  answer={questionData.answers}
+                  index={index}
+                  onSubmit={handleAnswerSubmit}
+                />
+              </div>
+            );
           } else {
             return null;
           }
         })}
       </div>
+      
       {!showConfirmation && (
         <button className="submit-button" onClick={handleConfirmation}>
           <strong>End Test</strong>
