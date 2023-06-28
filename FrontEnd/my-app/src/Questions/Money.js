@@ -1,39 +1,61 @@
 import React, { useState } from 'react';
 
-const Money = ({ index, coins, bills, onSubmit }) => {
-  const [userAnswer, setUserAnswer] = useState('');
+const Money = ({ options, answer, index, onSubmit }) => {
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleInputChange = (e) => {
-    setUserAnswer(e.target.value);
+  const handleInputChange = (e, rowIndex) => {
+    const updatedOptions = [...selectedOptions];
+    updatedOptions[rowIndex] = e.target.value;
+    setSelectedOptions(updatedOptions);
   };
 
-  const handleSubmit = () => {
-    onSubmit(index, userAnswer);
+  const checkAnswers = () => {
+    const includesNull = selectedOptions.includes(undefined);
+    const numQuestions = options.length;
+
+    if (includesNull || selectedOptions.length !== numQuestions) {
+      alert('Please answer all the questions before submitting.');
+    } else {
+      setIsSubmitted(true);
+      console.log(selectedOptions);
+      onSubmit(index, selectedOptions);
+    }
   };
 
   return (
-    <div className="Money-question">
-      <div className="Money-box">
-        <div className="Money-coins">
-          {coins.map((coin, i) => (
-            <div key={i}>{coin}€</div>
-          ))}
+    <div className="money-container">
+      {options.map((rowOptions, rowIndex) => (
+        <div key={rowIndex} className="money-row-container">
+          {Array.isArray(rowOptions) ? (
+            <div className="money-row-options-container">
+              {rowOptions.map((option, optionIndex) => (
+                <div
+                  key={optionIndex}
+                  className={`money-box ${
+                    selectedOptions[rowIndex] === optionIndex ? 'selected' : ''
+                  } ${option === 1 || option === 2 ? 'coin' : ''}
+                    ${option === 5 || option === 10 || option === 20 || option === 50 ? 'bill' : ''}`}
+                >
+                  {option}€
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>Error: Invalid options for row {rowIndex}</p>
+          )}
+          <input
+            type="text"
+            className="money-answer-input"
+            placeholder="?"
+            value={selectedOptions[rowIndex] || ''}
+            onChange={(e) => handleInputChange(e, rowIndex)}
+          />
         </div>
-        <div className="Money-bills">
-          {bills.map((bill, i) => (
-            <div key={i}>{bill}€</div>
-          ))}
-        </div>
-      </div>
-      <div className="Money-answer">
-        <input
-          type="number"
-          value={userAnswer}
-          onChange={handleInputChange}
-          placeholder="Enter the sum"
-        />
-        <button onClick={handleSubmit}>Submit</button>
-      </div>
+      ))}
+      <button className={`submit-button ${isSubmitted ? 'submitted' : ''}`} onClick={checkAnswers}>
+        <strong>Submit</strong>
+      </button>
     </div>
   );
 };
