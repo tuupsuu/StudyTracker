@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './TeacherView.css';
 import { Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
+import { BiLogOut } from 'react-icons/bi';
 import GradeChart from '../components/GradeChart';
 import accounts from '../jsonFiles/accounts.json'; 
 
@@ -27,7 +28,7 @@ function TeacherView() {
         <div className='HeaderTeacher'>
           <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
         </div>
-        <Link to='..' className='LogoutButton'>Logout</Link>
+        <Link to='..' className='LogoutButtonTeacher'><BiLogOut></BiLogOut></Link>
       </header>
 
       {isSidebarOpen && (

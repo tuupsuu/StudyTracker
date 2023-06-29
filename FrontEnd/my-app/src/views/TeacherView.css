@@ -73,10 +73,10 @@
     margin-top: 20px;
   }
 
-  .LogoutButton {
-    background-color: #dc3545;
+  .LogoutButtonTeacher {
+    font-size: xx-large;
+    position: relative;
     color: white;
-    border: none;
     border-radius: 10px;
     cursor: pointer;
     margin-top: 20px;
