@@ -30,21 +30,14 @@
   }
   
   .sidebar li {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    margin-top: 30px;
     cursor: pointer;
   }
   
   .grade {
     color: #dc3545;
     background-color: #e6f7ff;
-  }
-
-  .sidebar li:hover {
-    text-decoration: underline;
-  }
-  
-  .content {
-    padding: 20px;
   }
   
   .hamburger {
@@ -54,18 +47,13 @@
     cursor: pointer;
   }
   
-  .LogoutButton {
-    background-color: #dc3545;
+  .LogoutButtonTeacher {
+    font-size: 40px;
+    position: relative;
     color: white;
-    border: none;
     border-radius: 10px;
     cursor: pointer;
     margin-top: 20px;
-  }
-  
-  .TitleTeacher {
-    background-color: darkslategrey;
-    margin-left: 120px;
   }
   
   .HeaderTeacher {
@@ -80,6 +68,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
   }
 
   .student {
@@ -136,10 +125,11 @@
   }  
   
   .DownloadCSV {
+    font-size: 30px;
     margin-bottom: 20px;
     margin-left: 10px;
     padding: 10px;
-    background-color: #dc3545;
+    background-color: rgb(97, 183, 212);
     color: white;
     border: none;
     border-radius: 10px;
