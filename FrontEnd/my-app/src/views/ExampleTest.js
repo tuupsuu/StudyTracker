@@ -142,7 +142,7 @@ const ExampleTest = () => {
 
             return (
               <div key={index}>
-                <h1>{questionData.question}</h1>
+                <h1 className='timed-container'>{questionData.question}</h1>
                 {!isStarted && (
                   <button className="StartTimer-button" onClick={() => handleStartTimer(index)}>
                     Start Timer
@@ -160,7 +160,7 @@ const ExampleTest = () => {
           } else if (questionData.type === 'money') {
             return (
               <div key={index}>
-                <h1>{questionData.question}</h1>
+                <h1 className='money-question'>{questionData.question}</h1>
                 <Money
                   options={questionData.options}
                   answer={questionData.answers}
@@ -176,7 +176,7 @@ const ExampleTest = () => {
       </div>
       
       {!showConfirmation && (
-        <button className="submit-button" onClick={handleConfirmation}>
+        <button className="EndTest-button" onClick={handleConfirmation}>
           <strong>End Test</strong>
         </button>
       )}

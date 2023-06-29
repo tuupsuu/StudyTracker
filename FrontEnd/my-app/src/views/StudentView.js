@@ -29,7 +29,7 @@ class StudentView extends React.Component {
               Math test 2nd grade Autumn
             </h2>
             <div className="TestContainerInfo">
-              <p className="InfoText">Teacher: Bill Gates</p>
+              <p className="InfoText">Teacher: Vesa Lappalainen</p>
               <p className="InfoText">20.6 10.15 - 20.6 14.15</p>
             </div>
           </div>
