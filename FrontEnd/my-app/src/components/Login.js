@@ -52,7 +52,7 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h1 className='welcommingH1'><u> Welcome to StudyTracker </u></h1>
+      <h1 className='welcommingH1'> Welcome to StudyTracker </h1>
       <form className="login-form" onSubmit={handleSubmit}>
         <label className='loginRole'>Role:
           <select className="loginOptions" name="role" onChange={handleInputChange}>
