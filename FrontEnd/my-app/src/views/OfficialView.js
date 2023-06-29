@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
+import { BiLogOut } from 'react-icons/bi';
 import _ from 'lodash';
 import './OfficialView.css';
 import StudentsGrades from '../jsonFiles/grades.json';
+import accounts from '../jsonFiles/accounts.json';
 
 function OfficialView() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -11,6 +13,17 @@ function OfficialView() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSchool, setSelectedSchool] = useState('All');
   const [selectedClass, setSelectedClass] = useState('All');
+  const [officialName, setOfficialName] = useState('');
+
+  useEffect(() => {
+    const loggedInOfficialId = localStorage.getItem('loggedInOfficialId');
+    if (loggedInOfficialId) {
+      const officialInfo = accounts.officials.find(official => official.id === loggedInOfficialId);
+      if (officialInfo) {
+        setOfficialName(officialInfo.name);
+      }
+    }
+  }, []);  
 
   useEffect(() => {
     const data = _.chain(StudentsGrades)
@@ -66,15 +79,23 @@ function OfficialView() {
       }
   });
 
+  const lowCountSchools = [];
+  filteredData.forEach(school =>
+    school.classes.forEach(classInfo => {
+      if (classInfo.studentsCount < 13) {
+        lowCountSchools.push({ school: school.school, classNumber: classInfo.classNumber });
+      }
+    })
+  );
 
   return (
     <div className="official-view">
       <header className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
         <div className='HeaderOfficial'>
-          <h1 className='TitleOfficial'>Welcome, official!</h1>
+          <h1 className='TitleOfficial'>Welcome, {officialName}!</h1>
         </div>
-        <Link to='..' className='LogoutButton'>Logout</Link>
+        <Link to='..' className='LogoutButtonOfficial'><BiLogOut></BiLogOut></Link>
       </header>
 
       {isSidebarOpen && (
@@ -87,20 +108,21 @@ function OfficialView() {
         </aside>
       )}
 
-        <section className="content">
-          <h2>Citys different Schools Average Score Distribution</h2>
-          <div className="search-container">
-            <input type="text" value={searchTerm} onChange={handleChangeSearchTerm} placeholder="Search school or class" />
-            <select value={selectedSchool} onChange={handleChangeSelectedSchool}>
-              <option value="All">All Schools</option>
-              {_.uniqBy(schoolData, 'school').map(school => <option value={school.school}>{school.school}</option>)}
-            </select>
-            <select value={selectedClass} onChange={handleChangeSelectedClass}>
-              <option value="All">All Classes</option>
-              {_.chain(schoolData).flatMap('classes').uniqBy('classNumber').map(classInfo => <option value={classInfo.classNumber}>{classInfo.classNumber}</option>).value()}
-            </select>
-          </div>
-          <table style={{backgroundColor: 'white'}}>
+      <section className="content">
+        <h2>City's different Schools Score Average Distribution</h2>
+        <div className="search-container">
+          <input type="text" value={searchTerm} onChange={handleChangeSearchTerm} placeholder="Search school or class" />
+          <select value={selectedSchool} onChange={handleChangeSelectedSchool}>
+            <option value="All">All Schools</option>
+            {_.uniqBy(schoolData, 'school').map(school => <option key={school.school} value={school.school}>{school.school}</option>)}
+          </select>
+          <select value={selectedClass} onChange={handleChangeSelectedClass}>
+            <option value="All">All Classes</option>
+            {_.chain(schoolData).flatMap('classes').uniqBy('classNumber').map(classInfo => <option key={classInfo.classNumber} value={classInfo.classNumber}>{classInfo.classNumber}</option>).value()}
+          </select>
+        </div>
+
+        <table style={{backgroundColor: 'white'}}>
           <thead>
             <tr>
               <th>School</th>
@@ -114,17 +136,27 @@ function OfficialView() {
               school.classes.map(classInfo => {
                 const lowStudentCount = classInfo.studentsCount < 13;
                 return (
-                  <tr>
+                  <tr key={school.school + classInfo.classNumber} className={lowStudentCount ? 'low-student-count' : ''}>
                     <td>{school.school}</td>
                     <td>{classInfo.classNumber}</td>
-                    <td className={lowStudentCount ? 'low-student-count' : ''}>{classInfo.studentsCount}</td>
-                    <td className={lowStudentCount ? 'low-student-count' : ''}>{classInfo.averageGrade}</td>
+                    <td>{classInfo.studentsCount}</td>
+                    <td>{classInfo.averageGrade}</td>
                   </tr>
                 )
               })
             )}
           </tbody>
         </table>
+        
+        {lowCountSchools.length > 0 && (
+          <div className='warning-container'>
+            {lowCountSchools.map(({school, classNumber}) => 
+              <p key={school + classNumber}>
+                {`${school} grade:${classNumber} have not enough answers to be taken into account`}
+              </p>
+            )}
+          </div>
+        )}
       </section>
     </div>
   );
