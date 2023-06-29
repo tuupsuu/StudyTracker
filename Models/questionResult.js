@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('./config');
-const { Test } = require('./test');
+const { TestResults } = require('./result');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
@@ -15,34 +15,32 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 });
 
 
-const TestCategory = sequelize.define('TestCategory', {
-    Cate_ID: {
+const QuestionResult = sequelize.define('QuestionResult', {
+    QuesResu_ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
-    }, 
-    Points: {
+    },
+    points: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    CategoryName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    Test_ID: {
+    Resu_ID: {
         type: DataTypes.INTEGER,
         allowNull: false
     }
 }, {
-    timestamps:false,
-    tableName: 'TestCategory'
+    timestamps: false,
+    tableName: 'QuestionResults'
 });
 
-TestCategory.belongsTo(Test, {
-    foreignKey: 'Test_ID',
+
+QuestionResult.belongsTo(TestResults, {
+    foreignKey: 'Resu_ID',
     onDelete: 'CASCADE'
 });
 
+
 sequelize.sync();
 
-module.exports = TestCategory;
+module.exports = { QuestionResult };

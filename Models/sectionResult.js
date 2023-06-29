@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('./config');
-const { Test } = require('./test');
+const { QuestionResults } = require('./questionResult');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
@@ -15,34 +15,36 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 });
 
 
-const TestCategory = sequelize.define('TestCategory', {
-    Cate_ID: {
+const SectionResult = sequelize.define('SectionResult', {
+    SecResu_ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
-    }, 
+    },
+    Section: {
+        type: DataTypes.STRING(3),
+        allowNull:false
+    },
     Points: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    CategoryName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    Test_ID: {
+    QuesResu_ID: {
         type: DataTypes.INTEGER,
         allowNull: false
     }
 }, {
-    timestamps:false,
-    tableName: 'TestCategory'
+    timestamps: false,
+    tableName: 'SectionResults'
 });
 
-TestCategory.belongsTo(Test, {
-    foreignKey: 'Test_ID',
+
+SectionResult.belongsTo(QuestionResults, {
+    foreignKey: 'QuesResu_ID',
     onDelete: 'CASCADE'
 });
 
+
 sequelize.sync();
 
-module.exports = TestCategory;
+module.exports = { SectionResult };
