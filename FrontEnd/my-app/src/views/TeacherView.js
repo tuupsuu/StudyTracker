@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './TeacherView.css';
 import { Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import GradeChart from '../components/GradeChart';
+import accounts from '../jsonFiles/accounts.json'; 
 
-function TeacherView() {
+function TeacherView() {  
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const [teacherName, setTeacherName] = useState(''); 
+
+
+  useEffect(() => {
+    const loggedInTeacherId = localStorage.getItem('loggedInTeacherId');
+    if (loggedInTeacherId) {
+      const teacherInfo = accounts.teachers.find(teacher => teacher.id === loggedInTeacherId);
+      if (teacherInfo) {
+        setTeacherName(teacherInfo.name);
+      }
+    }
+  }, []);
 
   return (
     <div className="teacher-view">
       <header className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
         <div className='HeaderTeacher'>
-          <h1 className='TitleTeacher'>Welcome, teacher!</h1>
+          <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
         </div>
         <Link to='..' className='LogoutButton'>Logout</Link>
       </header>

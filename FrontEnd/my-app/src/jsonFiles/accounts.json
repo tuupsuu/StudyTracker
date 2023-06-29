@@ -5,14 +5,15 @@
       { "id": "student3" }
     ],
     "teachers": [
-      { "id": "teacher1", "password": "pass1", "school": "Pirkkolan Yhteiskoulu", "class": "2a"},
-      { "id": "teacher2", "password": "pass2", "school": "Munkkivuoren Yhteiskoulu", "class": "2a"},
-      { "id": "teacher3", "password": "pass3", "school": "Pirkkolan Yhteiskoulu", "class": "7b"}
+      { "id": "teacher1", "name": "Susan", "password": "pass1", "school": "Pirkkolan Yhteiskoulu", "class": "2a"},
+      { "id": "teacher2", "name": "Karen", "password": "pass2", "school": "Munkkivuoren Yhteiskoulu", "class": "2a"},
+      { "id": "teacher3", "name": "Margareth", "password": "pass3", "school": "Pirkkolan Yhteiskoulu", "class": "7b"}
     ],
     "officials": [
-      { "id": "official1", "password": "pass1"},
-      { "id": "official2", "password": "pass2" },
-      { "id": "official3", "password": "pass3" }
+      { "id": "official1", "name": "Topias" , "password": "pass1"},
+      { "id": "official2", "name": "Eemil" , "password": "pass2" },
+      { "id": "official3", "name": "Jesse" , "password": "pass3" },
+      { "id": "official4", "name": "Elias" , "password": "pass4" }    
     ] 
   }
   
