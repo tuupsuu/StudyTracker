@@ -1,8 +1,14 @@
-.Container {
+.StartTest-Container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(to bottom right, lightblue, lightyellow);
+
+}
+
+.StartTest-Page {
+  min-height: 1500px;
 }
 
 .TopBar {
@@ -41,7 +47,7 @@
 }
 
 .StartTestButton:hover {
-  background-color: rgb(236, 235, 235);
+  background-color: rgb(214, 203, 203);
 }
 
 .PasswordInput {
@@ -51,6 +57,7 @@
   text-align: center;
   border-radius: 10px;
   margin-bottom: 50px;
+  border: 1px solid black;
 }
 
 .ErrorMessage {

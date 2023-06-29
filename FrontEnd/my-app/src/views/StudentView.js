@@ -12,8 +12,8 @@ class StudentView extends React.Component {
 
   render() {
     return (
-      <div className="Container">
-        <div className="TopBar">
+      <div className="StudentView-Container">
+        <div className="StudentView-TopBar">
           <Clock />
           <div className="TextContainer">
             <h1 className="Title">Welcome, Student 1!</h1>
@@ -23,6 +23,7 @@ class StudentView extends React.Component {
             Logout
           </Link>
         </div>
+        <div className='TestOptions'>
         <Link to="/start-test" className="TestContainerButton">
           <div className="TestContainer">
             <h2 className="TestContainerTitle" style={{ backgroundColor: this.getRandomColor() }}>
@@ -46,6 +47,7 @@ class StudentView extends React.Component {
             </div>
           </div>
         </Link>
+        </div>
       </div>
     );
   }

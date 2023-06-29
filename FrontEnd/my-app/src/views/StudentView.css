@@ -1,8 +1,20 @@
-.Container {
+.StudentView-Container {
+  background: linear-gradient(to bottom right, lightblue, lightyellow);
+}
+
+  .StudentView-TopBar {
+    background-color: darkslategrey;
+    height: 200px;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 10px
+  }
+
+
+  .TestOptions {
+    min-height: 1500px;
   }
   
   .TextContainer {
@@ -19,20 +31,18 @@
     background-color: #dc3545;
     color: white;
     padding: 5px 10px;
-    border: none;
     border-radius: 5px;
-    cursor: pointer;
     margin-bottom: 20px;
     font-size: 24px;
     margin-right: 50px;
   }
 
   .TestContainerButton {
+    background-color: rgb(208, 238, 248);
     display: inline-block;
     padding: 10px;
     border-radius: 5px;
     text-decoration: none;
-    color: inherit;
     margin-top: 50px;
   }
   
@@ -70,7 +80,6 @@
   .InfoText {
     display: flex;
     flex-direction: row;
-
     color: black;
     margin-top: 0px;
   }

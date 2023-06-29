@@ -28,7 +28,7 @@ const StartTest = () => {
   };
 
   return (
-    <div className="Container">
+    <div className="StartTest-Container">
       <div className="TopBar">
         <Clock />
         <div className="StartTest-TextContainer">
@@ -36,6 +36,7 @@ const StartTest = () => {
           <p>Start the test by entering the password and pressing the button below</p>
         </div>
       </div>
+      <div className='StartTest-Page'>
       {startTest ? (
         <Link to="/example-test" className="StartTestContainer">
           <h2 className="StartTestTitle">The test is ready</h2>
@@ -57,6 +58,7 @@ const StartTest = () => {
           {errorMessage && <p className="ErrorMessage">{errorMessage}</p>}
         </div>
       )}
+      </div>
     </div>
   );
 };
