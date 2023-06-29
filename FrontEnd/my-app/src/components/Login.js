@@ -44,6 +44,11 @@ function Login() {
     if (role === 'teacher') {
       localStorage.setItem('teacherSchool', user.school);
       localStorage.setItem('teacherClass', user.class);
+      localStorage.setItem('loggedInTeacherId', id); // Save the teacher ID    
+    }
+
+    if (role === 'official') {
+      localStorage.setItem('loggedInOfficialId', id);
     }
 
     setIsLoggedIn(true);

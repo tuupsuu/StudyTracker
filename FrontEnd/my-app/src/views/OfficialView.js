@@ -4,6 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import _ from 'lodash';
 import './OfficialView.css';
 import StudentsGrades from '../jsonFiles/grades.json';
+import accounts from '../jsonFiles/accounts.json';
 
 function OfficialView() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -11,6 +12,17 @@ function OfficialView() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSchool, setSelectedSchool] = useState('All');
   const [selectedClass, setSelectedClass] = useState('All');
+  const [officialName, setOfficialName] = useState('');
+
+  useEffect(() => {
+    const loggedInOfficialId = localStorage.getItem('loggedInOfficialId');
+    if (loggedInOfficialId) {
+      const officialInfo = accounts.officials.find(official => official.id === loggedInOfficialId);
+      if (officialInfo) {
+        setOfficialName(officialInfo.name);
+      }
+    }
+  }, []);  
 
   useEffect(() => {
     const data = _.chain(StudentsGrades)
@@ -72,7 +84,7 @@ function OfficialView() {
       <header className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
         <div className='HeaderOfficial'>
-          <h1 className='TitleOfficial'>Welcome, official!</h1>
+        <h1 className='TitleOfficial'>Welcome, {officialName}!</h1>
         </div>
         <Link to='..' className='LogoutButton'>Logout</Link>
       </header>
