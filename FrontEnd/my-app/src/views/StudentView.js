@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './StudentView.css';
 import Clock from '../components/Clock';
+import { BiLogOut } from 'react-icons/bi';
 
 class StudentView extends React.Component {
   getRandomColor() {
@@ -19,9 +20,7 @@ class StudentView extends React.Component {
             <h1 className="Title">Welcome, Student 1!</h1>
             <p>You can choose your test from this page.</p>
           </div>
-          <Link to=".." className="LogoutButton">
-            Logout
-          </Link>
+          <Link to='..' className='Student-LogOutButton'><BiLogOut></BiLogOut></Link>
         </div>
         <div className='TestOptions'>
         <Link to="/start-test" className="TestContainerButton">

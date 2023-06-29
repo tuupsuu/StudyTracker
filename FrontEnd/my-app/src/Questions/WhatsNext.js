@@ -8,13 +8,14 @@ const WhatsNext = ({ options, answer, index, onSubmit }) => {
     const updatedOptions = [...selectedOptions];
     updatedOptions[rowIndex] = e.target.value;
     setSelectedOptions(updatedOptions);
+    setIsSubmitted(false); // Set isSubmitted to false when a textbox is clicked
   };
 
   const checkAnswers = () => {
     const includesNull = selectedOptions.includes(undefined);
     const numQuestions = options.length;
 
-    if (includesNull === true || selectedOptions.length !== numQuestions) {
+    if (includesNull || selectedOptions.length !== numQuestions) {
       alert('Please answer all the questions before submitting.');
     } else {
       setIsSubmitted(true);
@@ -47,6 +48,7 @@ const WhatsNext = ({ options, answer, index, onSubmit }) => {
             placeholder='?'
             value={selectedOptions[rowIndex] || ''}
             onChange={(e) => handleInputChange(e, rowIndex)}
+            onClick={() => setIsSubmitted(false)}
           />
         </div>
       ))}

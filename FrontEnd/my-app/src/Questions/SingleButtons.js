@@ -10,13 +10,14 @@ const SingleButtons = ({ options, answer, index, onSubmit }) => {
       updatedOptions[rowIndex] = optionIndex;
       return updatedOptions;
     });
+    setIsSubmitted(false);
   };
 
   const checkAnswers = () => {
     const includesNull = selectedOptions.includes(undefined);
     const numQuestions = options.length;
 
-    if (includesNull === true || selectedOptions.length !== numQuestions) {
+    if (includesNull || selectedOptions.length !== numQuestions) {
       alert('Please answer all the questions before submitting.');
     } else {
       setIsSubmitted(true);

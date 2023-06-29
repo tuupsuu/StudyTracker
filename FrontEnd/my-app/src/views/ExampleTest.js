@@ -100,7 +100,10 @@ const ExampleTest = () => {
         <div className="timer">
           Time Remaining: {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
         </div>
-        <h1 className="Test-Title">Welcome to the test</h1>
+        <div className="ExampleTest-TextContainer">
+          <h1 className="Title">Math test 2nd grade Autumn</h1>
+          <p>Remember to submit all your answers</p>
+        </div>
       </div>
       <div className="question-container">
         {jsonData.map((questionData, index) => {

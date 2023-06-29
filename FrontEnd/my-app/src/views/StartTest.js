@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './StartTest.css';
 import Clock from '../components/Clock';
+import { BiArrowBack } from 'react-icons/bi';
 
 const StartTest = () => {
   const [startTest, setStartTest] = useState(false);
@@ -35,6 +36,7 @@ const StartTest = () => {
           <h1 className="Title">Math test 2nd grade Autumn</h1>
           <p>Start the test by entering the password and pressing the button below</p>
         </div>
+        <Link to='../student' className='Student-BackOutButton'><BiArrowBack></BiArrowBack></Link>
       </div>
       <div className='StartTest-Page'>
       {startTest ? (

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import fartAudio from './fart.mp3';
 import vineAudio from './vine.mp3';
+import { BiLogOut } from 'react-icons/bi';
+import { BiArrowBack } from 'react-icons/bi';
 
 const Audio = ({ onSubmit }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -80,6 +82,7 @@ const Audio = ({ onSubmit }) => {
               placeholder="?"
               value={textInputs[index] || ''}
               onChange={(e) => handleTextInputChange(e, index)}
+              onClick={() => setIsSubmitted(false)}
             />
           </div>
         ))}
