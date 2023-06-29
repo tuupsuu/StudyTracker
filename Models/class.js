@@ -25,19 +25,27 @@ const Class = sequelize.define('Class', {
         type: DataTypes.CHAR(2),
         allowNull: false
     },
+    Teach_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }, 
+    School_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
 }, {
     timestamps: false,
     tableName: 'Class'
 });
 
 
-Teacher.belongsTo(Teacher, {
-    foreignKey: Teach_ID,
+Class.belongsTo(Teacher, {
+    foreignKey: 'Teach_ID',
     onDelete: 'CASCADE'
-})
+});
 
 Class.belongsTo(School, {
-    foreignKey: School_ID,
+    foreignKey: 'School_ID',
     onDelete: 'CASCADE'
 });
 

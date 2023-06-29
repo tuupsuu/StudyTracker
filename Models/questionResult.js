@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('./config');
-const { TestResults } = require('./result');
+const { Result } = require('./result');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
@@ -35,7 +35,7 @@ const QuestionResult = sequelize.define('QuestionResult', {
 });
 
 
-QuestionResult.belongsTo(TestResults, {
+QuestionResult.belongsTo(Result, {
     foreignKey: 'Resu_ID',
     onDelete: 'CASCADE'
 });
