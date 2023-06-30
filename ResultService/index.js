@@ -4,6 +4,7 @@ const port = 3002;
 const config = require('../Models/config');
 const resultController = require('./controllers/resultController');
 const questionController = require('./controllers/questionController');
+const sectionController = require('./controllers/sectionController');
 const { Sequelize, Datatypes } = require('sequelize');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
@@ -39,6 +40,16 @@ app.put('/questionResults/:id', (req, res) => questionController.edit(req, res))
 app.delete('/questionResults/:id', questionController.delete);
 
 app.get('/questionResults', questionController.getAll);
+
+// methods for handling question section result data
+app.post('/sectionResults', (req, res) => sectionController.add(req, res));
+
+app.put('/sectionResults/:id', (req, res) => sectionController.edit(req, res));
+
+app.delete('/sectionResults/:id', sectionController.delete);
+
+app.get('/sectionResults', sectionController.getAll);
+
 
 sequelize.authenticate()
   .then(() => console.log('Connection has been extablished succesfully'))

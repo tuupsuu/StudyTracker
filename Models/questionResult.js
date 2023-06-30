@@ -28,6 +28,9 @@ const QuestionResult = sequelize.define('QuestionResult', {
     Resu_ID: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    QuesName: {
+        type: DataTypes.STRING(100),
     }
 }, {
     timestamps: false,
