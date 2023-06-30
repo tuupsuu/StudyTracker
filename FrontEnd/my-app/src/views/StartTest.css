@@ -51,7 +51,7 @@
 }
 
 .StartTestButton:hover {
-  background-color: rgb(214, 203, 203);
+  background-color: rgb(239, 228, 228);
 }
 
 .PasswordInput {
@@ -65,7 +65,7 @@
 }
 
 .ErrorMessage { /* Error message if password is wrong */
-  background-color: white;
+  background-color: transparent;
   color: red;
   padding: 10px;
   margin-top: 10px;

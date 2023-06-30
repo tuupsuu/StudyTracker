@@ -4,10 +4,10 @@
     "type": "single",
     "question": "Choose the largest number:",
     "options": [
-      [9, 18, 54, 69],
-      [3, 7, 21, 12],
-      [25, 6, 9, 11],
-      [4, 13, 22, 29]
+      [61, 59, 48, 63],
+      [66, 91, 78, 89],
+      [205, 160, 301, 217],
+      [388, 408, 318, 298]
     ]
   },
   {
@@ -15,10 +15,10 @@
     "type": "single",
     "question": "Choose the smallest number:",
     "options": [      
-      [9, 18, 54, 69],
-      [3, 7, 21, 12],
-      [25, 6, 9, 11],
-      [4, 13, 22, 29]
+      [72, 70, 76, 81],
+      [89, 91, 88, 98],
+      [401, 204, 303, 105],
+      [302, 308, 298, 419]
     ]
   },
   {
@@ -26,17 +26,21 @@
     "type": "whatsNext",
     "question": "What number comes next:",
     "options": [
-      [1, 2, 3],
-      [5, 4, 3],
-      [5, 10, 15],
-      [3, 6, 9]
+      [3, 5, 7],
+      [15, 20, 25],
+      [31, 41, 51],
+      [10, 13, 16],
+      [8, 6, 4],
+      [22, 21, 20],
+      [62, 52, 42],
+      [35, 30, 25]
     ]
   },
   {
     "id": 4,
     "type": "audio",
     "question": "Listen to the audio and write the numbers you hear:",
-    "audioSrc": ["jazz.mp3", "vine.mp3"]
+    "audioSrc": "../Questions/fart.mp3 EI TOIMI" 
   },
   {
     "id": 5,
