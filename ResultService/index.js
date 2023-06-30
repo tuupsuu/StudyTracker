@@ -23,18 +23,18 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 // methods for handling test result data
-app.post('/results', resultController.add);
+app.post('/results', (req, res) => resultController.add(req, res));
 
-app.put('/results/:id', resultController.edit);
+app.put('/results/:id', (req, res) => resultController.edit(req, res));
 
 app.delete('/results/:id', resultController.delete);
 
 app.get('/results', resultController.getAll);
 
 // methods for handling question result data
-app.post('/questionResults', questionController.add);
+app.post('/questionResults', (req, res) => questionController.add(req, res));
 
-app.put('/questionResults/:id', questionController.edit);
+app.put('/questionResults/:id', (req, res) => questionController.edit(req, res));
 
 app.delete('/questionResults/:id', questionController.delete);
 

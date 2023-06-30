@@ -21,7 +21,7 @@ const QuestionResult = sequelize.define('QuestionResult', {
         primaryKey: true,
         autoIncrement: true
     },
-    points: {
+    Points: {
         type: DataTypes.INTEGER,
         allowNull: false
     },

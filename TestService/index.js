@@ -21,9 +21,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.post('/tests', testController.add);
+app.post('/tests', (req, res) => testController.add(req, res));
 
-app.put('/tests/:id', testController.edit);
+app.put('/tests/:id', (req, res) => testController.edit(req, res));
 
 app.delete('/tests/:id', testController.delete);
 
