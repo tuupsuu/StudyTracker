@@ -46,9 +46,16 @@ function Login() {
       localStorage.setItem('teacherClass', user.class);
       localStorage.setItem('loggedInTeacherId', id); // Save the teacher ID    
     }
-
+      
     if (role === 'official') {
-      localStorage.setItem('loggedInOfficialId', id);
+      const official = accounts.officials.find(official => official.id === id);
+      if (official) {
+        localStorage.setItem('officialCity', official.city);
+        localStorage.setItem('loggedInOfficialId', id);
+      } else {
+        alert(`Invalid official ID or password`);
+        return;
+      }
     }
 
     setIsLoggedIn(true);
