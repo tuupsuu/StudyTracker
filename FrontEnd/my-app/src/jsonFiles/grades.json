@@ -75,5 +75,6 @@
     {"id": "74", "name": "Daniel Clark", "grade": 8, "school": "Myllymäen Koulu", "class": "2c", "classNumber": "2"},
     {"id": "75", "name": "Ella Rodriguez", "grade": 7, "school": "Myllymäen Koulu", "class": "2c", "classNumber": "2"},
     {"id": "76", "name": "Benjamin Lewis", "grade": 6, "school": "Myllymäen Koulu", "class": "2c", "classNumber": "2"},
-    {"id": "77", "name": "Eemil Hukkanen", "grade": 10, "school": "Ehnroos yläaste", "class": "8f", "classNumber": "8"}
+    {"id": "77", "name": "Eemil Hukkanen", "grade": 10, "school": "Ehnroos yläaste", "class": "8f", "classNumber": "8"},
+    {"id": "78", "name": "Weerti", "grade": 9, "school": "Pirkkolan Yhteiskoulu", "class": "2a", "classNumber": "2"}
 ]

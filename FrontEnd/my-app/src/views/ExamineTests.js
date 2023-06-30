@@ -4,6 +4,7 @@ import studentsData from '../jsonFiles/grades.json';
 import { FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Papa from 'papaparse';
+import { BiLogOut, BiPrinter } from 'react-icons/bi';
 
 function ExamineTests() {
   function downloadCSV() {
@@ -68,9 +69,9 @@ function ExamineTests() {
       <header className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
         <div className='HeaderTeacher'>
-          <h1 className='TitleTeacher'>Examine Tests</h1>
+          <h1 className='TitleExamine'>Examine Tests</h1>
         </div>
-        <Link to='..' className='LogoutButton'>Logout</Link>
+        <Link to='..' className='LogoutButtonTeacher'><BiLogOut></BiLogOut></Link>
       </header>
 
       {isSidebarOpen && (
@@ -104,7 +105,7 @@ function ExamineTests() {
             />
           </div>
           <div className='csvButton'>
-            <button className='DownloadCSV' onClick={downloadCSV}>Download Showing Data</button>
+            <button className='DownloadCSV' onClick={downloadCSV}><BiPrinter></BiPrinter></button>
           </div>
         </div>
 
