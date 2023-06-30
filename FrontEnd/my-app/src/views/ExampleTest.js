@@ -100,7 +100,10 @@ const ExampleTest = () => {
         <div className="timer">
           Time Remaining: {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
         </div>
-        <h1 className="Test-Title">Welcome to the test</h1>
+        <div className="ExampleTest-TextContainer">
+          <h1 className="Title">Math test 2nd grade Autumn</h1>
+          <p>Remember to submit all your answers</p>
+        </div>
       </div>
       <div className="question-container">
         {jsonData.map((questionData, index) => {
@@ -142,7 +145,7 @@ const ExampleTest = () => {
 
             return (
               <div key={index}>
-                <h1>{questionData.question}</h1>
+                <h1 className='timed-container'>{questionData.question}</h1>
                 {!isStarted && (
                   <button className="StartTimer-button" onClick={() => handleStartTimer(index)}>
                     Start Timer
@@ -160,7 +163,7 @@ const ExampleTest = () => {
           } else if (questionData.type === 'money') {
             return (
               <div key={index}>
-                <h1>{questionData.question}</h1>
+                <h1 className='money-question'>{questionData.question}</h1>
                 <Money
                   options={questionData.options}
                   answer={questionData.answers}
@@ -176,7 +179,7 @@ const ExampleTest = () => {
       </div>
       
       {!showConfirmation && (
-        <button className="submit-button" onClick={handleConfirmation}>
+        <button className="EndTest-button" onClick={handleConfirmation}>
           <strong>End Test</strong>
         </button>
       )}

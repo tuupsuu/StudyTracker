@@ -33,9 +33,12 @@ const Money = ({ options, answer, index, onSubmit }) => {
                 <div
                   key={optionIndex}
                   className={`money-box ${
-                    selectedOptions[rowIndex] === optionIndex ? 'selected' : ''
-                  } ${option === 1 || option === 2 ? 'coin' : ''}
-                    ${option === 5 || option === 10 || option === 20 || option === 50 ? 'bill' : ''}`}
+                    selectedOptions[rowIndex] === optionIndex ? 'selected' : ''} 
+                    ${option === 1 || option === 2 ? 'coin' : ''}
+                    ${option === 5 ? 'bill-5' : ''}
+                    ${option === 10 ? 'bill-10' : ''}
+                    ${option === 20 ? 'bill-20' : ''}
+                    ${option === 50 ? 'bill-50' : ''}`}
                 >
                   {option}€
                 </div>
@@ -50,7 +53,9 @@ const Money = ({ options, answer, index, onSubmit }) => {
             placeholder="?"
             value={selectedOptions[rowIndex] || ''}
             onChange={(e) => handleInputChange(e, rowIndex)}
+            onClick={() => setIsSubmitted(false)}
           />
+          <div className='money-border'></div>
         </div>
       ))}
       <button className={`submit-button ${isSubmitted ? 'submitted' : ''}`} onClick={checkAnswers}>

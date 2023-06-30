@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './StudentView.css';
 import Clock from '../components/Clock';
+import { BiLogOut } from 'react-icons/bi';
 
 class StudentView extends React.Component {
   getRandomColor() {
@@ -12,24 +13,23 @@ class StudentView extends React.Component {
 
   render() {
     return (
-      <div className="Container">
-        <div className="TopBar">
+      <div className="StudentView-Container">
+        <div className="StudentView-TopBar">
           <Clock />
           <div className="TextContainer">
             <h1 className="Title">Welcome, Student 1!</h1>
             <p>You can choose your test from this page.</p>
           </div>
-          <Link to=".." className="LogoutButton">
-            Logout
-          </Link>
+          <Link to='..' className='Student-LogOutButton'><BiLogOut></BiLogOut></Link>
         </div>
+        <div className='TestOptions'>
         <Link to="/start-test" className="TestContainerButton">
           <div className="TestContainer">
             <h2 className="TestContainerTitle" style={{ backgroundColor: this.getRandomColor() }}>
               Math test 2nd grade Autumn
             </h2>
             <div className="TestContainerInfo">
-              <p className="InfoText">Teacher: Bill Gates</p>
+              <p className="InfoText">Teacher: Vesa Lappalainen</p>
               <p className="InfoText">20.6 10.15 - 20.6 14.15</p>
             </div>
           </div>
@@ -46,6 +46,7 @@ class StudentView extends React.Component {
             </div>
           </div>
         </Link>
+        </div>
       </div>
     );
   }
