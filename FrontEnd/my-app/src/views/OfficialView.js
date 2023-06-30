@@ -2,92 +2,119 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
-import _ from 'lodash';
 import './OfficialView.css';
-import StudentsGrades from '../jsonFiles/grades.json';
 import accounts from '../jsonFiles/accounts.json';
+import StudentsGrades from '../jsonFiles/grades.json';
+
+function processCityData(cityData) {
+  // Group data by classNumber
+  const groupedData = cityData.reduce((acc, student) => {
+    if (!acc[student.classNumber]) {
+      acc[student.classNumber] = [];
+    }
+    acc[student.classNumber].push(student);
+    return acc;
+  }, {});
+
+  // Process each class's data
+  const processedData = Object.entries(groupedData).map(([classNumber, students]) => {
+    // Calculate average grade
+    const avgGrade = students.reduce((acc, student) => acc + student.grade, 0) / students.length;
+
+    // Find best and worst schools
+    const schoolAvgs = students.reduce((acc, student) => {
+      if (!acc[student.school]) {
+        acc[student.school] = { total: 0, count: 0 };
+      }
+      acc[student.school].total += student.grade;
+      acc[student.school].count += 1;
+      return acc;
+    }, {});
+
+    let worstSchool, bestSchool, worstAvg = Infinity, bestAvg = -Infinity;
+    for (let school in schoolAvgs) {
+      const avg = schoolAvgs[school].total / schoolAvgs[school].count;
+      if (avg < worstAvg) {
+        worstAvg = avg;
+        worstSchool = school;
+      }
+      if (avg > bestAvg) {
+        bestAvg = avg;
+        bestSchool = school;
+      }
+    }
+
+    return {
+      classNumber,
+      students: students.length,
+      avgGrade: avgGrade.toFixed(2),
+      worstSchool: worstSchool,
+      worstSchoolAvg: worstAvg.toFixed(2),
+      bestSchool: bestSchool,
+      bestSchoolAvg: bestAvg.toFixed(2)
+    };
+  });
+
+  return processedData;
+}
 
 function OfficialView() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [schoolData, setSchoolData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedSchool, setSelectedSchool] = useState('All');
-  const [selectedClass, setSelectedClass] = useState('All');
-  const [officialName, setOfficialName] = useState('');
+  const [officialName, setOfficialName] = useState(''); 
+  const [officialCity, setOfficialCity] = useState('');
+  const [cityData, setCityData] = useState([]);
+  const [selectedClass, setSelectedClass] = useState('');
+  const classNumbers = [...new Set(cityData.map(row => row.classNumber))];
+  const [searchText, setSearchText] = useState('');
+  const [studentCountFilter, setStudentCountFilter] = useState('all');
+  const [sortOrder, setSortOrder] = useState('none');
 
   useEffect(() => {
     const loggedInOfficialId = localStorage.getItem('loggedInOfficialId');
-    if (loggedInOfficialId) {
-      const officialInfo = accounts.officials.find(official => official.id === loggedInOfficialId);
+    const officialCity = localStorage.getItem('officialCity');
+    if (loggedInOfficialId && officialCity) {
+      const officialInfo = accounts.officials.find(official => official.id === loggedInOfficialId && official.city === officialCity);
       if (officialInfo) {
         setOfficialName(officialInfo.name);
+        setOfficialCity(officialCity);
       }
     }
-  }, []);  
-
-  useEffect(() => {
-    const data = _.chain(StudentsGrades)
-      .groupBy('school')
-      .map((value, key) => ({
-        school: key,
-        classes: _.chain(value)
-          .groupBy('classNumber')
-          .map((v, k) => ({
-            classNumber: k,
-            studentsCount: v.length,
-            averageGrade: _.round(_.meanBy(v, 'grade'), 2)
-          }))
-          .value()
-      }))
-      .value();
-
-    setSchoolData(data);
   }, []);
+  
+  useEffect(() => {
+    const data = StudentsGrades.filter(student => student.city === officialCity);
+    setCityData(processCityData(data));
+  }, [officialCity]);
 
-  const handleChangeSearchTerm = (e) => {
-    setSearchTerm(e.target.value);
-  };
+  let displayData = cityData
+    .filter(row => 
+      !selectedClass || row.classNumber === selectedClass)
+    .filter(row => 
+      searchText === '' || row.classNumber.toString().includes(searchText) || row.avgGrade.toString().includes(searchText)
+    )
+    .filter(row => 
+      studentCountFilter === 'all' ||
+      (studentCountFilter === 'over30' && row.students >= 30) ||
+      (studentCountFilter === 'under30' && row.students < 30)
+    );
 
-  const handleChangeSelectedSchool = (e) => {
-    setSelectedSchool(e.target.value);
-  };
-
-  const handleChangeSelectedClass = (e) => {
-    setSelectedClass(e.target.value);
-  };
-
-  const filteredData = schoolData
-  .filter(school => selectedSchool === 'All' || school.school === selectedSchool)
-  .map(school => ({
-    ...school,
-    classes: school.classes.filter(classInfo => selectedClass === 'All' || classInfo.classNumber === selectedClass)
-  }))
-  .filter(school => school.classes.length > 0)
-  .filter(school => {
-      const schoolNameMatch = school.school.toLowerCase().includes(searchTerm.toLowerCase());
-      const classNameMatch = school.classes.some(classInfo => classInfo.classNumber.includes(searchTerm));
-      return schoolNameMatch || classNameMatch;
-  })
-  .map(school => {
-      if (school.school.toLowerCase().includes(searchTerm.toLowerCase())) {
-          return school;
-      } else {
-          return {
-              ...school,
-              classes: school.classes.filter(classInfo => classInfo.classNumber.includes(searchTerm))
-          };
+  if (sortOrder !== 'none') {
+    displayData.sort((a, b) => {
+      switch (sortOrder) {
+        case 'studentsAsc':
+          return a.students - b.students;
+        case 'studentsDesc':
+          return b.students - a.students;
+        case 'avgAsc':
+          return a.avgGrade - b.avgGrade;
+        case 'avgDesc':
+          return b.avgGrade - a.avgGrade;
+        default:
+          return 0;
       }
-  });
-
-  const lowCountSchools = [];
-  filteredData.forEach(school =>
-    school.classes.forEach(classInfo => {
-      if (classInfo.studentsCount < 13) {
-        lowCountSchools.push({ school: school.school, classNumber: classInfo.classNumber });
-      }
-    })
-  );
-
+    });
+  }
+  
   return (
     <div className="official-view">
       <header className="header">
@@ -103,61 +130,92 @@ function OfficialView() {
           <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
           <ul>
             <li>Print Reports</li>
-            <li>Examine Schools</li>
+            <Link to='/examine-schools'>Examine Schools</Link>
           </ul>
         </aside>
       )}
 
-      <section className="content">
-        <h2>City's different Schools Score Average Distribution</h2>
-        <div className="search-container">
-          <input type="text" value={searchTerm} onChange={handleChangeSearchTerm} placeholder="Search school or class" />
-          <select value={selectedSchool} onChange={handleChangeSelectedSchool}>
-            <option value="All">All Schools</option>
-            {_.uniqBy(schoolData, 'school').map(school => <option key={school.school} value={school.school}>{school.school}</option>)}
+      <h2 className='h2Official'>Here is a results of different Schools</h2>  
+
+      <div className="search-and-filter-container">
+        <input 
+          type="text" 
+          placeholder="Search..." 
+          value={searchText} 
+          onChange={e => setSearchText(e.target.value)} 
+          className="search-bar"
+        />
+
+        <div className="filter-container">
+          <select 
+            value={selectedClass} 
+            onChange={e => setSelectedClass(e.target.value)}
+            className="filter"
+          >
+            <option value=''>All Classes</option>
+            {classNumbers.map(number => (
+              <option value={number} key={number}>{number}</option>
+            ))}
           </select>
-          <select value={selectedClass} onChange={handleChangeSelectedClass}>
-            <option value="All">All Classes</option>
-            {_.chain(schoolData).flatMap('classes').uniqBy('classNumber').map(classInfo => <option key={classInfo.classNumber} value={classInfo.classNumber}>{classInfo.classNumber}</option>).value()}
+
+          <select 
+            value={studentCountFilter} 
+            onChange={e => setStudentCountFilter(e.target.value)}
+            className="filter"
+          >
+            <option value="all">All amounts</option>
+            <option value="over30">Over 30 students</option>
+            <option value="under30">Under 30 students</option>
+          </select>
+
+          <select 
+            value={sortOrder} 
+            onChange={e => setSortOrder(e.target.value)}
+            className="filter"
+          >
+            <option value="none">No sorting</option>
+            <option value="studentsAsc">Students Asc</option>
+            <option value="studentsDesc">Students Desc</option>
+            <option value="avgAsc">Average Asc</option>
+            <option value="avgDesc">Average Desc</option>
           </select>
         </div>
+      </div>
 
-        <table style={{backgroundColor: 'white'}}>
+      <div className="table-container">
+        <table>
           <thead>
             <tr>
-              <th>School</th>
               <th>Grade</th>
               <th>Students</th>
-              <th>Avg</th>
+              <th>Avg Score</th>
+              <th>Worst Average</th>
+              <th>Best Average</th>
             </tr>
           </thead>
           <tbody>
-            {filteredData.map(school =>
-              school.classes.map(classInfo => {
-                const lowStudentCount = classInfo.studentsCount < 13;
-                return (
-                  <tr key={school.school + classInfo.classNumber} className={lowStudentCount ? 'low-student-count' : ''}>
-                    <td>{school.school}</td>
-                    <td>{classInfo.classNumber}</td>
-                    <td>{classInfo.studentsCount}</td>
-                    <td>{classInfo.averageGrade}</td>
-                  </tr>
-                )
-              })
-            )}
+            {displayData.map(row => (
+              <tr key={row.classNumber} className={row.students < 30 ? 'table-row-few-students' : ''}>
+                <td>
+                  <Link to={`/examine-schools?grade=${row.classNumber}`}>{row.classNumber}nd</Link>
+                </td>
+                <td>{row.students}</td>
+                <td>{row.avgGrade}</td>
+                <td>
+                  <Link to={`/examine-schools?school=${row.worstSchool}&grade=${row.classNumber}`}>
+                    {`${row.worstSchool}: ${row.worstSchoolAvg}`}
+                  </Link>
+                </td>
+                <td>
+                  <Link to={`/examine-schools?school=${row.bestSchool}&grade=${row.classNumber}`}>
+                    {`${row.bestSchool}: ${row.bestSchoolAvg}`}
+                  </Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
-        
-        {lowCountSchools.length > 0 && (
-          <div className='warning-container'>
-            {lowCountSchools.map(({school, classNumber}) => 
-              <p key={school + classNumber}>
-                {`${school} grade:${classNumber} have not enough answers to be taken into account`}
-              </p>
-            )}
-          </div>
-        )}
-      </section>
+      </div>
     </div>
   );
 }

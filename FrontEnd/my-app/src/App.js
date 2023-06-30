@@ -10,6 +10,7 @@ import StartTest from './views/StartTest';
 import { AuthProvider } from './components/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import OfficialView from './views/OfficialView';
+import ExamineSchools from './views/ExamineSchools';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/start-test" element={<PrivateRoute><StartTest /></PrivateRoute>} />
             <Route path="/examine-tests" element={<PrivateRoute><ExamineTests /></PrivateRoute>} />
             <Route path="/example-test" element={<PrivateRoute><ExampleTest /></PrivateRoute>} />          
+            <Route path="/examine-schools" element={<PrivateRoute><ExamineSchools /></PrivateRoute>} />          
           </Routes>
         </div>
       </Router>
