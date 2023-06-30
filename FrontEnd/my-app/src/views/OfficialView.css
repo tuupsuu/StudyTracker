@@ -4,6 +4,7 @@
   color: #333;
   background-color: #f2f2f2;
   min-height: 1500px;
+  
 }
 
 
@@ -105,3 +106,86 @@
   text-align: left;
 }
 
+.table-container {
+  width: 75%;
+  margin: auto;
+  margin-top: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  border: 1px solid black; /* Add border to table */
+}
+
+.link-official {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+table thead tr {
+  background-color: #f8f8f8;
+  text-align: center; /* Center the header text */
+}
+
+table th, table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid black;
+  text-align: center; /* Center the column text */
+}
+
+/* Add style for rows with less than 30 students */
+.table-row-few-students {
+  background-color: #fdd;
+}
+
+.h2Official {
+  margin-top: 80px;
+}
+
+.table-and-search-container {
+  width: 80%; /* adjust as necessary */
+  margin: auto;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filters input[type="text"],
+.filters select {
+  padding: 10px;
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.search-and-filter-container {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.search-bar {
+  width: 99.9999999999%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.filter-container {
+  display: flex;
+}
+
+.filter {
+  width: 33.3333333333%;
+  height: 50px;
+}
