@@ -28,6 +28,10 @@
   margin-right: 40%;
 }
 
+.ExampleTest-TextContainer {
+  margin-right: 35%;
+}
+
 .question-container { /* All the questions */
     color: black;
 }
@@ -37,14 +41,18 @@
   align-items: center; 
   justify-content: center; 
   border: 1px solid black;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
   margin-bottom: 20px;
 }
 
 .submit-button {
-  width: 200px;
+  width: 380px;
   height: 100px;
   font-size: 30px;
-  margin-top: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .confirmation-dialog {
@@ -53,6 +61,15 @@
 
 .confirmation-text {
   color: black;
+  font-size: 24px;
+}
+
+.EndTest-button {
+  width: 400px;
+  height: 100px;
+  font-size: 30px;
+  margin-top: 100px;
+  margin-bottom: 50px;
 }
 
 .EndTestYes {
@@ -82,6 +99,7 @@
     justify-content: center; 
     background-color: white;
     border: 2px solid black;
+    border-radius: 50px;
     width: 50%;
     height: auto;
     margin-left: 25%;
@@ -89,8 +107,8 @@
   }
   
 .single-box { /* Singular option boxes */
-    width: 70px;
-    height: 70px;
+    width: auto;
+    height: auto;
     font-size: 48px;
     color: black;
     margin: 20px;
@@ -113,6 +131,7 @@
 .whats-next-container { /* The whole box of a whats-next question */
     background-color: white;
     border: 2px solid black;
+    border-radius: 50px;
     width: 50%;
     height: auto;
     margin-left: 25%;
@@ -152,9 +171,11 @@
 .audio-container {
   background-color: white;
   border: 2px solid black;
+  border-radius: 50px;
   width: 50%;
   height: auto;
   margin-left: 25%;
+  margin-bottom: 200px;
 }
 
 .audio-row {
@@ -162,7 +183,11 @@
   align-items: center;
   justify-content: center;
   border: 1px solid black;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
   margin-bottom: 20px;
+  margin-right: 55px;
   height: 100px;
 }
 
@@ -176,6 +201,10 @@
   font-size: 24px;
   margin-bottom: 10px;
   margin-left: 5%;
+}
+
+.audio-icon {
+  font-size: 60px;
 }
 
 .audio-textbox {
@@ -195,7 +224,11 @@
 
 /*---------------------------------------------------------------------------------------- */
 /* Timed exercises */
-  
+
+.timed-container {
+  margin-top: 200px;
+}
+
 .StartTimer-button {
   width: 200px;
   height: 100px;
@@ -206,13 +239,13 @@
 .Timed-questionbox {
   margin-top: 20px;
   display: flex;
-  align-items: center; /* Align items vertically within the question box */
+  align-items: center; 
   justify-content: center;
 }
 
 .Timed-question {
   font-size: 24px;
-  width: 200px; /* Set a fixed width for the question */
+  width: 200px;
 }
 
 .Times-Up {
@@ -225,25 +258,31 @@
   font-size: 24px;
   text-align: center;
   margin-left: -40px;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 /*---------------------------------------------------------------------------------------- */
 /* Money exercises */
 
-.money-row-options-container { /* Money rows */
-  display: flex; 
-  border: 1px solid black;
-  margin-bottom: 50px;
-  
+.money-question {
+  margin-top: 200px;
 }
 
 .money-container { /* The whole box of a money question */
   background-color: white;
   border: 2px solid black;
+  border-radius: 50px;
   width: 50%;
   height: auto;
   margin-left: 25%;
-  margin-bottom: 200px;
+}
+
+.money-row-options-container { /* Money rows */
+  display: flex; 
+  margin-bottom: 50px;
+
+  
 }
 
 .money-box { /* All the single numbers in a money question */
@@ -262,7 +301,13 @@
   text-align: center;
 }
 
+.money-border {
+  border-bottom: 1px solid black;
+  margin-top: 20px;
+}
+
 .coin {
+  background-color: yellow;
   width: 80px;
   height: 80px;
   border: 3px solid black;
@@ -272,11 +317,27 @@
   align-items: center;
 }
 
-.bill {
+.bill-5, .bill-10, .bill-20, .bill-50 {
   width: 200px;
   height: 80px;
   border: 3px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.bill-5 {
+  background-color: rgb(200, 217, 232);
+}
+
+.bill-10 {
+  background-color: rgb(242, 111, 111);
+}
+
+.bill-20 {
+  background-color: rgb(179, 179, 250);
+}
+
+.bill-50 {
+  background-color: rgb(255, 179, 0);
 }

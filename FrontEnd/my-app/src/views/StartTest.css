@@ -1,8 +1,14 @@
-.Container {
+.StartTest-Container { /* The whole page */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(to top right, lightblue, lightyellow);
+
+}
+
+.StartTest-Page { /* Everything under the topbar */
+  min-height: 1500px;
 }
 
 .TopBar {
@@ -15,18 +21,22 @@
   padding: 0 10px;
 }
 
-.StartTest-TextContainer {
+.StartTest-TextContainer { /* Topbar title and description */
   background-color: darkslategrey;
-  margin-right: 35%;
 }
 
-.Title {
-  background-color: darkslategrey;
+.Student-BackOutButton { /* Topbar back button */
+  font-size: 42px;
+  color: white;
+  margin-right: 10%;
+}
+
+.Title { /* Topbar title */
   color: white;
 }
 
-.StartTestContainer {
-  margin-top: 5%;
+.StartTestContainer { /* Password textbox and start test button */
+  margin-top: 30%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,7 +51,7 @@
 }
 
 .StartTestButton:hover {
-  background-color: rgb(236, 235, 235);
+  background-color: rgb(239, 228, 228);
 }
 
 .PasswordInput {
@@ -51,10 +61,11 @@
   text-align: center;
   border-radius: 10px;
   margin-bottom: 50px;
+  border: 1px solid black;
 }
 
-.ErrorMessage {
-  background-color: white;
+.ErrorMessage { /* Error message if password is wrong */
+  background-color: transparent;
   color: red;
   padding: 10px;
   margin-top: 10px;

@@ -1,8 +1,27 @@
-.Container {
+.StudentView-Container {
+  background: linear-gradient(to top right, lightblue, lightyellow);
+}
+
+  .StudentView-TopBar {
+    background-color: darkslategrey;
+    height: 200px;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 10px
+  }
+
+  .Student-LogOutButton {
+    font-size: 42px;
+    color: white;
+    margin-top: 20px;
+    margin-right: 200px;
+  }
+
+
+  .TestOptions {
+    min-height: 1500px;
   }
   
   .TextContainer {
@@ -19,37 +38,37 @@
     background-color: #dc3545;
     color: white;
     padding: 5px 10px;
-    border: none;
     border-radius: 5px;
-    cursor: pointer;
     margin-bottom: 20px;
     font-size: 24px;
     margin-right: 50px;
   }
 
   .TestContainerButton {
+    background-color: rgb(255, 223, 223);
     display: inline-block;
     padding: 10px;
-    border-radius: 5px;
+    border: 1px solid black;
+    border-radius: 20px;
     text-decoration: none;
-    color: inherit;
     margin-top: 50px;
   }
   
   .TestContainerButton:hover {
-    background-color: #e0e0e0;
+    background-color: rgb(211, 209, 209);
   }
 
   .TestContainerTitle {
     background-color: lime;
     color: black;
-    width: 100%;
+    height: 30px;
+    width: 1020px;
+    border: 1px solid black;
   }
   
   .TestContainer {
     width: 1000px;
     height: auto;
-    border: 1px solid black;
     border-radius: 10px;
     margin-top: 20px;
     text-align: center;
@@ -70,7 +89,6 @@
   .InfoText {
     display: flex;
     flex-direction: row;
-
     color: black;
     margin-top: 0px;
   }
