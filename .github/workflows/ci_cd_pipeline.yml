@@ -39,7 +39,7 @@ jobs:
     - name: Set up Docker metadata
       uses: docker/metadata-action@v3
       with:
-        images: 'userservice'
+        images: 'userservicecontainer'
 
     - name: Build Docker image
       run: |
@@ -61,6 +61,6 @@ jobs:
       run: |
         cd UserService/
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservice || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservice || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservicecontainer || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservicecontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservice -p 80:80 tuupsuu/userservicecontainer'
