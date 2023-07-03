@@ -1,8 +1,6 @@
 /* Page */
-
-.test { /* The whole page */
+.test {
   background: linear-gradient(to bottom right, lightblue, lightyellow);
-
 }
 
 .Test-TopBar {
@@ -18,19 +16,27 @@
 .timer {
   font-size: 24px;
   font-weight: bold;
-  margin-left: 50px;
   color: white;
+  margin-left: 5%;
 }
 
 .Test-Title {
   background-color: darkslategrey;
   color: white;
-  margin-right: 40%;
+  text-align: center;
 }
 
 .ExampleTest-TextContainer {
-  margin-right: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  margin-right: 18%;
 }
+
+
+
 
 .question-container { /* All the questions */
     color: black;

@@ -45,17 +45,19 @@
   }
 
   .TestContainerButton {
-    background-color: rgb(255, 223, 223);
+    background: linear-gradient(to top left, lightblue, lightyellow);
     display: inline-block;
     padding: 10px;
-    border: 1px solid black;
+    border: 3px solid black;
     border-radius: 20px;
     text-decoration: none;
     margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
   }
   
   .TestContainerButton:hover {
-    background-color: rgb(211, 209, 209);
+    background: lightblue;
   }
 
   .TestContainerTitle {

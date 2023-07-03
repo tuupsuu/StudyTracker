@@ -1,0 +1,24 @@
+[
+    {
+      "id": "1",
+      "name": "Math test 2nd grade Autumn",
+      "teacher": "Vesa Lappalainen",
+      "requiresPassword": true,
+      "password": "password1"
+    },
+    {
+      "id": "2",
+      "name": "Finnish writing test 2nd grade Winter",
+      "teacher": "Antti Valmari",
+      "requiresPassword": false,
+      "password": ""
+    },
+    {
+      "id": "3",
+      "name": "Science test 2nd grade Spring",
+      "teacher": "Marko Metso",
+      "requiresPassword": true,
+      "password": "password2"
+    }
+  ]
+  
