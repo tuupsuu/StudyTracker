@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Get public IP
-      run: echo "::set-env name=PUBLIC_IP::$(curl -s https://ipecho.net/plain)"
-
     - name: Checkout code
       uses: actions/checkout@v2
 
