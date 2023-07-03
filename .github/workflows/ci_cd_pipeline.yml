@@ -60,7 +60,7 @@ jobs:
     - name: Deploy to Docker server
       run: |
         cd UserService/
-        ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
-        ssh root@172.104.236.131 'docker stop userservice || true'
-        ssh root@172.104.236.131 'docker rm userservice || true'
-        ssh root@172.104.236.131 'docker run -d --name userservice -p 80:80 tuupsuu/userservicecontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservice || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservice || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservice -p 80:80 tuupsuu/userservicecontainer'
