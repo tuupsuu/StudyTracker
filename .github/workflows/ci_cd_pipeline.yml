@@ -37,11 +37,12 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Docker
-      uses: docker/setup-docker@v1
+      uses: docker/metadata-action@v3
 
     - name: Build Docker image
+      run: |
         cd UserService/
-      run: docker build -t userservice .
+        docker build -t userservice .
 
     - name: Push Docker image
       run: |
