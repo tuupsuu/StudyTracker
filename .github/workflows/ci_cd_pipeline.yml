@@ -64,3 +64,11 @@ jobs:
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservicecontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservicecontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer -p 80:3002 tuupsuu/userservicecontainer'
+
+      - name: Save deployment status
+        run: |
+          echo "STATUS=success" >> $GITHUB_ENV
+
+      - name: Set deployment status
+        run: |
+          echo "::set-env name=DEPLOYMENT_STATUS::$(cat $GITHUB_ENV)"
