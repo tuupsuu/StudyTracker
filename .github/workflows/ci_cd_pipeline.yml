@@ -39,8 +39,7 @@ jobs:
     - name: Set up Docker
       uses: docker/metadata-action@v3
       with:
-        images: |
-          [{ "name": "userservice", "path": "UserService/" }]
+        images: '[{"name": "userservice", "path": "UserService/"}]'
 
     - name: Build Docker image
       run: |
