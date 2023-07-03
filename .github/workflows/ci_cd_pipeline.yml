@@ -44,7 +44,7 @@ jobs:
     - name: Build Docker image
       run: |
         cd UserService/
-        docker build -t tuupsuu/userservice .
+        docker build -t tuupsuu/userservicecontainer .
 
     - name: Push Docker image
       run: |
