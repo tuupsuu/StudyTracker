@@ -26,7 +26,7 @@ jobs:
     - name: Build and test
       run: |
         cd UserService/
-        dmS node-server node .
+        screen -dmS node-server node .
 
   deploy:
     needs: build
