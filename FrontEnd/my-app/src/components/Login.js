@@ -32,6 +32,8 @@ function Login() {
         alert('Invalid student ID');
         return;
       }
+      localStorage.setItem('loggedInStudentId', id);
+      localStorage.setItem('loggedInStudentName', user.name); // Save the student name
     } else if (role === 'teacher' || role === 'official') {
       user = accounts[role + 's'].find(user => user.id === id);
       if (!user || user.password !== password) {
