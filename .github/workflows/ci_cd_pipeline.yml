@@ -39,12 +39,12 @@ jobs:
     - name: Set up Docker metadata
       uses: docker/metadata-action@v3
       with:
-        images: 'userservicecontainer'
+        images: 'userservice'
 
     - name: Build Docker image
       run: |
         cd UserService/
-        docker build -t tuupsuu/userservicecontainer .
+        docker build -t tuupsuu/userservice .
 
     - name: Push Docker image
       run: |
@@ -56,7 +56,7 @@ jobs:
     - name: Deploy to Docker server
       run: |
         cd UserService/
-        ssh 172.104.236.131 'docker pull tuupsuu/userservicecontainer'
-        ssh 172.104.236.131 'docker stop userservicecontainer || true'
-        ssh 172.104.236.131 'docker rm userservicecontainer || true'
-        ssh 172.104.236.131 'docker run -d --name userservicecontainer -p 80:80 tuupsuu/userservicecontainer'
+        ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
+        ssh root@172.104.236.131 'docker stop userservice || true'
+        ssh root@172.104.236.131 'docker rm userservice || true'
+        ssh root@172.104.236.131 'docker run -d --name userservice -p 80:80 tuupsuu/userservicecontainer'
