@@ -44,7 +44,7 @@ jobs:
     - name: Build Docker image
       run: |
         cd UserService/
-        docker build -t userservice .
+        docker build -t userservicecontainer .
 
     - name: Push Docker image
       run: |
@@ -57,6 +57,6 @@ jobs:
       run: |
         cd UserService/
         ssh 172.104.236.131 'docker pull tuupsuu/userservicecontainer'
-        ssh 172.104.236.131 'docker stop userservice || true'
-        ssh 172.104.236.131 'docker rm userservice || true'
-        ssh 172.104.236.131 'docker run -d --name userservice -p 80:80 tuupsuu/userservicecontainer'
+        ssh 172.104.236.131 'docker stop userservicecontainer || true'
+        ssh 172.104.236.131 'docker rm userservicecontainer || true'
+        ssh 172.104.236.131 'docker run -d --name userservicecontainer -p 80:80 tuupsuu/userservicecontainer'
