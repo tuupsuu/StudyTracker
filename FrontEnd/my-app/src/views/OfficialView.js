@@ -7,17 +7,20 @@ import accounts from '../jsonFiles/accounts.json';
 import StudentsGrades from '../jsonFiles/grades.json';
 
 function processCityData(cityData) {
-  // Group data by classNumber
+  // Group data by classNumber and subject
   const groupedData = cityData.reduce((acc, student) => {
-    if (!acc[student.classNumber]) {
-      acc[student.classNumber] = [];
+    const key = `${student.classNumber}_${student.subject}`;
+    if (!acc[key]) {
+      acc[key] = [];
     }
-    acc[student.classNumber].push(student);
+    acc[key].push(student);
     return acc;
   }, {});
 
-  // Process each class's data
-  const processedData = Object.entries(groupedData).map(([classNumber, students]) => {
+  // Process each class's and subject's data
+  const processedData = Object.entries(groupedData).map(([key, students]) => {
+    const [classNumber, subject] = key.split('_');
+
     // Calculate average grade
     const avgGrade = students.reduce((acc, student) => acc + student.grade, 0) / students.length;
 
@@ -45,6 +48,7 @@ function processCityData(cityData) {
     }
 
     return {
+      subject,
       classNumber,
       students: students.length,
       avgGrade: avgGrade.toFixed(2),
@@ -68,6 +72,8 @@ function OfficialView() {
   const [searchText, setSearchText] = useState('');
   const [studentCountFilter, setStudentCountFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState('none');
+  const subjects = [...new Set(cityData.map(row => row.subject))];
+  const [selectedSubject, setSelectedSubject] = useState('');
 
   useEffect(() => {
     const loggedInOfficialId = localStorage.getItem('loggedInOfficialId');
@@ -87,6 +93,8 @@ function OfficialView() {
   }, [officialCity]);
 
   let displayData = cityData
+    .filter(row => 
+      !selectedSubject || row.subject === selectedSubject)
     .filter(row => 
       !selectedClass || row.classNumber === selectedClass)
     .filter(row => 
@@ -148,6 +156,16 @@ function OfficialView() {
 
         <div className="filter-container">
           <select 
+            value={selectedSubject} 
+            onChange={e => setSelectedSubject(e.target.value)}
+            className="filter"
+          >
+            <option value=''>All Subjects</option>
+            {subjects.map(subject => (
+              <option value={subject} key={subject}>{subject}</option>
+            ))}
+          </select>
+          <select 
             value={selectedClass} 
             onChange={e => setSelectedClass(e.target.value)}
             className="filter"
@@ -186,6 +204,7 @@ function OfficialView() {
         <table>
           <thead>
             <tr>
+              <th>Subject</th>
               <th>Grade</th>
               <th>Students</th>
               <th>Avg Score</th>
@@ -195,7 +214,8 @@ function OfficialView() {
           </thead>
           <tbody>
             {displayData.map(row => (
-              <tr key={row.classNumber} className={row.students < 30 ? 'table-row-few-students' : ''}>
+              <tr key={`${row.classNumber}_${row.subject}`} className={row.students < 30 ? 'table-row-few-students' : ''}>
+                <td>{row.subject}</td>
                 <td>
                   <Link to={`/examine-schools?grade=${row.classNumber}`}>{row.classNumber}nd</Link>
                 </td>
