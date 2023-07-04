@@ -26,7 +26,7 @@ function StudentView() {
       <div className="StudentView-TopBar">
         <Clock />
         <div className="TextContainer">
-          <h1 className="Title">Welcome, {studentName}!</h1>
+          <h1 className="Title">Welcome {studentName}!</h1>
           <p>You can choose your test from this page.</p>
         </div>
         <Link to='..' className='Student-LogOutButton'><BiLogOut></BiLogOut></Link>

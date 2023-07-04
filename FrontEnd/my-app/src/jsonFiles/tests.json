@@ -19,6 +19,13 @@
       "teacher": "Marko Metso",
       "requiresPassword": true,
       "password": "password2"
+    },
+    {
+      "id": "4",
+      "name": "History test 2nd grade Spring",
+      "teacher": "Rontti Koskinen",
+      "requiresPassword": false,
+      "password": ""
     }
   ]
   
