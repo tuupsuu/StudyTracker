@@ -45,8 +45,7 @@ jobs:
       uses: docker/metadata-action@v3
       with:
         images: |
-        'userservicecontainer'
-        'resultservicecontainer'
+        'userservicecontainer, resultservicecontainer'
 
     - name: Build Docker image
       run: |
