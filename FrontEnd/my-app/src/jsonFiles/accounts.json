@@ -1,8 +1,8 @@
 {
     "students": [
-      { "id": "student1" },
-      { "id": "student2" },
-      { "id": "student3" }
+      { "id": "student1", "name": "Jukka", "password": "pass1", "school": "Pirkkolan Yhteiskoulu", "class": "2a", "classNumber": "2"},
+      { "id": "student2", "name": "Bossman", "password": "pass2", "school": "Munkkivuoren Yhteiskoulu", "class": "2a", "classNumber": "2"},
+      { "id": "student3", "name": "Bismillah", "password": "pass3", "school": "Pirkkolan Yhteiskoulu", "class": "7b", "classNumber": "7"}
     ],
     "teachers": [
       { "id": "teacher1", "name": "Susan", "password": "pass1", "school": "Pirkkolan Yhteiskoulu", "class": "2a"},
