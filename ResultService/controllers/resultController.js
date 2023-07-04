@@ -1,5 +1,5 @@
 const BaseController = require('./baseController');
-const { Result } = require('../../Models/result');
+const { Result } = require('../models/result');
 
 class ResultsController extends BaseController {
   constructor() {
