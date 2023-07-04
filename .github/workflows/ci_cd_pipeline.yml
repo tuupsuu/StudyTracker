@@ -41,17 +41,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Docker metadata
+    - name: Set up Docker usermetadata
       uses: docker/metadata-action@v3
       with:
-        images: |
-        'userservicecontainer'
+        images: 'userservicecontainer'
 
-    - name: Set up Docker metadata
+    - name: Set up Docker resultmetadata
       uses: docker/metadata-action@v3
       with:
-        images: |
-        'resultservicecontainer'  
+        images: 'resultservicecontainer'  
 
     - name: Build Docker image
       run: |
