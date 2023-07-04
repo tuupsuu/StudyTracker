@@ -1,0 +1,51 @@
+{
+    "testResults": [
+      {
+        "resu_ID": "123",
+        "stud_ID": "456",
+        "test_ID": "789",
+        "questions": [
+          {
+            "ques_ID": "101",
+            "pointer": "1",
+            "totalPoints": "5",
+            "sections": [
+              {
+                "sec_ID": "202",
+                "pointer": "A",
+                "pointsGained": "2"
+              },
+              {
+                "sec_ID": "203",
+                "pointer": "B",
+                "pointsGained": "3"
+              }
+            ]
+          },
+          {
+            "ques_ID": "102",
+            "pointer": "2",
+            "totalPoints": "3",
+            "sections": [
+              {
+                "sec_ID": "204",
+                "pointer": "A",
+                "pointsGained": "1"
+              },
+              {
+                "sec_ID": "205",
+                "pointer": "B",
+                "pointsGained": "1"
+              },
+              {
+                "sec_ID": "206",
+                "pointer": "C",
+                "pointsGained": "1"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  
