@@ -1,0 +1,349 @@
+/* Page */
+.test {
+  background: linear-gradient(to bottom right, lightblue, lightyellow);
+}
+
+.Test-TopBar {
+  background-color: darkslategrey;
+  height: 200px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.timer {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  margin-left: 5%;
+}
+
+.Test-Title {
+  background-color: darkslategrey;
+  color: white;
+  text-align: center;
+}
+
+.ExampleTest-TextContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  margin-right: 18%;
+}
+
+
+
+
+.question-container { /* All the questions */
+    color: black;
+}
+
+.row-container { /* Question rows */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  border: 1px solid black;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  margin-bottom: 20px;
+}
+
+.submit-button {
+  width: 380px;
+  height: 100px;
+  font-size: 30px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.confirmation-dialog {
+  color: black;
+}
+
+.confirmation-text {
+  color: black;
+  font-size: 24px;
+}
+
+.EndTest-button {
+  width: 400px;
+  height: 100px;
+  font-size: 30px;
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.EndTestYes {
+  width: 200px;
+  height: 100px;
+  font-size: 32px;
+  color: green;
+}
+
+.EndTestNo {
+  width: 200px;
+  height: 100px;
+  font-size: 32px;
+  margin-left: 10px;
+  color: red;
+}
+
+.submitted {
+  background-color: green;
+  border: 3px solid black;
+}
+
+/*---------------------------------------------------------------------------------------- */
+/* SingleButton exercises */
+
+.single-container { /* Single question whole box */
+    justify-content: center; 
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 50px;
+    width: 50%;
+    height: auto;
+    margin-left: 25%;
+    margin-bottom: 200px;
+  }
+  
+.single-box { /* Singular option boxes */
+    width: auto;
+    height: auto;
+    font-size: 48px;
+    color: black;
+    margin: 20px;
+    border: 4px solid black;
+    border-radius: 10px;
+  }
+
+  .selected { /* The color of a selected button */
+    color: red;
+}
+
+  /*---------------------------------------------------------------------------------------- */
+  /* WhatsNext exercises */
+
+  .row-options-container { /* WhatsNext rows */
+    display: flex; 
+    
+  }
+
+.whats-next-container { /* The whole box of a whats-next question */
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 50px;
+    width: 50%;
+    height: auto;
+    margin-left: 25%;
+    margin-bottom: 200px;
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
+
+.whats-next-box { /* All the numbers in a whats-next question */
+    width: 70px;
+    height: 70px;
+    font-size: 48px;
+    text-align: right;
+    color: black;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: white;
+  }
+  
+
+.answer-input { /* Whats-next textbox */
+    width: 200px;
+    height: 60px;
+    margin-left: 10px;
+    font-size: 42px;
+    text-align: center;
+  }
+
+/*---------------------------------------------------------------------------------------- */
+/* Audio exercises */
+
+.audio-container {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 50px;
+  width: 50%;
+  height: auto;
+  margin-left: 25%;
+  margin-bottom: 200px;
+}
+
+.audio-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  margin-bottom: 20px;
+  margin-right: 55px;
+  height: 100px;
+}
+
+.audio-number {
+  font-size: 32px;
+}
+
+.audio-button {
+  width: 200px;
+  height: 100px;
+  font-size: 24px;
+  margin-bottom: 10px;
+  margin-left: 5%;
+}
+
+.audio-icon {
+  font-size: 60px;
+}
+
+.audio-textbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20px;
+}
+
+.audio-textbox {
+  width: 200px;
+  height: 60px;
+  font-size: 42px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/*---------------------------------------------------------------------------------------- */
+/* Timed exercises */
+
+.timed-container {
+  margin-top: 200px;
+}
+
+.StartTimer-button {
+  width: 200px;
+  height: 100px;
+  font-size: 30px;
+  margin-top: 30px;
+}
+
+.Timed-questionbox {
+  margin-top: 20px;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}
+
+.Timed-question {
+  font-size: 24px;
+  width: 200px;
+}
+
+.Times-Up {
+  font-size: 24px;
+}
+
+.Timed-textbox {
+  width: 200px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  margin-left: -40px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+/*---------------------------------------------------------------------------------------- */
+/* Money exercises */
+
+.money-question {
+  margin-top: 200px;
+}
+
+.money-container { /* The whole box of a money question */
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 50px;
+  width: 50%;
+  height: auto;
+  margin-left: 25%;
+}
+
+.money-row-options-container { /* Money rows */
+  display: flex; 
+  margin-bottom: 50px;
+
+  
+}
+
+.money-box { /* All the single numbers in a money question */
+  width: 70px;
+  height: 70px;
+  font-size: 48px;
+  color: black;
+  margin: 20px;
+}
+
+
+.money-answer-input { /* Money textbox */
+  width: 200px;
+  height: 60px;
+  font-size: 42px;
+  text-align: center;
+}
+
+.money-border {
+  border-bottom: 1px solid black;
+  margin-top: 20px;
+}
+
+.coin {
+  background-color: yellow;
+  width: 80px;
+  height: 80px;
+  border: 3px solid black;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bill-5, .bill-10, .bill-20, .bill-50 {
+  width: 200px;
+  height: 80px;
+  border: 3px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bill-5 {
+  background-color: rgb(200, 217, 232);
+}
+
+.bill-10 {
+  background-color: rgb(242, 111, 111);
+}
+
+.bill-20 {
+  background-color: rgb(179, 179, 250);
+}
+
+.bill-50 {
+  background-color: rgb(255, 179, 0);
+}
