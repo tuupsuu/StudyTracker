@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('./config');
+const { Class } = require('./class');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
@@ -23,16 +24,22 @@ const Student = sequelize.define('Student', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    StudID: {
+    Stud_ID: {
         type:DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
-    }
-    // TODO: ClassID as foreign key after Class model has been defined
+    },
 }, {
-    timestamps: false
-})
+    timestamps: false,
+    tableName: 'Student',
+});
+
+
+Student.belongsTo(Class, {
+  foreignKey: 'Class_ID',
+  onDelete: 'CASCADE'
+});
 
 sequelize.sync();
 
-module.exports = { User };
+module.exports = { Student };

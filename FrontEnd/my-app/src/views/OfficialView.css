@@ -1,0 +1,191 @@
+.official-view {
+  display: flex;
+  flex-direction: column;
+  color: #333;
+  background-color: #f2f2f2;
+  min-height: 1500px;
+  
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  background-color: darkslategrey;
+  color: #fff;
+}
+
+.sidebar {
+  position: fixed;
+  width: 200px;
+  height: 100%;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.LogoutButtonOfficial {
+  font-size: xx-large;
+  position: relative;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.low-student-count {
+  background-color: yellow ;
+}
+
+.warning-container p {
+  color: #333;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: yellow;
+  border: 1px solid black;
+}
+
+
+.sidebar li {
+  margin-bottom: 30px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.official-view .content {
+  width: 80%;
+  margin: 0 auto;
+  min-height: 1500px;
+}
+
+.official-view .content h2 {
+  margin-top: 2rem;
+  margin-bottom: -10px;
+  text-align: center;
+}
+
+.official-view .content .search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.official-view .content .search-container input[type="text"] {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.official-view .content .search-container select {
+  width: 48%;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.official-view .content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+.official-view .content table th,
+.official-view .content table td {
+  padding: 0.5rem;
+  border: 1px solid black;
+  text-align: left;
+}
+
+.table-container {
+  width: 80%;
+  margin: auto;
+  margin-top: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  border: 1px solid black; /* Add border to table */
+}
+
+.link-official {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+table thead tr {
+  background-color: #f8f8f8;
+  text-align: center; /* Center the header text */
+}
+
+table th, table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid black;
+  text-align: center; /* Center the column text */
+}
+
+/* Add style for rows with less than 30 students */
+.table-row-few-students {
+  background-color: #fdd;
+}
+
+.h2Official {
+  margin-top: 80px;
+}
+
+.table-and-search-container {
+  width: 80%; /* adjust as necessary */
+  margin: auto;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filters input[type="text"],
+.filters select {
+  padding: 10px;
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.search-and-filter-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.search-bar {
+  width: 99.9999999999%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.filter-container {
+  display: flex;
+}
+
+.filter {
+  width: 33.3333333333%;
+  height: 50px;
+}

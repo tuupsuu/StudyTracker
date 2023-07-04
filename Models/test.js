@@ -15,7 +15,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
 
 const Test = sequelize.define('Test', {
-    TestID: {
+    Test_ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -30,8 +30,11 @@ const Test = sequelize.define('Test', {
     },
     EndTime: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
     },
+}, {
+    timestamps: false,
+    tableName: 'Test'
 });
 
 sequelize.sync();
