@@ -1,38 +1,51 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import './TeacherView.css';
-import photo from '../components/graphOfGrades.jpg';
+import { Link } from 'react-router-dom';
+import { FaBars } from 'react-icons/fa';
+import { BiLogOut } from 'react-icons/bi';
+import GradeChart from '../components/GradeChart';
+import accounts from '../jsonFiles/accounts.json'; 
 
-function TeacherView() {
+function TeacherView() {  
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  const navigate = useNavigate();
+  const [teacherName, setTeacherName] = useState(''); 
 
-  const handleLogout = () => {
-    navigate('..');
-  }
+
+  useEffect(() => {
+    const loggedInTeacherId = localStorage.getItem('loggedInTeacherId');
+    if (loggedInTeacherId) {
+      const teacherInfo = accounts.teachers.find(teacher => teacher.id === loggedInTeacherId);
+      if (teacherInfo) {
+        setTeacherName(teacherInfo.name);
+      }
+    }
+  }, []);
 
   return (
     <div className="teacher-view">
       <header className="header">
-        <div className="hamburger" onClick={() => setSidebarOpen(true)} />
-        <h2>Welcome, teacher!</h2>
-        <button className="logout-button" onClick={handleLogout}>Log out</button>
+        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
+        <div className='HeaderTeacher'>
+          <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
+        </div>
+        <Link to='..' className='LogoutButtonTeacher'><BiLogOut></BiLogOut></Link>
       </header>
 
       {isSidebarOpen && (
         <aside className="sidebar">
-          <button className="close-button" onClick={() => setSidebarOpen(false)}>Close</button>
+          <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
           <ul>
             <li>Create a test</li>
             <li>Evaluate tests</li>
-            <li>Examine results</li>
+            <Link to='/examine-tests'>ExamineTests</Link>
           </ul>
         </aside>
       )}
 
       <section className="content">
         <div className="alert">Some of the tests are not yet evaluated!</div>
-        <img src={photo} alt="Graph of Grades" />
+        <h2>Student Grades Distribution</h2>
+        <GradeChart/>      
       </section>
     </div>
   );
