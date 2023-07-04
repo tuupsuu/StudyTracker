@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - topias
+      - Elias
 
 jobs:
   build:
@@ -22,10 +23,14 @@ jobs:
       run: |
         cd UserService/
         npm ci
+        cd ../ResultService/
+        npm ci
 
     - name: Build and test
       run: |
         cd UserService/
+        screen -dmS node-server node .
+        cd ../ResultService/
         screen -dmS node-server node .
 
   deploy:
@@ -45,12 +50,17 @@ jobs:
       run: |
         cd UserService/
         docker build -t tuupsuu/userservicecontainer .
+        cd ../ResultService/
+        docker build -t kivical/resultservicecontainer .
 
     - name: Push Docker image
       run: |
         cd UserService/
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
         docker push tuupsuu/userservicecontainer
+        cd ../ResultService
+        echo "${{ secrets.DOCKER_PASSWORD_ELIAS }}" | docker login -u "${{ secrets.DOCKER_USERNAME_ELIAS }}" --password-stdin
+        docker push kivical/resultservicecontainer
 
     - name: Add SSH known hosts
       run: |
@@ -64,3 +74,8 @@ jobs:
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservicecontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservicecontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer -p 80:3002 tuupsuu/userservicecontainer'
+        cd ../ResultService/
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull kivical/resultservicecontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop resultservicecontainer || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm resultservicecontainer || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name resultservicecontainer -p 81:3002 kivical/resultservicecontainer'
