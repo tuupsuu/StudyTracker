@@ -23,6 +23,24 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
 
+
+// app.post('/testResults', async (req, res) => {
+//   const testResult = req.body;
+//   const createdTestResult = await resultController.add(testResult);
+
+//   for (const question of testResult.questions) {
+//     const createdQuestionResult = await questionController.add(question);
+
+//     for (const section of question.sections) {
+//       const sectionResult = { ...section, quesResu_ID: createdQuestionResult.quesResu_ID };
+//       await sectionController.create(sectionResult);
+//     }
+//   }
+
+
+//   res.status(201).json(createdTestResult);
+// });
+
 // methods for handling test result data
 app.post('/results', (req, res) => resultController.add(req, res));
 
