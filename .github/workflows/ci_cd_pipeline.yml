@@ -1,0 +1,66 @@
+name: CI/CD Pipeline user service
+
+on:
+  push:
+    branches:
+      - topias
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Install dependencies
+      run: |
+        cd UserService/
+        npm ci
+
+    - name: Build and test
+      run: |
+        cd UserService/
+        screen -dmS node-server node .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker metadata
+      uses: docker/metadata-action@v3
+      with:
+        images: 'userservicecontainer'
+
+    - name: Build Docker image
+      run: |
+        cd UserService/
+        docker build -t tuupsuu/userservicecontainer .
+
+    - name: Push Docker image
+      run: |
+        cd UserService/
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        docker push tuupsuu/userservicecontainer
+
+    - name: Add SSH known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -t rsa 172.104.236.131 >> ~/.ssh/known_hosts
+
+    - name: Deploy to Docker server
+      run: |
+        cd UserService/
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservicecontainer || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservicecontainer || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer -p 80:3002 tuupsuu/userservicecontainer'
