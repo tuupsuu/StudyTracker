@@ -106,4 +106,4 @@ jobs:
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull eepehukk/frontendcontainer'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop frontendcontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm frontendcontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name frontendcontainer -p 82:3000 eepehukk/frontendcontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name frontendcontainer -p 82:80 eepehukk/frontendcontainer'
