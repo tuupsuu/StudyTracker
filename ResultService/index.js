@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const port = 3002;
-const config = require('../Models/config');
+const config = require('./models/config');
 const resultController = require('./controllers/resultController');
 const questionController = require('./controllers/questionController');
 const sectionController = require('./controllers/sectionController');
@@ -57,6 +57,6 @@ sequelize.authenticate()
 
 
 app.listen(port, () => {
-    console.log(`Server is running on port http://localhost:${port}/users`);
+    console.log(`Server is running on port http://localhost:${port}/results`);
 });
   
