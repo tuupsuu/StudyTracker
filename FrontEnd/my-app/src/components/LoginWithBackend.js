@@ -11,7 +11,13 @@ function LoginWithBackend() {
   const [role, setRole] = React.useState('student'); // 'student', 'teacher', 'official'
   const navigate = useNavigate();
   const { setIsLoggedIn } = React.useContext(AuthContext);
-  console.log(fetch('http://userservicecontainer:3002/users'));
+
+  useEffect(() => {
+    fetch('http://userservicecontainer:3002/users')
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+  }, []);
 
   const handleInputChange = (event) => {
     const target = event.target;
