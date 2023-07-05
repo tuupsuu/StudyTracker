@@ -24,6 +24,10 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 
+app.put('/results/addFromJson', (req, res) => {
+  const controller = new resultController();
+  controller.addFromJson(req, res);
+})
 // app.post('/testResults', async (req, res) => {
 //   const testResult = req.body;
 //   const createdTestResult = await resultController.add(testResult);

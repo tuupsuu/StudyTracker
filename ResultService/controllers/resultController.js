@@ -1,4 +1,5 @@
 const BaseController = require('./baseController');
+const questionController = require('./questionController');
 const { Result } = require('../models/result');
 
 class ResultsController extends BaseController {
@@ -6,6 +7,30 @@ class ResultsController extends BaseController {
     super(Result);
   }
 
+  async addFromJson(req, res) {
+    try {
+      const testData = {
+        Test_ID: req.body.Test_ID,
+        Stud_ID: req.body.Stud_ID
+      };
+
+      const newTestResult = await this.add(testData);
+
+      const questionResultsController = new questionController();
+      const questionResults = req.body.QuestionResults;
+      for (const questionResult of questionResults) {
+        questionResult.Resu_ID = newTestResult.Resu_ID;
+        await questionResultsController.addFromJson(questionResult);
+      }
+
+
+      res.status(201).send(newTestResult);
+    } catch (error) {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while creating the TestResult.'
+      });
+    }
+  }
 
   // old implementations
   // async add(req, res) {
