@@ -13,6 +13,7 @@ const ExampleTest = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [completedTimedExercises, setCompletedTimedExercises] = useState([]);
   const [showTimedExercise, setShowTimedExercise] = useState(null);
+  
 
   const handleAnswerSubmit = (index, answer) => {
     setUserAnswers((prevAnswers) => {
@@ -154,6 +155,7 @@ const ExampleTest = () => {
                 {isStarted && (
                   <Timed
                     options={questionData.options}
+                    time={questionData.time} // Add this line
                     onSubmit={(answer) => handleAnswerSubmit(index, answer)}
                   />
                 )}
