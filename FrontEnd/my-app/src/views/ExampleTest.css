@@ -235,11 +235,19 @@
   margin-top: 200px;
 }
 
-.StartTimer-button {
+.StartTimer-button { /* The button which starts the timer */
   width: 200px;
   height: 100px;
   font-size: 30px;
   margin-top: 30px;
+}
+
+.questions-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 900px; /* adjust to fit your need */
+  margin: 0 auto; /* center the container horizontally */
 }
 
 .Timed-questionbox {
@@ -247,26 +255,39 @@
   display: flex;
   align-items: center; 
   justify-content: center;
+  width: calc(45% - 10px);
 }
 
-.Timed-question {
+.Timed-questionbox:nth-child(2n) {
+  border-left: 1px solid black;
+  padding-left: 25px;
+}
+
+
+.Time-remaining { /* The time remaining text */
   font-size: 24px;
+  margin-bottom: 100px;
+}
+
+.Timed-question { /* The math questions */
+  font-size: 42px;
   width: 200px;
 }
 
-.Times-Up {
+.Times-Up { /* The text that pops up when the time is up */
   font-size: 24px;
 }
 
-.Timed-textbox {
+.Timed-textbox { /* The answer boxes */
   width: 200px;
   height: 50px;
   font-size: 24px;
   text-align: center;
-  margin-left: -40px;
+  margin-left: -20px;
   border: 1px solid black;
   border-radius: 10px;
 }
+
 
 /*---------------------------------------------------------------------------------------- */
 /* Money exercises */

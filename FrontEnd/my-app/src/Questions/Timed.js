@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-const Timed = ({ options, onSubmit }) => {
-  const [timeRemaining, setTimeRemaining] = useState(10); // The timer
+const Timed = ({ options, time, onSubmit }) => {
+  const [timeRemaining, setTimeRemaining] = useState(time); // The timer now uses the time from props
   const [userAnswers, setUserAnswers] = useState([]);
   const [isTimeUp, setIsTimeUp] = useState(false);
 
@@ -36,18 +36,20 @@ const Timed = ({ options, onSubmit }) => {
 
   return (
     <div>
-      <div>{`Time Remaining: ${timeRemaining} seconds`}</div>
-      {options.map((option, index) => (
-        <div className='Timed-questionbox' key={index}>
-          <div className='Timed-question'>{`${option} =`}</div>
-          <input
-            className='Timed-textbox'
-            type="text"
-            value={userAnswers[index] || ''}
-            onChange={(e) => handleAnswerChange(index, e.target.value)}
-          />
-        </div>
-      ))}
+      <div className='Time-remaining'>{`Time Remaining: ${timeRemaining} seconds`}</div>
+      <div className='questions-container'>
+        {options.map((option, index) => (
+          <div className='Timed-questionbox' key={index}>
+            <div className='Timed-question'>{`${option} =`}</div>
+            <input
+              className='Timed-textbox'
+              type="text"
+              value={userAnswers[index] || ''}
+              onChange={(e) => handleAnswerChange(index, e.target.value)}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
