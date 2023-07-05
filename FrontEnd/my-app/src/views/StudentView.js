@@ -33,7 +33,12 @@ function StudentView() {
       </div>
       <div className='TestOptions'>
         {tests.map(test => ( // Map over the array of tests
-          <Link to={`/start-test/${test.id}`} className="TestContainerButton" key={test.id}>
+          <Link 
+            to={`/start-test`} 
+            className="TestContainerButton" 
+            key={test.id}
+            onClick={() => localStorage.setItem('currentTest', test.name)} // Set test name to local storage on click
+          >
             <div className="TestContainer">
               <h2 className="TestContainerTitle" style={{ backgroundColor: getRandomColor() }}>
                 {test.name}
