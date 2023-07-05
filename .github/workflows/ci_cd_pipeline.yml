@@ -3,8 +3,8 @@ name: CI/CD Pipeline user service
 on:
   push:
     branches:
-      - topias
-      - Elias
+      - dev
+      - main
 
 jobs:
   build:
@@ -25,6 +25,8 @@ jobs:
         npm ci
         cd ../ResultService/
         npm ci
+        cd ../FrontEnd/my-app/ 
+        npm ci
 
     - name: Build and test
       run: |
@@ -32,6 +34,10 @@ jobs:
         screen -dmS node-server node .
         cd ../ResultService/
         screen -dmS node-server node .
+        cd ../FrontEnd/my-app/
+        screen -dmS node-server npm start
+
+
 
   deploy:
     needs: build
@@ -51,12 +57,20 @@ jobs:
       with:
         images: 'resultservicecontainer'  
 
+    - name: Set up Docker frontmetadata
+      uses: docker/metadata-action@v3
+      with:
+        images: 'frontendcontainer'  
+
     - name: Build Docker image
       run: |
         cd UserService/
         docker build -t tuupsuu/userservicecontainer .
         cd ../ResultService/
         docker build -t kivical/resultservicecontainer .
+        cd ../FrontEnd/my-app/ 
+        docker build -t eepehukk/frontendcontainer .
+        
 
     - name: Push Docker image
       run: |
@@ -66,6 +80,9 @@ jobs:
         cd ../ResultService
         echo "${{ secrets.DOCKER_PASSWORD_ELIAS }}" | docker login -u "${{ secrets.DOCKER_USERNAME_ELIAS }}" --password-stdin
         docker push kivical/resultservicecontainer
+        cd ../FrontEnd/my-app/
+        echo "${{ secrets.DOCKER_PASSWORD_EEMIL }}" | docker login -u "${{ secrets.DOCKER_USERNAME_EEMIL }}" --password-stdin
+        docker push eepehukk/frontendcontainer
 
     - name: Add SSH known hosts
       run: |
@@ -78,9 +95,14 @@ jobs:
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservicecontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservicecontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer -p 81:3002 tuupsuu/userservicecontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer --network=studytracker tuupsuu/userservicecontainer'
         cd ../ResultService/
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull kivical/resultservicecontainer'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop resultservicecontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm resultservicecontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name resultservicecontainer -p 80:3002 kivical/resultservicecontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name resultservicecontainer --network=studytracker kivical/resultservicecontainer'
+        cd ../FrontEnd/my-app/
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull eepehukk/frontendcontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop frontendcontainer || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm frontendcontainer || true'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name frontendcontainer -p 80:80 --network=studytracker eepehukk/frontendcontainer'
