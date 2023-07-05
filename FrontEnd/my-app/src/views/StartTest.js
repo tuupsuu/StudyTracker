@@ -8,6 +8,7 @@ const StartTest = () => {
   const [startTest, setStartTest] = useState(false);
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const testName = localStorage.getItem('currentTest'); // Fetch test name from local storage
 
   const handleStartTest = () => {
     if (password === 'kissa') {
@@ -33,33 +34,33 @@ const StartTest = () => {
       <div className="TopBar">
         <Clock />
         <div className="StartTest-TextContainer">
-          <h1 className="Title">Math test 2nd grade Autumn</h1>
+          <h1 className="Title">{testName}</h1>
           <p>Start the test by entering the password and pressing the button below</p>
         </div>
         <Link to='../student' className='Student-BackOutButton'><BiArrowBack></BiArrowBack></Link>
       </div>
       <div className='StartTest-Page'>
-      {startTest ? (
-        <Link to="/example-test" className="StartTestContainer">
-          <h2 className="StartTestTitle">The test is ready</h2>
-          <button className="StartTestButton">Start test</button>
-        </Link>
-      ) : (
-        <div className="StartTestContainer">
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            onKeyPress={handleKeyPress} // Add key press event handler
-            placeholder="Password"
-            className="PasswordInput"
-          />
-          <button className="StartTestButton" onClick={handleStartTest}>
-            Start test
-          </button>
-          {errorMessage && <p className="ErrorMessage">{errorMessage}</p>}
-        </div>
-      )}
+        {startTest ? (
+          <Link to="/example-test" className="StartTestContainer">
+            <h2 className="StartTestTitle">The test is ready</h2>
+            <button className="StartTestButton">Start test</button>
+          </Link>
+        ) : (
+          <div className="StartTestContainer">
+            <input
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+              onKeyPress={handleKeyPress} // Add key press event handler
+              placeholder="Password"
+              className="PasswordInput"
+            />
+            <button className="StartTestButton" onClick={handleStartTest}>
+              Start test
+            </button>
+            {errorMessage && <p className="ErrorMessage">{errorMessage}</p>}
+          </div>
+        )}
       </div>
     </div>
   );
