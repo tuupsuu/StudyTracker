@@ -11,6 +11,7 @@ import { AuthProvider } from './components/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import OfficialView from './views/OfficialView';
 import ExamineSchools from './views/ExamineSchools';
+import LoginWithBackend from './components/LoginWithBackend';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
       <Router>
         <div className="App">
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<LoginWithBackend />} />
             <Route path="/student" element={<PrivateRoute><StudentView /></PrivateRoute>} />
             <Route path="/teacher" element={<PrivateRoute><TeacherView /></PrivateRoute>} />
             <Route path="/official" element={<PrivateRoute><OfficialView /></PrivateRoute>} />            
