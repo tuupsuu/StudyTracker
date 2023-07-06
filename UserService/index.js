@@ -41,7 +41,7 @@ app.put('/users/:id', handleUser.editUser);
 app.delete('/users/:id', handleUser.removeUser);
 
 // Verify password
-app.post('/verify', verifyPassword);
+app.post('/users/verify', verifyPassword);
 
 // Start the server
 app.listen(port, () => {
