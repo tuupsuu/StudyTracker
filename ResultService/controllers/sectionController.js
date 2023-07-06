@@ -6,9 +6,9 @@ class sectionController extends BaseController {
     super(SectionResult);
   }
 
-  async addFromJson(sectionData) {
+  async addFromJson(sectionData, options = {}) {
     try {
-        await this.add(sectionData);
+        await this.add(sectionData, options);
     } catch (err) {
         throw new Error(err.message || 'Some error occurred while creating the SectionResult.');
     }

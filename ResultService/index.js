@@ -24,26 +24,15 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 
-app.put('/results/addFromJson', (req, res) => {
-  const controller = new resultController();
-  controller.addFromJson(req, res);
-})
-// app.post('/testResults', async (req, res) => {
-//   const testResult = req.body;
-//   const createdTestResult = await resultController.add(testResult);
+app.post('/results/addFromJson', async (req, res) => {
+  try {
+    await resultController.addFromJson(req.body);
+    res.status(201).json({ message: 'TestResult, QuestionResults and SectionResults succesfully created.'});
+  } catch (err) {
+    res.status(500).json({ message: 'An error occurred while adding the results.', error: err.message });
+  }
+});
 
-//   for (const question of testResult.questions) {
-//     const createdQuestionResult = await questionController.add(question);
-
-//     for (const section of question.sections) {
-//       const sectionResult = { ...section, quesResu_ID: createdQuestionResult.quesResu_ID };
-//       await sectionController.create(sectionResult);
-//     }
-//   }
-
-
-//   res.status(201).json(createdTestResult);
-// });
 
 // methods for handling test result data
 app.post('/results', (req, res) => resultController.add(req, res));

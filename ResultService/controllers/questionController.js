@@ -7,15 +7,12 @@ class QuestionController extends BaseController {
         super(QuestionResult);
     }
 
-    async addFromJson(questionData) {
+    async addFromJson(questionData, options = {}) {
         try {
-            const newQuestionResult = await this.add(questionData);
-
-            const sectionResultsController = new sectionController();
-            const sectionResults = questionData.SectionResults;
-            for (const sectionResult of sectionResults) {
-                sectionResult.QuesResu_ID = newQuestionResult.QuesResu_ID;
-                await sectionResultsController.addFromJson(sectionResult)
+            const questionResult = await this.add(questionData, options);
+            for (let sectionResult of questionData.SectionResults) {
+                sectionResult.QuesResu_ID = questionResult.QuesResu_ID;
+                await sectionController.addFromJson(sectionResult, options)
             }
         } catch (err) {
             throw new Error(err.message || 'Some error occurred while creating the QuestionResult.');
