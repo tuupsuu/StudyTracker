@@ -20,7 +20,7 @@ const verifyPassword = async (req, res) => {
 
     if (passwordMatch) {
       // Passwords match
-      res.status(200).json({ message: 'Password matched' });
+      res.status(200).json({ message: 'Password matched', rights: user.Rights });
     } else {
       // Passwords do not match
       res.status(401).json({ error: 'Invalid password' });
