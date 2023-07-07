@@ -23,7 +23,7 @@ const verifyPassword = async (req, res) => {
       res.status(200).json({ message: 'Password matched', rights: user.Rights });
     } else {
       // Passwords do not match
-      res.status(401).json({ error: 'Invalid password' });
+      res.status(401).json({ error: 'Invalid password'});
     }
   } catch (error) {
     console.error(error);
