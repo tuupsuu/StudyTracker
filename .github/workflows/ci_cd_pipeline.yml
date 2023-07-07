@@ -6,6 +6,7 @@ on:
       - dev
       - main
       - Eemil
+      - topias
 
 jobs:
   build:
@@ -96,7 +97,7 @@ jobs:
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservicecontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservicecontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer -p 81:3002 tuupsuu/userservicecontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer -p 83:3002 tuupsuu/userservicecontainer'
         cd ../ResultService/
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull kivical/resultservicecontainer'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop resultservicecontainer || true'
@@ -106,4 +107,4 @@ jobs:
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull eepehukk/frontendcontainer'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop frontendcontainer || true'
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm frontendcontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name frontendcontainer -p 80:80 eepehukk/frontendcontainer'
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name frontendcontainer -p 81:80 eepehukk/frontendcontainer'
