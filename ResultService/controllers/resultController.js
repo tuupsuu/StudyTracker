@@ -23,6 +23,22 @@ class ResultsController extends BaseController {
       throw new Error(err.message || 'Some error occurred while creating the TestResult.');
     }
   }
+
+  async get(Resu_ID) {
+    return await this.model.findOne({
+      where: { Resu_ID },
+      include: [
+        {
+          model: QuestionResult,
+          as: 'QuestionResults',
+          include: [{
+            model: SectionResult,
+            as: 'SectionResults'
+          }]
+        }
+      ]
+    });
+  }
 }
 
 

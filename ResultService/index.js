@@ -33,6 +33,20 @@ app.post('/results/addFromJson', async (req, res) => {
   }
 });
 
+app.get('/results/:id', async (req, res, next) => {
+  try {
+    const testResults = await resultController.get(req.params.Resu_ID);
+
+    if (!testResults) {
+      return res.status(404).json({error: 'Test result not found'});
+    }
+
+    return res.json(testResults);
+  } catch (err) {
+      next (err);
+  }
+})
+
 
 // methods for handling test result data
 app.post('/results', (req, res) => resultController.add(req, res));
@@ -60,6 +74,12 @@ app.put('/sectionResults/:id', (req, res) => sectionController.edit(req, res));
 app.delete('/sectionResults/:id', sectionController.delete);
 
 app.get('/sectionResults', sectionController.getAll);
+
+// error middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 
 sequelize.authenticate()

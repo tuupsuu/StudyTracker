@@ -2,6 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const config = require('./config');
 const { Student } = require('./student');
 const { Test } = require('./test');
+const { QuestionResult } = require('./questionResult');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
@@ -36,6 +37,10 @@ Result.belongsTo(Test, {
 Result.belongsTo(Student, {
   foreignKey: 'Stud_ID',
   onDelete: 'CASCADE'
+});
+
+Result.hasMany(QuestionResult, {
+  foreignKey: 'Resu_ID'
 });
 
 sequelize.sync();
