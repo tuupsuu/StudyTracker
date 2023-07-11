@@ -11,7 +11,7 @@ function LoginWithBackend() {
   const { setIsLoggedIn } = React.useContext(AuthContext);
 
   useEffect(() => {
-    fetch('http://172.104.236.131:83/users')
+    fetch('/api1')
       .then(response => response.json())
       .then(data => setUsers(data))
       .catch(error => console.error('Error:', error));
