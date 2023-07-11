@@ -51,6 +51,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-compose
 
+      - name: Copy Docker Compose file
+        run: |
+          scp -o StrictHostKeyChecking=no -r docker-compose.yml root@172.104.236.131:/root
+
       - name: Build and push Docker images
         run: |
           docker-compose build
