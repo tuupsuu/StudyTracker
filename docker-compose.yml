@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./FrontEnd/my-app
+      dockerfile: Dockerfile
+    ports:
+      - 443:443
+    depends_on:
+      - backend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+  backend:
+    build:
+      context: ./UserService
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+  resultservice:
+    build:
+      context: ./ResultService
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - frontend
+      - backend
+      - resultservice
+    volumes:
+      - /root/ssl_certificate.crt:/etc/nginx/ssl_certificate.crt
+      - /root/ssl_certificate.key:/etc/nginx/ssl_certificate.key
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
