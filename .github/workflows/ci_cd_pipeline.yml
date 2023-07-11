@@ -50,14 +50,7 @@ jobs:
         run: sudo apt-get update
 
       - name: Install Docker Compose
-        run: sudo apt-get install -y docker-compose
-
-      - name: Copy Docker Compose file
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y sshpass
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no -r docker-compose.yml root@172.104.236.131:/root
-        
+        run: sudo apt-get install -y docker-compose        
 
       - name: Build and push Docker images
         run: |
@@ -69,8 +62,20 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -t rsa 172.104.236.131 >> ~/.ssh/known_hosts
 
-      - name: Deploy to Docker server
-        run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker-compose pull'
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker-compose down'
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker-compose up -d'
+          - name: Deploy to Docker server
+          run: |
+            cd UserService/
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservicecontainer || true'
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservicecontainer || true'
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer -p 83:3002 tuupsuu/userservicecontainer'
+            cd ../ResultService/
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull kivical/resultservicecontainer'
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop resultservicecontainer || true'
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm resultservicecontainer || true'
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name resultservicecontainer -p 82:3002 kivical/resultservicecontainer'
+            cd ../FrontEnd/my-app/
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull eepehukk/frontendcontainer'
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop frontendcontainer || true'
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm frontendcontainer || true'
+            sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name frontendcontainer -p 443:80 eepehukk/frontendcontainer'
