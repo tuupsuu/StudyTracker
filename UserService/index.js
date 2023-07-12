@@ -6,6 +6,8 @@ const { Sequelize } = require('sequelize');
 const port = 3002;
 const cors = require('cors');
 const { verifyPassword } = require('./verify');
+const authMiddleware = require('./authMiddleware');
+
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
@@ -29,19 +31,19 @@ sequelize
   .catch((error) => console.error('Unable to connect to the database:', error));
 
 // Get all users
-app.get('/users', handleUser.getUsers);
+app.get('/users', authMiddleware, handleUser.getUsers);
 
 // Add a new user
-app.post('/users', handleUser.addUser);
+app.post('/users', authMiddleware, handleUser.addUser);
 
 // Update an existing user
-app.put('/users/:id', handleUser.editUser);
+app.put('/users/:id', authMiddleware, handleUser.editUser);
 
 // Delete a user
-app.delete('/users/:id', handleUser.removeUser);
+app.delete('/users/:id', authMiddleware, handleUser.removeUser);
 
 // Verify password
-app.post('/users/verify', verifyPassword);
+app.post('/users/verify', authMiddleware, verifyPassword);
 
 // Start the server
 app.listen(port, () => {

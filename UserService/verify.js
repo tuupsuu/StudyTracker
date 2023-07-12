@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { User } = require('./models');
+const secretKey = process.env.SECRET_KEY;
 
 // Verify password
 const verifyPassword = async (req, res) => {
@@ -20,10 +22,14 @@ const verifyPassword = async (req, res) => {
 
     if (passwordMatch) {
       // Passwords match
-      res.status(200).json({ message: 'Password matched', rights: user.Rights });
+
+      // Generate a JWT token
+      const token = jwt.sign({ userID: user.UserID, rights: user.Rights }, secretKey);
+
+      res.status(200).json({ message: 'Password matched', rights: user.Rights, token: token });
     } else {
       // Passwords do not match
-      res.status(401).json({ error: 'Invalid password'});
+      res.status(401).json({ error: 'Invalid password' });
     }
   } catch (error) {
     console.error(error);
