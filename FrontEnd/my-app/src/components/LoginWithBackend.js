@@ -11,6 +11,15 @@ const api = axios.create({
   },
 });
 
+const handleInputChange = (event) => {
+  const target = event.target;
+  const value = target.value;
+  const name = target.name;
+
+  if (name === 'id') setId(value);
+  else if (name === 'password') setPassword(value);
+}
+
 function LoginWithBackend() {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
