@@ -13,6 +13,8 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+    volumes:
+      - ./FrontEnd/my-app
 
   backend:
     build:
@@ -22,6 +24,8 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+    volumes:
+      - ./UserService
 
   resultservice:
     build:
@@ -31,3 +35,5 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+    volumes:
+      - ./ResultService
