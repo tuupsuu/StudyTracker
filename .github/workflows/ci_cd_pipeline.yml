@@ -65,6 +65,5 @@ jobs:
       - name: Deploy to Docker server
         run: |
           # Assuming you have the docker-compose.yml file on the remote server
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'cd /root/ && docker-compose pull'
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'cd /root/ && docker-compose up -d'
         
