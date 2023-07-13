@@ -11,7 +11,7 @@ function LoginWithBackend() {
   const { setIsLoggedIn } = React.useContext(AuthContext);
 
   useEffect(() => {
-    fetch('http://172.104.236.131:83/users')
+    fetch('https://studytracker.site')
       .then(response => response.json())
       .then(data => setUsers(data))
       .catch(error => console.error('Error:', error));
@@ -38,7 +38,7 @@ function LoginWithBackend() {
   
     // verify the password
     try {
-      const response = await fetch('http://172.104.236.131:81/users/verify', {
+      const response = await fetch('https://studytracker.site/api2/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
