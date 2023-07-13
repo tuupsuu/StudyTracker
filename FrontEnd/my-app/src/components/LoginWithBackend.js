@@ -11,7 +11,7 @@ function LoginWithBackend() {
   const { setIsLoggedIn } = React.useContext(AuthContext);
 
   useEffect(() => {
-    fetch('https://studytracker.site')
+    fetch('https://studytracker.site/api2')
       .then(response => response.json())
       .then(data => setUsers(data))
       .catch(error => console.error('Error:', error));
