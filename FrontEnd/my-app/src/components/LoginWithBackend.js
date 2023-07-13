@@ -2,14 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import AuthContext from '../components/AuthContext';
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: '/api2',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 
 function LoginWithBackend() {
   const [id, setId] = useState('');
@@ -19,73 +11,75 @@ function LoginWithBackend() {
   const { setIsLoggedIn } = React.useContext(AuthContext);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('/api2/users');
-        const data = response.data;
-        setUsers(data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-
-const handleInputChange = (event) => {
-  const target = event.target;
-  const value = target.value;
-  const name = target.name;
-
-  if (name === 'id') setId(value);
-  else if (name === 'password') setPassword(value);
-}
-  
-    fetchUsers();
+    fetch('http://172.104.236.131:83/users')
+      .then(response => response.json())
+      .then(data => setUsers(data))
+      .catch(error => console.error('Error:', error));
   }, []);
-  
+
+  const handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    if (name === 'id') setId(value);
+    else if (name === 'password') setPassword(value);
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
   
-    const user = users.find((user) => user.UserID.toString() === id);
+    const user = users.find(user => user.UserID.toString() === id);
   
     if (!user) {
       alert('Invalid ID');
       return;
     }
   
+    // verify the password
     try {
-      const response = await api.post('/verify', {
-        userID: id,
-        password: password,
+      const response = await fetch('http://172.104.236.131:81/users/verify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userID: id,
+          password: password
+        })
       });
   
-      const { token, rights } = response.data;
-
-      // Store the token and rights in local storage or a secure storage mechanism
-      localStorage.setItem('token', token);
-      localStorage.setItem('rights', rights);
-  
-      switch (user.Rights) {
-        case 1:
-          navigate('/student');
-          break;
-        case 2:
-          navigate('/teacher');
-          break;
-        case 3:
-          navigate('/official');
-          break;
-        default:
-          alert('Invalid rights');
-          return;
+      const data = await response.json();
+      
+      
+      if (data.error === 'Invalid password') {
+        alert('Invalid password');
+        return;
       }
   
-      setIsLoggedIn(true);
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to login');
+      alert('Failed to verify password');
+      return;
     }
-  };
   
+    switch(user.Rights) {
+      case 1:
+        navigate("/student");
+        break;
+      case 2:
+        navigate("/teacher");
+        break;
+      case 3:
+        navigate("/official");
+        break;
+      default:
+        alert('Invalid rights');
+        return;
+    }
   
+    setIsLoggedIn(true);
+  }
 
   return (
     <div className="login-container">
