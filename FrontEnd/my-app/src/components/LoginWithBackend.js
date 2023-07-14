@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import AuthContext from '../components/AuthContext';
 import axios from 'axios';
-import jwt_decode from 'jsonwebtoken/decode';
 
 function LoginWithBackend() {
   const [id, setId] = useState('');
@@ -25,14 +24,6 @@ function LoginWithBackend() {
   const storeToken = (token) => {
     localStorage.setItem('jwtToken', token);
   };
-  
-  const getDecodedToken = () => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      return jwt_decode(token);
-    }
-    return null;
-  };  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
