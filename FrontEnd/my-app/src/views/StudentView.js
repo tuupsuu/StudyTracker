@@ -1,19 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './StudentView.css';
 import Clock from '../components/Clock';
 import { BiLogOut } from 'react-icons/bi';
-import tests from '../jsonFiles/tests.json'; // Import the tests JSON file
+import tests from '../jsonFiles/tests.json'; 
 
 function StudentView() {
   const [studentName, setStudentName] = useState('');
+  const navigate = useNavigate();
+
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem('jwtTokenExpiration');
+    return new Date().getTime() > expirationTime;
+  };
 
   useEffect(() => {
-    const loggedInStudentName = localStorage.getItem('loggedInStudentName');
-    if (loggedInStudentName) {
-      setStudentName(loggedInStudentName);
+    if (isTokenExpired()) {
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('jwtTokenExpiration');
+      localStorage.removeItem('userRights');
+      localStorage.removeItem('loggedInStudentName');
+      navigate("/login");
+    } else {
+      const loggedInStudentName = localStorage.getItem('loggedInStudentName');
+      if (loggedInStudentName) {
+        setStudentName(loggedInStudentName);
+      }
     }
-  }, []);
+  }, [navigate]);
 
   const getRandomColor = () => {
     const colors = ['pink', 'lightblue', 'lime', 'red', 'yellow'];
@@ -32,12 +46,12 @@ function StudentView() {
         <Link to='..' className='Student-LogOutButton'><BiLogOut></BiLogOut></Link>
       </div>
       <div className='TestOptions'>
-        {tests.map(test => ( // Map over the array of tests
+        {tests.map(test => (
           <Link 
             to={`/start-test`} 
             className="TestContainerButton" 
             key={test.id}
-            onClick={() => localStorage.setItem('currentTest', test.name)} // Set test name to local storage on click
+            onClick={() => localStorage.setItem('currentTest', test.name)}
           >
             <div className="TestContainer">
               <h2 className="TestContainerTitle" style={{ backgroundColor: getRandomColor() }}>
