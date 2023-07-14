@@ -2,20 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import AuthContext from '../components/AuthContext';
+import axios from 'axios';
 
 function LoginWithBackend() {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const { setIsLoggedIn } = React.useContext(AuthContext);
-
-  useEffect(() => {
-    fetch('https://studytracker.site')
-      .then(response => response.json())
-      .then(data => setUsers(data))
-      .catch(error => console.error('Error:', error));
-  }, []);
+  axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -26,15 +20,12 @@ function LoginWithBackend() {
     else if (name === 'password') setPassword(value);
   }
 
+  const storeToken = (token) => {
+    localStorage.setItem('jwtToken', token);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    const user = users.find(user => user.UserID.toString() === id);
-  
-    if (!user) {
-      alert('Invalid ID');
-      return;
-    }
   
     // verify the password
     try {
@@ -48,8 +39,11 @@ function LoginWithBackend() {
           password: password
         })
       });
-  
       const data = await response.json();
+      const { message, rights, token } = data;
+
+      localStorage.setItem('userRights', rights);
+      storeToken(token);
       
       
       if (data.error === 'Invalid password') {
@@ -57,13 +51,8 @@ function LoginWithBackend() {
         return;
       }
   
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to verify password');
-      return;
-    }
   
-    switch(user.Rights) {
+    switch(rights) {
       case 1:
         navigate("/student");
         break;
@@ -79,7 +68,26 @@ function LoginWithBackend() {
     }
   
     setIsLoggedIn(true);
+
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to verify password');
+      return;
+    }
   }
+
+  useEffect(() => {  
+    fetch('/users', {
+    method: 'GET',
+    headers: {
+      Authorization: localStorage.getItem('jwtToken'),
+      'Content-Type': 'application/json'
+    }
+  })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+  }, []);
 
   return (
     <div className="login-container">
