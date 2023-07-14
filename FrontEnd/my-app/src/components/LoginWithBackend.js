@@ -40,6 +40,9 @@ function LoginWithBackend() {
         })
       });
       console.log(1)
+      const data = await response.json();
+      console.log(data);
+      console.log(response.data);
       const { message, rights, token } = response.data;
       console.log(message)
 
@@ -48,7 +51,7 @@ function LoginWithBackend() {
       console.log(1)
       
       
-      if (response.data.error === 'Invalid password') {
+      if (data.error === 'Invalid password') {
         alert('Invalid password');
         return;
       }
