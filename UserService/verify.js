@@ -4,6 +4,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('./models');
 const secretKey = process.env.SECRET_KEY;
+const currentTime = Math.floor(Date.now() / 1000); // Current Unix timestamp
+const expirationTime = currentTime + 3600; // Add 3600 seconds (1 hour)
+const payload = {
+  exp: expirationTime,
+  // Other custom claims or rules can be added here
+};
+
 
 
 // Verify password
@@ -25,9 +32,9 @@ const verifyPassword = async (req, res) => {
 
     if (passwordMatch) {
       // Passwords match
-      
+
       // Generate a JWT token
-      const token = jwt.sign({ userID: user.UserID, rights: user.Rights }, secretKey);
+      const token = jwt.sign({ userID: user.UserID, rights: user.Rights, exp: expirationTime }, secretKey);
 
       res.status(200).json({ message: 'Password matched', rights: user.Rights, token: token });
     } else {

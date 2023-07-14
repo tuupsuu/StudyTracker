@@ -39,17 +39,20 @@ function LoginWithBackend() {
           password: password
         })
       });
-  
-      const { rights, token } = response.data;
+      console.log(1)
+      const { message, rights, token } = response.data;
+      console.log(message)
 
       localStorage.setItem('userRights', rights);
       storeToken(token);
+      console.log(1)
       
       
       if (response.data.error === 'Invalid password') {
         alert('Invalid password');
         return;
       }
+      console.log(1)
   
   
     switch(rights) {
@@ -66,6 +69,7 @@ function LoginWithBackend() {
         alert('Invalid rights');
         return;
     }
+    console.log(1)
   
     setIsLoggedIn(true);
 
