@@ -54,16 +54,11 @@ function LoginWithBackend() {
       storeToken(token);
       
       
-      if (data.error === 'Invalid password') {
+      if (response.data.error === 'Invalid password') {
         alert('Invalid password');
         return;
       }
   
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to verify password');
-      return;
-    }
   
     switch(rights) {
       case 1:
@@ -94,6 +89,12 @@ function LoginWithBackend() {
         .then(data => setUsers(data))
         .catch(error => console.error('Error:', error));
     }, []);
+
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Failed to verify password');
+    return;
+  }
   }
 
   return (
