@@ -15,19 +15,25 @@ function StudentView() {
   };
 
   useEffect(() => {
-    if (isTokenExpired()) {
-      localStorage.removeItem('jwtToken');
-      localStorage.removeItem('jwtTokenExpiration');
-      localStorage.removeItem('userRights');
-      localStorage.removeItem('loggedInStudentName');
-      navigate("..");
-    } else {
-      const loggedInStudentName = localStorage.getItem('loggedInStudentName');
-      if (loggedInStudentName) {
-        setStudentName(loggedInStudentName);
+    const intervalId = setInterval(() => {
+      if (isTokenExpired()) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInStudentName');
+        navigate("..");
       }
+    }, 1000); // checks every second
+  
+    const loggedInStudentName = localStorage.getItem('loggedInStudentName');
+    if (loggedInStudentName) {
+      setStudentName(loggedInStudentName);
     }
+  
+    // remember to clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
   }, [navigate]);
+  
 
   const getRandomColor = () => {
     const colors = ['pink', 'lightblue', 'lime', 'red', 'yellow'];
