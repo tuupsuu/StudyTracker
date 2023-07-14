@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('./models');
 const secretKey = process.env.SECRET_KEY;
+require('dotenv').config();
+
 
 // Verify password
 const verifyPassword = async (req, res) => {
