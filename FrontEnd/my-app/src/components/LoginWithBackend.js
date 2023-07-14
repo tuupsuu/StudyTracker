@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import AuthContext from '../components/AuthContext';
+import axios from 'axios';
+import jwt_decode from 'jsonwebtoken/decode';
 
 function LoginWithBackend() {
   const [id, setId] = useState('');
@@ -9,13 +11,7 @@ function LoginWithBackend() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const { setIsLoggedIn } = React.useContext(AuthContext);
-
-  useEffect(() => {
-    fetch('https://studytracker.site')
-      .then(response => response.json())
-      .then(data => setUsers(data))
-      .catch(error => console.error('Error:', error));
-  }, []);
+  axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -25,6 +21,18 @@ function LoginWithBackend() {
     if (name === 'id') setId(value);
     else if (name === 'password') setPassword(value);
   }
+
+  const storeToken = (token) => {
+    localStorage.setItem('jwtToken', token);
+  };
+  
+  const getDecodedToken = () => {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      return jwt_decode(token);
+    }
+    return null;
+  };  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,7 +57,10 @@ function LoginWithBackend() {
         })
       });
   
-      const data = await response.json();
+      const { rights, token } = response.data;
+
+      localStorage.setItem('userRights', rights);
+      storeToken(token);
       
       
       if (data.error === 'Invalid password') {
@@ -63,7 +74,7 @@ function LoginWithBackend() {
       return;
     }
   
-    switch(user.Rights) {
+    switch(rights) {
       case 1:
         navigate("/student");
         break;
@@ -79,6 +90,19 @@ function LoginWithBackend() {
     }
   
     setIsLoggedIn(true);
+
+    useEffect(() => {  
+      fetch('/users', {
+      method: 'GET',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      }
+    })
+        .then(response => response.json())
+        .then(data => setUsers(data))
+        .catch(error => console.error('Error:', error));
+    }, []);
   }
 
   return (

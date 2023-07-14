@@ -43,7 +43,7 @@ app.put('/users/:id', authMiddleware, handleUser.editUser);
 app.delete('/users/:id', authMiddleware, handleUser.removeUser);
 
 // Verify password
-app.post('/users/verify', authMiddleware, verifyPassword);
+app.post('/users/verify', verifyPassword);
 
 // Start the server
 app.listen(port, () => {
