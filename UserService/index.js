@@ -31,16 +31,16 @@ sequelize
   .catch((error) => console.error('Unable to connect to the database:', error));
 
 // Get all users
-app.get('/users', authMiddleware, handleUser.getUsers);
+app.get('/users', handleUser.getUsers);
 
 // Add a new user
-app.post('/users', authMiddleware, handleUser.addUser);
+app.post('/users', handleUser.addUser);
 
 // Update an existing user
-app.put('/users/:id', authMiddleware, handleUser.editUser);
+app.put('/users/:id', handleUser.editUser);
 
 // Delete a user
-app.delete('/users/:id', authMiddleware, handleUser.removeUser);
+app.delete('/users/:id', handleUser.removeUser);
 
 // Verify password
 app.post('/users/verify', verifyPassword);
