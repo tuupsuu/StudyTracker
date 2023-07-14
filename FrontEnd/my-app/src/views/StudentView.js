@@ -43,8 +43,11 @@ function StudentView() {
           <h1 className="Title">Welcome {studentName}!</h1>
           <p>You can choose your test from this page.</p>
         </div>
-        <Link to='..' className='Student-LogOutButton'><BiLogOut></BiLogOut></Link>
-      </div>
+        <Link to='/login' className='Student-LogOutButton' onClick={() => {
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('loggedInStudentName');
+        }}><BiLogOut></BiLogOut></Link>      </div>
       <div className='TestOptions'>
         {tests.map(test => (
           <Link 

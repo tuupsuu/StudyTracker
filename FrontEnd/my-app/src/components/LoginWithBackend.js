@@ -18,7 +18,7 @@ function LoginWithBackend() {
 
   const storeToken = (token) => {
     // Set the expiration time to 1 hour (3600 seconds) from the current time.
-    const expirationTime = new Date().getTime() + 10 * 1000;
+    const expirationTime = new Date().getTime() + 30 * 1000;
     localStorage.setItem('jwtToken', token);
     localStorage.setItem('jwtTokenExpiration', expirationTime);
   };
@@ -36,6 +36,8 @@ function LoginWithBackend() {
   const handleSubmit = async (event) => {
     event.preventDefault();
   
+    localStorage.removeItem('jwtTokenExpiration');
+
     try {
       const response = await fetch('https://studytracker.site/api2/verify', {
         method: 'POST',
