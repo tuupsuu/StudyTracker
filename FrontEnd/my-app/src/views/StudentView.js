@@ -20,7 +20,7 @@ function StudentView() {
       localStorage.removeItem('jwtTokenExpiration');
       localStorage.removeItem('userRights');
       localStorage.removeItem('loggedInStudentName');
-      navigate("");
+      navigate("..");
     } else {
       const loggedInStudentName = localStorage.getItem('loggedInStudentName');
       if (loggedInStudentName) {
@@ -43,7 +43,7 @@ function StudentView() {
           <h1 className="Title">Welcome {studentName}!</h1>
           <p>You can choose your test from this page.</p>
         </div>
-        <Link to='/login' className='Student-LogOutButton' onClick={() => {
+        <Link to='..' className='Student-LogOutButton' onClick={() => {
           localStorage.removeItem('jwtTokenExpiration');
           localStorage.removeItem('jwtToken');
           localStorage.removeItem('loggedInStudentName');
