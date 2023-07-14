@@ -20,7 +20,7 @@ function StudentView() {
       localStorage.removeItem('jwtTokenExpiration');
       localStorage.removeItem('userRights');
       localStorage.removeItem('loggedInStudentName');
-      navigate("/login");
+      navigate("");
     } else {
       const loggedInStudentName = localStorage.getItem('loggedInStudentName');
       if (loggedInStudentName) {
