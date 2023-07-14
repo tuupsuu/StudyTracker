@@ -16,11 +16,13 @@ function LoginWithBackend() {
     return new Date().getTime() > expirationTime;
   };
 
-  const storeToken = (token, expiresIn) => {
-    const expirationTime = new Date().getTime() + expiresIn;
+  const storeToken = (token) => {
+    // Set the expiration time to 1 hour (3600 seconds) from the current time.
+    const expirationTime = new Date().getTime() + 3600 * 1000;
     localStorage.setItem('jwtToken', token);
     localStorage.setItem('jwtTokenExpiration', expirationTime);
   };
+  
 
   const handleInputChange = (event) => {
     const target = event.target;
