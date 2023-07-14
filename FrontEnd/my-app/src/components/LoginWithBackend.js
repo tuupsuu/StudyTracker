@@ -10,7 +10,7 @@ function LoginWithBackend() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = React.useContext(AuthContext);
   axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
-
+  
   const handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
