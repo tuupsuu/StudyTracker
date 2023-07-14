@@ -77,25 +77,25 @@ function LoginWithBackend() {
   
     setIsLoggedIn(true);
 
-    useEffect(() => {  
-      fetch('/users', {
-      method: 'GET',
-      headers: {
-        Authorization: token,
-        'Content-Type': 'application/json'
-      }
-    })
-        .then(response => response.json())
-        .then(data => setUsers(data))
-        .catch(error => console.error('Error:', error));
-    }, []);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to verify password');
+      return;
+    }
+  }
 
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Failed to verify password');
-    return;
-  }
-  }
+  useEffect(() => {  
+    fetch('/users', {
+    method: 'GET',
+    headers: {
+      Authorization: localStorage.getItem('jwtToken'),
+      'Content-Type': 'application/json'
+    }
+  })
+      .then(response => response.json())
+      .then(data => setUsers(data))
+      .catch(error => console.error('Error:', error));
+  }, []);
 
   return (
     <div className="login-container">
