@@ -42,8 +42,7 @@ function LoginWithBackend() {
       console.log(1)
       const data = await response.json();
       console.log(data);
-      console.log(response.data);
-      const { message, rights, token } = response.data;
+      const { message, rights, token } = data;
       console.log(message)
 
       localStorage.setItem('userRights', rights);
