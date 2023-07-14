@@ -7,7 +7,6 @@ import axios from 'axios';
 function LoginWithBackend() {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const { setIsLoggedIn } = React.useContext(AuthContext);
   axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
@@ -27,13 +26,6 @@ function LoginWithBackend() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    const user = users.find(user => user.UserID.toString() === id);
-  
-    if (!user) {
-      alert('Invalid ID');
-      return;
-    }
   
     // verify the password
     try {
@@ -93,7 +85,7 @@ function LoginWithBackend() {
     }
   })
       .then(response => response.json())
-      .then(data => setUsers(data))
+      .then(data => console.log(data))
       .catch(error => console.error('Error:', error));
   }, []);
 
