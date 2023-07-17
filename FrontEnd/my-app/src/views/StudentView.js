@@ -29,10 +29,30 @@ function StudentView() {
     if (loggedInStudentName) {
       setStudentName(loggedInStudentName);
     }
-  
+
+    // Adding event listener for window/tab close
+    window.addEventListener('beforeunload', (ev) => {
+      ev.preventDefault();
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('jwtTokenExpiration');
+      localStorage.removeItem('userRights');
+      localStorage.removeItem('loggedInStudentName');
+    });
+
     // remember to clear the interval when the component unmounts
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+      // Remove the event listener when the component unmounts
+      window.removeEventListener('beforeunload', (ev) => {
+        ev.preventDefault();
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInStudentName');
+      });
+    };
   }, [navigate]);
+
   
 
   const getRandomColor = () => {
