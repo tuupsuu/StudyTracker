@@ -36,7 +36,7 @@ const verifyPassword = async (req, res) => {
       // Generate a JWT token
       const token = jwt.sign({ userID: user.UserID, rights: user.Rights, exp: expirationTime }, secretKey);
 
-      res.status(200).json({ message: 'Password matched', rights: user.Rights, token: token });
+      res.status(200).json({ message: 'Password matched', rights: user.Rights, token: token, id: user.UserID });
     } else {
       // Passwords do not match
       res.status(401).json({ error: 'Invalid password' });
