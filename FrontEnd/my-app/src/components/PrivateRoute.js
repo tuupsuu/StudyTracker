@@ -22,13 +22,14 @@ export default function PrivateRoute({ children }) {
     }
   }, [setLoggedInStatus]);
 
+  useEffect(() => {
+    if (!isChecking && !isLoggedIn) {
+      navigate("/", { replace: true, state: { from: location } });
+    }
+  }, [isLoggedIn, isChecking, navigate, location]);
+
   if (isChecking) {
     return null; // or render a loading spinner
-  }
-
-  if (!isLoggedIn) {
-    navigate("/", { replace: true, state: { from: location } });
-    return null;
   }
 
   return children;
