@@ -36,6 +36,7 @@ function TeacherView() {
     return () => clearInterval(intervalId);
   }, [navigate]);
 
+  /** 
   useEffect(() => {
     const loggedInTeacherId = localStorage.getItem('loggedInTeacherId');
     if (loggedInTeacherId) {
@@ -44,7 +45,7 @@ function TeacherView() {
         setTeacherName(teacherInfo.name);
       }
     }
-  }, []);
+  }, []);*/
 
   return (
     <div className="teacher-view">
@@ -53,7 +54,12 @@ function TeacherView() {
         <div className='HeaderTeacher'>
           <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
         </div>
-        <Link to='..' className='LogoutButtonTeacher'><BiLogOut></BiLogOut></Link>
+        <Link to='..' className='LogoutButtonTeacher'> onClick={() => {
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('loggedInTeacherName');
+          }} <BiLogOut></BiLogOut>
+        </Link>
       </header>
 
       {isSidebarOpen && (
