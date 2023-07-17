@@ -54,11 +54,11 @@ function TeacherView() {
         <div className='HeaderTeacher'>
           <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
         </div>
-        <Link to='..' className='LogoutButtonTeacher'> onClick={() => {
+        <Link to='..' className='LogoutButtonTeacher' onClick={() => {
           localStorage.removeItem('jwtTokenExpiration');
           localStorage.removeItem('jwtToken');
           localStorage.removeItem('loggedInTeacherName');
-          }} <BiLogOut></BiLogOut>
+          }}> <BiLogOut></BiLogOut>
         </Link>
       </header>
 

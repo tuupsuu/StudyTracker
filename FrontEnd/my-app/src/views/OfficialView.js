@@ -156,7 +156,12 @@ function OfficialView() {
         <div className='HeaderOfficial'>
           <h1 className='TitleOfficial'>Welcome, {officialName}!</h1>
         </div>
-        <Link to='..' className='LogoutButtonOfficial'><BiLogOut></BiLogOut></Link>
+        <Link to='..' className='LogoutButtonOfficial' onClick={() => {
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('loggedInOfficialName');
+          }}><BiLogOut></BiLogOut>
+        </Link>
       </header>
 
       {isSidebarOpen && (
