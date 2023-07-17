@@ -17,8 +17,8 @@ const addUser = async (req, res) => {
       Email: Email,
       Rights: Rights
     });
-
-    res.status(201).json(user);
+    
+    res.status(201).json({userID: user.UserID});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to add user', message: error.message });
