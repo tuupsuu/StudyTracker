@@ -30,27 +30,36 @@ function StudentView() {
       setStudentName(loggedInStudentName);
     }
 
+    // Define a variable to track whether the component is unmounting
+    let isUnmounting = false;
+
     // Adding event listener for window/tab close
     window.addEventListener('beforeunload', (ev) => {
-      ev.preventDefault();
-      localStorage.removeItem('jwtToken');
-      localStorage.removeItem('jwtTokenExpiration');
-      localStorage.removeItem('userRights');
-      localStorage.removeItem('loggedInStudentName');
-    });
-
-    // remember to clear the interval when the component unmounts
-    return () => {
-      clearInterval(intervalId);
-      // Remove the event listener when the component unmounts
-      window.removeEventListener('beforeunload', (ev) => {
+      if (!isUnmounting) {
         ev.preventDefault();
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('jwtTokenExpiration');
         localStorage.removeItem('userRights');
         localStorage.removeItem('loggedInStudentName');
+      }
+    });
+
+    // Remember to clear the interval when the component unmounts
+    return () => {
+      isUnmounting = true;
+      clearInterval(intervalId);
+      // Remove the event listener when the component unmounts
+      window.removeEventListener('beforeunload', (ev) => {
+        if (!isUnmounting) {
+          ev.preventDefault();
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('userRights');
+          localStorage.removeItem('loggedInStudentName');
+        }
       });
     };
+
   }, [navigate]);
 
   
