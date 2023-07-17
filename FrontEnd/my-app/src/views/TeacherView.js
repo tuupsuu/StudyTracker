@@ -36,17 +36,6 @@ function TeacherView() {
     return () => clearInterval(intervalId);
   }, [navigate]);
 
-  /** 
-  useEffect(() => {
-    const loggedInTeacherId = localStorage.getItem('loggedInTeacherId');
-    if (loggedInTeacherId) {
-      const teacherInfo = accounts.teachers.find(teacher => teacher.id === loggedInTeacherId);
-      if (teacherInfo) {
-        setTeacherName(teacherInfo.name);
-      }
-    }
-  }, []);*/
-
   return (
     <div className="teacher-view">
       <header className="header">
