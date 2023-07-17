@@ -6,6 +6,8 @@ const { Sequelize } = require('sequelize');
 const port = 3002;
 const cors = require('cors');
 const { verifyPassword } = require('./verify');
+const authMiddleware = require('./authMiddleware');
+
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
@@ -41,7 +43,7 @@ app.put('/users/:id', handleUser.editUser);
 app.delete('/users/:id', handleUser.removeUser);
 
 // Verify password
-app.post('/verify', verifyPassword);
+app.post('/users/verify', verifyPassword);
 
 // Start the server
 app.listen(port, () => {
