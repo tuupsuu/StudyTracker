@@ -18,21 +18,11 @@ function LoginWithBackend() {
 
   const storeToken = (token) => {
     // Set the expiration time to 1 hour (3600 seconds) from the current time.
-    const expirationTime = new Date().getTime() + 3600 * 1000;
+    const expirationTime = new Date().getTime() + 20 * 1000;
     localStorage.setItem('jwtToken', token);
     localStorage.setItem('jwtTokenExpiration', expirationTime);
   };
   
-
-  const handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    if (name === 'id') setId(value);
-    else if (name === 'password') setPassword(value);
-  }
-
   const handleSubmit = async (event) => {
     event.preventDefault();
   
@@ -52,9 +42,6 @@ function LoginWithBackend() {
       const data = await response.json();
       const { message, rights, token, expiresIn } = data;
 
-      localStorage.setItem('userRights', rights);
-      storeToken(token, expiresIn);
-      
       if (data.error === 'Invalid password') {
         alert('Invalid password');
         return;
@@ -75,6 +62,8 @@ function LoginWithBackend() {
           return;
       }
   
+      localStorage.setItem('userRights', rights);
+      storeToken(token, expiresIn);
       setIsLoggedIn(true);
 
     } catch (error) {
@@ -103,6 +92,15 @@ function LoginWithBackend() {
         .catch(error => console.error('Error:', error));
     }
   }, [navigate]);
+
+  const handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    if (name === 'id') setId(value);
+    else if (name === 'password') setPassword(value);
+  }
 
   return (
     <div className="login-container">
