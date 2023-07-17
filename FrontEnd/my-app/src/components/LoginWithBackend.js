@@ -10,24 +10,24 @@ function LoginWithBackend() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = React.useContext(AuthContext);
   axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
-
-  const handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    if (name === 'id') setId(value);
-    else if (name === 'password') setPassword(value);
-  }
-
-  const storeToken = (token) => {
-    localStorage.setItem('jwtToken', token);
+  
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem('jwtTokenExpiration');
+    return new Date().getTime() > expirationTime;
   };
 
+  const storeToken = (token) => {
+    // Set the expiration time to 1 hour (3600 seconds) from the current time.
+    const expirationTime = new Date().getTime() + 20 * 1000;
+    localStorage.setItem('jwtToken', token);
+    localStorage.setItem('jwtTokenExpiration', expirationTime);
+  };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
   
-    // verify the password
+    localStorage.removeItem('jwtTokenExpiration');
+
     try {
       const response = await fetch('https://studytracker.site/api2/verify', {
         method: 'POST',
@@ -40,34 +40,31 @@ function LoginWithBackend() {
         })
       });
       const data = await response.json();
-      const { message, rights, token } = data;
+      const { message, rights, token, expiresIn } = data;
 
-      localStorage.setItem('userRights', rights);
-      storeToken(token);
-      
-      
       if (data.error === 'Invalid password') {
         alert('Invalid password');
         return;
       }
   
+      switch(rights) {
+        case 1:
+          navigate("/student");
+          break;
+        case 2:
+          navigate("/teacher");
+          break;
+        case 3:
+          navigate("/official");
+          break;
+        default:
+          alert('Invalid rights');
+          return;
+      }
   
-    switch(rights) {
-      case 1:
-        navigate("/student");
-        break;
-      case 2:
-        navigate("/teacher");
-        break;
-      case 3:
-        navigate("/official");
-        break;
-      default:
-        alert('Invalid rights');
-        return;
-    }
-  
-    setIsLoggedIn(true);
+      localStorage.setItem('userRights', rights);
+      storeToken(token, expiresIn);
+      setIsLoggedIn(true);
 
     } catch (error) {
       console.error('Error:', error);
@@ -77,17 +74,33 @@ function LoginWithBackend() {
   }
 
   useEffect(() => {  
-    fetch('/users', {
-    method: 'GET',
-    headers: {
-      Authorization: localStorage.getItem('jwtToken'),
-      'Content-Type': 'application/json'
+    if (isTokenExpired()) {
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('jwtTokenExpiration');
+      localStorage.removeItem('userRights');
+      navigate("");
+    } else {
+      fetch('/users', {
+        method: 'GET',
+        headers: {
+          Authorization: localStorage.getItem('jwtToken'),
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
     }
-  })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-  }, []);
+  }, [navigate]);
+
+  const handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    if (name === 'id') setId(value);
+    else if (name === 'password') setPassword(value);
+  }
 
   return (
     <div className="login-container">

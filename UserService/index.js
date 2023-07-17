@@ -4,7 +4,6 @@ const handleUser = require('./handleUser');
 const config = require('./config');
 const { Sequelize } = require('sequelize');
 const port = 3002;
-const cors = require('cors');
 const { verifyPassword } = require('./verify');
 const {authMiddleware} = require('./authMiddleware');
 
@@ -23,7 +22,6 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
 
 sequelize
   .authenticate()
