@@ -10,6 +10,30 @@ function TeacherView() {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [teacherName, setTeacherName] = useState(''); 
 
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem('jwtTokenExpiration');
+    return new Date().getTime() > expirationTime;
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (isTokenExpired()) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInStudentName');
+        navigate("..");
+      }
+    }, 1000); // checks every second
+  
+    const loggedInStudentName = localStorage.getItem('loggedInStudentName');
+    if (loggedInStudentName) {
+      setStudentName(loggedInStudentName);
+    }
+  
+    // remember to clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [navigate]);
 
   useEffect(() => {
     const loggedInTeacherId = localStorage.getItem('loggedInTeacherId');

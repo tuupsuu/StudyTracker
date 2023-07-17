@@ -75,6 +75,31 @@ function OfficialView() {
   const subjects = [...new Set(cityData.map(row => row.subject))];
   const [selectedSubject, setSelectedSubject] = useState('');
 
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem('jwtTokenExpiration');
+    return new Date().getTime() > expirationTime;
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (isTokenExpired()) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInStudentName');
+        navigate("..");
+      }
+    }, 1000); // checks every second
+  
+    const loggedInStudentName = localStorage.getItem('loggedInStudentName');
+    if (loggedInStudentName) {
+      setStudentName(loggedInStudentName);
+    }
+  
+    // remember to clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [navigate]);
+
   useEffect(() => {
     const loggedInOfficialId = localStorage.getItem('loggedInOfficialId');
     const officialCity = localStorage.getItem('officialCity');
