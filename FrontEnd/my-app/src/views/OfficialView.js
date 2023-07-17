@@ -87,7 +87,7 @@ function OfficialView() {
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('jwtTokenExpiration');
         localStorage.removeItem('userRights');
-        localStorage.removeItem('loggedInStudentName');
+        localStorage.removeItem('loggedInOfficialName');
         navigate("..");
       }
     }, 1000); // checks every second

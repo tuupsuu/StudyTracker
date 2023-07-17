@@ -53,7 +53,8 @@ function StudentView() {
           localStorage.removeItem('jwtTokenExpiration');
           localStorage.removeItem('jwtToken');
           localStorage.removeItem('loggedInStudentName');
-        }}><BiLogOut></BiLogOut></Link>      </div>
+        }}><BiLogOut></BiLogOut></Link>
+        </div>
       <div className='TestOptions'>
         {tests.map(test => (
           <Link 

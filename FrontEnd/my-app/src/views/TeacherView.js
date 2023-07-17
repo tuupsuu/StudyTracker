@@ -21,7 +21,7 @@ function TeacherView() {
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('jwtTokenExpiration');
         localStorage.removeItem('userRights');
-        localStorage.removeItem('loggedInStudentName');
+        localStorage.removeItem('loggedInTeacherName');
         navigate("..");
       }
     }, 1000); // checks every second
