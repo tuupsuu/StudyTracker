@@ -26,9 +26,9 @@ function TeacherView() {
       }
     }, 1000); // checks every second
   
-    const loggedInStudentName = localStorage.getItem('loggedInStudentName');
-    if (loggedInStudentName) {
-      setStudentName(loggedInStudentName);
+    const loggedInTeacherName = localStorage.getItem('loggedInTeacherName');
+    if (loggedInTeacherName) {
+      setTeacherName(loggedInTeacherName);
     }
   
     // remember to clear the interval when the component unmounts

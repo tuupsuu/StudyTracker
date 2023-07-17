@@ -74,6 +74,7 @@ function OfficialView() {
   const [sortOrder, setSortOrder] = useState('none');
   const subjects = [...new Set(cityData.map(row => row.subject))];
   const [selectedSubject, setSelectedSubject] = useState('');
+  const navigate = useNavigate();
 
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem('jwtTokenExpiration');
@@ -91,9 +92,9 @@ function OfficialView() {
       }
     }, 1000); // checks every second
   
-    const loggedInStudentName = localStorage.getItem('loggedInStudentName');
-    if (loggedInStudentName) {
-      setStudentName(loggedInStudentName);
+    const loggedInOfficialName = localStorage.getItem('loggedInOfficialName');
+    if (loggedInOfficialName) {
+      setOfficialName(loggedInOfficialName);
     }
   
     // remember to clear the interval when the component unmounts
