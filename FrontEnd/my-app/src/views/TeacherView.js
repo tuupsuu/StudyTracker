@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './TeacherView.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
 import GradeChart from '../components/GradeChart';
@@ -8,9 +8,35 @@ import accounts from '../jsonFiles/accounts.json';
 
 function TeacherView() {  
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  const [teacherName, setTeacherName] = useState(''); 
+  const [teacherName, setTeacherName] = useState('');
+  const navigate = useNavigate(); 
 
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem('jwtTokenExpiration');
+    return new Date().getTime() > expirationTime;
+  };
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (isTokenExpired()) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInTeacherName');
+        navigate("..");
+      }
+    }, 1000); // checks every second
+  
+    const loggedInTeacherName = localStorage.getItem('loggedInTeacherName');
+    if (loggedInTeacherName) {
+      setTeacherName(loggedInTeacherName);
+    }
+  
+    // remember to clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [navigate]);
+
+  /** 
   useEffect(() => {
     const loggedInTeacherId = localStorage.getItem('loggedInTeacherId');
     if (loggedInTeacherId) {
@@ -19,7 +45,7 @@ function TeacherView() {
         setTeacherName(teacherInfo.name);
       }
     }
-  }, []);
+  }, []);*/
 
   return (
     <div className="teacher-view">
@@ -28,7 +54,12 @@ function TeacherView() {
         <div className='HeaderTeacher'>
           <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
         </div>
-        <Link to='..' className='LogoutButtonTeacher'><BiLogOut></BiLogOut></Link>
+        <Link to='..' className='LogoutButtonTeacher' onClick={() => {
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('loggedInTeacherName');
+          }}> <BiLogOut></BiLogOut>
+        </Link>
       </header>
 
       {isSidebarOpen && (
