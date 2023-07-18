@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
 import GradeChart from '../components/GradeChart';
-import accounts from '../jsonFiles/accounts.json'; 
 
 function TeacherView() {  
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
