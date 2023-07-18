@@ -27,13 +27,40 @@ function TeacherView() {
       }
     }, 1000); // checks every second
   
+    // Set sessionStorage item on page load
+    sessionStorage.setItem('isRefreshing', 'true');
+
     const loggedInTeacherName = localStorage.getItem('loggedInTeacherName');
     if (loggedInTeacherName) {
       setTeacherName(loggedInTeacherName);
     }
   
+    // Adding event listener for window/tab close
+    window.addEventListener('beforeunload', (ev) => {
+      ev.preventDefault();
+      // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
+      if (!sessionStorage.getItem('isRefreshing')) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInTeacherName');
+      }
+    });
+
     // remember to clear the interval when the component unmounts
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+      // Remove the event listener when the component unmounts
+      window.removeEventListener('beforeunload', (ev) => {
+        ev.preventDefault();
+        if (!sessionStorage.getItem('isRefreshing')) {
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('userRights');
+          localStorage.removeItem('loggedInTeacherName');
+        }
+      });
+    };
   }, [navigate]);
 
   return (

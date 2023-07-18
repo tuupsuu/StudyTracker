@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './StudentView.css';
 import Clock from '../components/Clock';
 import { BiLogOut } from 'react-icons/bi';
-import tests from '../jsonFiles/tests.json';
+import tests from '../jsonFiles/tests.json'; 
 
 function StudentView() {
   const [studentName, setStudentName] = useState('');
@@ -21,28 +21,43 @@ function StudentView() {
         localStorage.removeItem('jwtTokenExpiration');
         localStorage.removeItem('userRights');
         localStorage.removeItem('loggedInStudentName');
-        navigate('..');
+        navigate("..");
       }
     }, 1000); // checks every second
+
+    // Set sessionStorage item on page load
+    sessionStorage.setItem('isRefreshing', 'true');
 
     const loggedInStudentName = localStorage.getItem('loggedInStudentName');
     if (loggedInStudentName) {
       setStudentName(loggedInStudentName);
     }
 
-    const handleBeforeUnload = (ev) => {
+    // Adding event listener for window/tab close
+    window.addEventListener('beforeunload', (ev) => {
       ev.preventDefault();
-      localStorage.removeItem('jwtToken');
-      localStorage.removeItem('jwtTokenExpiration');
-      localStorage.removeItem('userRights');
-      localStorage.removeItem('loggedInStudentName');
-    };
+      // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
+      if (!sessionStorage.getItem('isRefreshing')) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInStudentName');
+      }
+    });
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
+    // remember to clear the interval when the component unmounts
     return () => {
       clearInterval(intervalId);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // Remove the event listener when the component unmounts
+      window.removeEventListener('beforeunload', (ev) => {
+        ev.preventDefault();
+        if (!sessionStorage.getItem('isRefreshing')) {
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('userRights');
+          localStorage.removeItem('loggedInStudentName');
+        }
+      });
     };
   }, [navigate]);
 
@@ -60,23 +75,17 @@ function StudentView() {
           <h1 className="Title">Welcome {studentName}!</h1>
           <p>You can choose your test from this page.</p>
         </div>
-        <Link
-          to=".."
-          className="Student-LogOutButton"
-          onClick={() => {
-            localStorage.removeItem('jwtTokenExpiration');
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('loggedInStudentName');
-          }}
-        >
-          <BiLogOut></BiLogOut>
-        </Link>
-      </div>
-      <div className="TestOptions">
-        {tests.map((test) => (
-          <Link
-            to={`/start-test`}
-            className="TestContainerButton"
+        <Link to='..' className='Student-LogOutButton' onClick={() => {
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('loggedInStudentName');
+        }}><BiLogOut></BiLogOut></Link>
+        </div>
+      <div className='TestOptions'>
+        {tests.map(test => (
+          <Link 
+            to={`/start-test`} 
+            className="TestContainerButton" 
             key={test.id}
             onClick={() => localStorage.setItem('currentTest', test.name)}
           >
