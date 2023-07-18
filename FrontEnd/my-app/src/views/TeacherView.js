@@ -84,6 +84,7 @@ function TeacherView() {
             <li>Create a test</li>
             <li>Evaluate tests</li>
             <Link to='/examine-tests'>ExamineTests</Link>
+            <li><Link to='/students'>Students</Link></li>
           </ul>
         </aside>
       )}

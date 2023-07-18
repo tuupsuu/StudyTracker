@@ -79,6 +79,7 @@ function Students() {
           <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
           <ul>
             <li><Link to='/teacher'>Homepage</Link></li>
+            <li><Link to='/examine-tests'>ExamineTests</Link></li>
             <li>Create a test</li>
             <li>Evaluate tests</li>
           </ul>
