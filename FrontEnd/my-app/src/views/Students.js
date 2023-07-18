@@ -7,6 +7,55 @@ import Papa from 'papaparse';
 import { BiLogOut, BiPrinter } from 'react-icons/bi';
 
 function Students() {
+  const navigate = useNavigate();
+  
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem('jwtTokenExpiration');
+    return new Date().getTime() > expirationTime;
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (isTokenExpired()) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInTeacherName');
+        navigate("..");
+      }
+    }, 1000); // checks every second
+
+    // Set sessionStorage item on page load
+    sessionStorage.setItem('isRefreshing', 'true');
+
+    // Adding event listener for window/tab close
+    window.addEventListener('beforeunload', (ev) => {
+      ev.preventDefault();
+      // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
+      if (!sessionStorage.getItem('isRefreshing')) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInTeacherName');
+      }
+    });
+
+    return () => {
+      clearInterval(intervalId);
+      // Remove the event listener when the component unmounts
+      window.removeEventListener('beforeunload', (ev) => {
+        ev.preventDefault();
+        if (!sessionStorage.getItem('isRefreshing')) {
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('userRights');
+          localStorage.removeItem('loggedInTeacherName');
+        }
+      });
+    };
+  }, [navigate]);
+
+
   function downloadCSV() {
     const csv = Papa.unparse(displayStudents);
     const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -69,7 +118,7 @@ function Students() {
       <header className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
         <div className='HeaderTeacher'>
-          <h1 className='TitleExamine'>Examine Tests</h1>
+          <h1 className='TitleExamine'>Students</h1>
         </div>
         <Link to='..' className='LogoutButtonTeacher'><BiLogOut></BiLogOut></Link>
       </header>
