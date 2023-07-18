@@ -120,9 +120,13 @@ function Students() {
         <div className='HeaderTeacher'>
           <h1 className='TitleExamine'>Students</h1>
         </div>
-        <Link to='..' className='LogoutButtonTeacher'><BiLogOut></BiLogOut></Link>
+        <Link to='..' className='LogoutButtonTeacher' onClick={() => {
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('loggedInTeacherName');
+          }}> <BiLogOut></BiLogOut>
+        </Link>      
       </header>
-
       {isSidebarOpen && (
         <aside className="sidebar">
           <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
