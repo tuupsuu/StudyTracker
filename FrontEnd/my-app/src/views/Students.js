@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './ExamineTests.css';
 import studentsData from '../jsonFiles/grades.json';
 import { FaBars } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Papa from 'papaparse';
 import { BiLogOut, BiPrinter } from 'react-icons/bi';
 
 function Students() {
   const navigate = useNavigate();
-  
+
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem('jwtTokenExpiration');
     return new Date().getTime() > expirationTime;
