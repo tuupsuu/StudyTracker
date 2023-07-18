@@ -91,14 +91,41 @@ function OfficialView() {
         navigate("..");
       }
     }, 1000); // checks every second
-  
+
+    // Set sessionStorage item on page load
+    sessionStorage.setItem('isRefreshing', 'true');    
+
     const loggedInOfficialName = localStorage.getItem('loggedInOfficialName');
     if (loggedInOfficialName) {
       setOfficialName(loggedInOfficialName);
     }
   
+    // Adding event listener for window/tab close
+    window.addEventListener('beforeunload', (ev) => {
+      ev.preventDefault();
+      // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
+      if (!sessionStorage.getItem('isRefreshing')) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInOfficialName');
+      }
+    });
+
     // remember to clear the interval when the component unmounts
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+      // Remove the event listener when the component unmounts
+      window.removeEventListener('beforeunload', (ev) => {
+        ev.preventDefault();
+        if (!sessionStorage.getItem('isRefreshing')) {
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('userRights');
+          localStorage.removeItem('loggedInOfficialName');
+        }
+      });
+    };
   }, [navigate]);
 
   useEffect(() => {

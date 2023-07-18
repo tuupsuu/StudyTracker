@@ -24,7 +24,10 @@ function StudentView() {
         navigate("..");
       }
     }, 1000); // checks every second
-  
+
+    // Set sessionStorage item on page load
+    sessionStorage.setItem('isRefreshing', 'true');
+
     const loggedInStudentName = localStorage.getItem('loggedInStudentName');
     if (loggedInStudentName) {
       setStudentName(loggedInStudentName);
@@ -33,10 +36,13 @@ function StudentView() {
     // Adding event listener for window/tab close
     window.addEventListener('beforeunload', (ev) => {
       ev.preventDefault();
-      localStorage.removeItem('jwtToken');
-      localStorage.removeItem('jwtTokenExpiration');
-      localStorage.removeItem('userRights');
-      localStorage.removeItem('loggedInStudentName');
+      // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
+      if (!sessionStorage.getItem('isRefreshing')) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInStudentName');
+      }
     });
 
     // remember to clear the interval when the component unmounts
@@ -45,15 +51,15 @@ function StudentView() {
       // Remove the event listener when the component unmounts
       window.removeEventListener('beforeunload', (ev) => {
         ev.preventDefault();
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('jwtTokenExpiration');
-        localStorage.removeItem('userRights');
-        localStorage.removeItem('loggedInStudentName');
+        if (!sessionStorage.getItem('isRefreshing')) {
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('userRights');
+          localStorage.removeItem('loggedInStudentName');
+        }
       });
     };
   }, [navigate]);
-
-  
 
   const getRandomColor = () => {
     const colors = ['pink', 'lightblue', 'lime', 'red', 'yellow'];

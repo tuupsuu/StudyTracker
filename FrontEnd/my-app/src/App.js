@@ -19,18 +19,19 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<LoginWithBackend />} />
-            <Route path="/student" element={<PrivateRoute><StudentView /></PrivateRoute>} />
-            <Route path="/teacher" element={<PrivateRoute><TeacherView /></PrivateRoute>} />
-            <Route path="/official" element={<PrivateRoute><OfficialView /></PrivateRoute>} />            
-            <Route path="/start-test" element={<PrivateRoute><StartTest /></PrivateRoute>} />
-            <Route path="/examine-tests" element={<PrivateRoute><ExamineTests /></PrivateRoute>} />
-            <Route path="/example-test" element={<PrivateRoute><ExampleTest /></PrivateRoute>} />          
-            <Route path="/examine-schools" element={<PrivateRoute><ExamineSchools /></PrivateRoute>} />          
+            <Route path="/student" element={<PrivateRoute element={<StudentView />} />} />
+            <Route path="/teacher" element={<PrivateRoute element={<TeacherView />} />} />
+            <Route path="/official" element={<PrivateRoute element={<OfficialView />} />} />            
+            <Route path="/start-test" element={<PrivateRoute element={<StartTest />} />} />
+            <Route path="/examine-tests" element={<PrivateRoute element={<ExamineTests />} />} />
+            <Route path="/example-test" element={<PrivateRoute element={<ExampleTest />} />} />          
+            <Route path="/examine-schools" element={<PrivateRoute element={<ExamineSchools />} />} />          
           </Routes>
         </div>
       </Router>
     </AuthProvider>
   );
 }
+
 
 export default App;
