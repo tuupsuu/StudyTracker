@@ -78,6 +78,7 @@ function LoginWithBackend() {
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('jwtTokenExpiration');
       localStorage.removeItem('userRights');
+      setIsLoggedIn(false);
       navigate("");
     } else {
       fetch('/users', {
@@ -91,7 +92,8 @@ function LoginWithBackend() {
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
     }
-  }, [navigate]);
+  }, [navigate, setIsLoggedIn]);
+
 
   const handleInputChange = (event) => {
     const target = event.target;
