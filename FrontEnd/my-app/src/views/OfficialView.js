@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
 import './OfficialView.css';
@@ -74,6 +74,59 @@ function OfficialView() {
   const [sortOrder, setSortOrder] = useState('none');
   const subjects = [...new Set(cityData.map(row => row.subject))];
   const [selectedSubject, setSelectedSubject] = useState('');
+  const navigate = useNavigate();
+
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem('jwtTokenExpiration');
+    return new Date().getTime() > expirationTime;
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (isTokenExpired()) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInOfficialName');
+        navigate("..");
+      }
+    }, 1000); // checks every second
+
+    // Set sessionStorage item on page load
+    sessionStorage.setItem('isRefreshing', 'true');    
+
+    const loggedInOfficialName = localStorage.getItem('loggedInOfficialName');
+    if (loggedInOfficialName) {
+      setOfficialName(loggedInOfficialName);
+    }
+  
+    // Adding event listener for window/tab close
+    window.addEventListener('beforeunload', (ev) => {
+      ev.preventDefault();
+      // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
+      if (!sessionStorage.getItem('isRefreshing')) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenExpiration');
+        localStorage.removeItem('userRights');
+        localStorage.removeItem('loggedInOfficialName');
+      }
+    });
+
+    // remember to clear the interval when the component unmounts
+    return () => {
+      clearInterval(intervalId);
+      // Remove the event listener when the component unmounts
+      window.removeEventListener('beforeunload', (ev) => {
+        ev.preventDefault();
+        if (!sessionStorage.getItem('isRefreshing')) {
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('userRights');
+          localStorage.removeItem('loggedInOfficialName');
+        }
+      });
+    };
+  }, [navigate]);
 
   useEffect(() => {
     const loggedInOfficialId = localStorage.getItem('loggedInOfficialId');
@@ -130,7 +183,12 @@ function OfficialView() {
         <div className='HeaderOfficial'>
           <h1 className='TitleOfficial'>Welcome, {officialName}!</h1>
         </div>
-        <Link to='..' className='LogoutButtonOfficial'><BiLogOut></BiLogOut></Link>
+        <Link to='..' className='LogoutButtonOfficial' onClick={() => {
+          localStorage.removeItem('jwtTokenExpiration');
+          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('loggedInOfficialName');
+          }}><BiLogOut></BiLogOut>
+        </Link>
       </header>
 
       {isSidebarOpen && (
