@@ -140,6 +140,15 @@ function Students() {
 
   // Add a new student
   const handleAddNewStudent = () => {
+    const { FirstName, LastName, UserPassword, Email } = newStudent;
+
+    // Check if any of the TextField values are empty
+    if (FirstName.trim() === '' || LastName.trim() === '' || UserPassword.trim() === '' || Email.trim() === '') {
+      // Display an error or show a message indicating that all fields are required
+      alert('Please fill in all the fields');
+      return;
+    }
+      
     // Here you'll implement adding the new student to your data...
     console.log(newStudent);
     handleDialogClose();
