@@ -1,7 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('./config');
 const { Result } = require('./result');
-const { SectionResult } = require('./sectionResult');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
@@ -43,10 +42,6 @@ QuestionResult.belongsTo(Result, {
     foreignKey: 'Resu_ID',
     onDelete: 'CASCADE'
 });
-
-QuestionResult.hasMany(SectionResult, {
-    foreignKey: 'QuesResu_ID'
-})
 
 
 sequelize.sync();

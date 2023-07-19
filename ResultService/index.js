@@ -33,17 +33,13 @@ app.post('/results/addFromJson', async (req, res) => {
   }
 });
 
-app.get('/results/:id', async (req, res, next) => {
+app.get('/results/:id', async (req, res) => {
   try {
-    const testResults = await resultController.get(req.params.Resu_ID);
+    const testResults = await resultController.get(req.params.id);
 
-    if (!testResults) {
-      return res.status(404).json({error: 'Test result not found'});
-    }
-
-    return res.json(testResults);
-  } catch (err) {
-      next (err);
+    res.json(testResults);
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
   }
 })
 
