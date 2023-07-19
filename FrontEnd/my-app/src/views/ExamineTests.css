@@ -137,8 +137,8 @@
   }
 
   .AddStudent {
-    color: rgb(97, 183, 212);
-    background-color: white;
+    background-color: rgb(97, 183, 212);
+    color: white;
     border-radius: 10px;
     margin-left: 10px;
     border: none;
