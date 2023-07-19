@@ -5,6 +5,7 @@ import { FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import Papa from 'papaparse';
 import { BiLogOut, BiPrinter } from 'react-icons/bi';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 
 function Students() {
   const navigate = useNavigate();
@@ -113,6 +114,31 @@ function Students() {
     );
   }, [search, sortOption, avgGrade, teacherSchool, teacherClass]);
 
+  // New states for dialog and student
+  const [openDialog, setOpenDialog] = useState(false);
+  const [newStudent, setNewStudent] = useState({name: "", grade: ""});
+
+  // Handle dialog open and close
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+  // Handle new student data
+  const handleNewStudentChange = (e) => {
+    setNewStudent({...newStudent, [e.target.name]: e.target.value});
+  }
+
+  // Add a new student
+  const handleAddNewStudent = () => {
+    // Here you'll implement adding the new student to your data...
+    console.log(newStudent);
+    handleDialogClose();
+  }
+
   return (
     <div className="examine-tests">
       <header className="header">
@@ -162,18 +188,44 @@ function Students() {
             <button className='DownloadCSV' onClick={downloadCSV}><BiPrinter></BiPrinter></button>
           </div>
         </div>
-
-        {displayStudents.map((student) => (
-          <div key={student.id} className="student">
-            <div className="student-info">
-              <h2 className>{student.name}</h2>
-              <p className='grade' style={{ color: student.grade >= avgGrade ? 'black' : 'red' }}>
-                Grade: {student.grade}
-              </p>
-            </div>
-          </div>
-        ))}
       </section>
+
+      {/* Add new student button */}
+      <Button variant="contained" color="primary" onClick={handleDialogOpen}>
+        Add new student
+      </Button>
+
+      {/* Add student dialog */}
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>Add New Student</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="name"
+            label="Name"
+            type="text"
+            fullWidth
+            onChange={handleNewStudentChange}
+          />
+          <TextField
+            margin="dense"
+            name="grade"
+            label="Grade"
+            type="number"
+            fullWidth
+            onChange={handleNewStudentChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleAddNewStudent} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
