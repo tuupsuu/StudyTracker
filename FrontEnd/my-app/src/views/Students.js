@@ -252,10 +252,10 @@ function Students() {
           />                    
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose} color="rgb(97, 183, 212)">
+          <Button onClick={handleDialogClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleAddNewStudent} color="rgb(97, 183, 212)">
+          <Button onClick={handleAddNewStudent} color="primary">
             Add
           </Button>
         </DialogActions>
