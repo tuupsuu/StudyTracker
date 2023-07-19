@@ -7,7 +7,6 @@ import Papa from 'papaparse';
 import { BiLogOut, BiPrinter } from 'react-icons/bi';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 
-
 function Students() {
   const navigate = useNavigate();
 
@@ -61,16 +60,16 @@ function Students() {
   function downloadCSV() {
     const csv = Papa.unparse(displayStudents);
     const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-
+    
     // Create link element
     let link = document.createElement('a');
     link.href = URL.createObjectURL(csvData);
     link.style.display = 'none';
     link.download = 'student_data.csv';
-
+    
     // Append to html link element page
     document.body.appendChild(link);
-
+    
     // Start download
     link.click();
 
@@ -83,7 +82,7 @@ function Students() {
   const [displayStudents, setDisplayStudents] = useState(studentsData);
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [avgGrade, setAvgGrade] = useState(0);
-
+  
   // Retrieve teacher's school and class from localStorage
   const teacherSchool = localStorage.getItem('teacherSchool');
   const teacherClass = localStorage.getItem('teacherClass');
@@ -109,18 +108,22 @@ function Students() {
     setDisplayStudents(
       sortedStudents.filter((student) =>
         (student.school === teacherSchool && student.class === teacherClass) &&
-        (student.name.toLowerCase().includes(search.toLowerCase()) ||
-          student.grade.toString() === search)
+        (student.name.toLowerCase().includes(search.toLowerCase()) || 
+        student.grade.toString() === search)
       )
     );
   }, [search, sortOption, avgGrade, teacherSchool, teacherClass]);
 
-  //------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------
 
   // New states for dialog and student
   const [openDialog, setOpenDialog] = useState(false);
-  const [newStudent, setNewStudent] = useState({ name: "", grade: "" });
-
+  const [newStudent, setNewStudent] = useState(
+    {firstname: "",
+    surname: "",
+    grade: "",
+    password: "",
+    email: ""});
 
   // Handle dialog open and close
   const handleDialogOpen = () => {
@@ -133,7 +136,7 @@ function Students() {
 
   // Handle new student data
   const handleNewStudentChange = (e) => {
-    setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
+    setNewStudent({...newStudent, [e.target.name]: e.target.value});
   }
 
   // Add a new student
@@ -143,16 +146,10 @@ function Students() {
     handleDialogClose();
   }
 
-  const generatePassword = () => {
-    // Generate a random password that is 4 characters long and has 2 numbers.
-    const password = crypto.randomBytes(2).toString('hex') + Math.floor(100 + Math.random() * 900);
-    setNewStudent({...newStudent, userPassWord: password});
-  }  
-
   return (
     <div className="examine-tests">
       <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
+        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
         <div className='HeaderTeacher'>
           <h1 className='TitleExamine'>Students</h1>
         </div>
@@ -160,8 +157,8 @@ function Students() {
           localStorage.removeItem('jwtTokenExpiration');
           localStorage.removeItem('jwtToken');
           localStorage.removeItem('loggedInTeacherName');
-        }}> <BiLogOut></BiLogOut>
-        </Link>
+          }}> <BiLogOut></BiLogOut>
+        </Link>      
       </header>
       {isSidebarOpen && (
         <aside className="sidebar">
@@ -211,42 +208,48 @@ function Students() {
           <TextField
             autoFocus
             margin="dense"
-            name="firstName"
-            label="First Name"
+            name="firstname"
+            label="Firstname"
             type="text"
             fullWidth
-            required
             onChange={handleNewStudentChange}
           />
           <TextField
+            autoFocus
             margin="dense"
-            name="lastName"
-            label="Last Name"
+            name="surname"
+            label="Surname"
             type="text"
             fullWidth
-            required
+            onChange={handleNewStudentChange}
+          />          
+          <TextField
+            autoFocus
+            margin="dense"
+            name="grade"
+            label="Grade"
+            type="number"
+            fullWidth
             onChange={handleNewStudentChange}
           />
           <TextField
+            autoFocus
             margin="dense"
-            name="userPassWord"
+            name="password"
             label="Password"
             type="text"
             fullWidth
-            required
             onChange={handleNewStudentChange}
           />
-          <Button onClick={generatePassword} color="rgb(97, 183, 212)">
-            Generate Password
-          </Button>
           <TextField
+            autoFocus
             margin="dense"
             name="email"
-            label="Email"
-            type="email"
+            label="email"
+            type="text"
             fullWidth
             onChange={handleNewStudentChange}
-          />
+          />                    
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose} color="rgb(97, 183, 212)">
