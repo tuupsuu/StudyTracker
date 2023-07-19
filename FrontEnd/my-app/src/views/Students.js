@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Papa from 'papaparse';
 import { BiLogOut, BiPrinter } from 'react-icons/bi';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import crypto from 'crypto';
 
 function Students() {
   const navigate = useNavigate();
@@ -60,16 +61,16 @@ function Students() {
   function downloadCSV() {
     const csv = Papa.unparse(displayStudents);
     const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    
+
     // Create link element
     let link = document.createElement('a');
     link.href = URL.createObjectURL(csvData);
     link.style.display = 'none';
     link.download = 'student_data.csv';
-    
+
     // Append to html link element page
     document.body.appendChild(link);
-    
+
     // Start download
     link.click();
 
@@ -82,7 +83,7 @@ function Students() {
   const [displayStudents, setDisplayStudents] = useState(studentsData);
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [avgGrade, setAvgGrade] = useState(0);
-  
+
   // Retrieve teacher's school and class from localStorage
   const teacherSchool = localStorage.getItem('teacherSchool');
   const teacherClass = localStorage.getItem('teacherClass');
@@ -108,15 +109,19 @@ function Students() {
     setDisplayStudents(
       sortedStudents.filter((student) =>
         (student.school === teacherSchool && student.class === teacherClass) &&
-        (student.name.toLowerCase().includes(search.toLowerCase()) || 
-        student.grade.toString() === search)
+        (student.name.toLowerCase().includes(search.toLowerCase()) ||
+          student.grade.toString() === search)
       )
     );
   }, [search, sortOption, avgGrade, teacherSchool, teacherClass]);
 
+  //------------------------------------------------------------------------------------------
+
   // New states for dialog and student
   const [openDialog, setOpenDialog] = useState(false);
-  const [newStudent, setNewStudent] = useState({name: "", grade: ""});
+  const [newStudent, setNewStudent] = useState({ name: "", grade: "" });
+  const bcrypt = require('bcrypt');
+  const { User } = require('./models');
 
   // Handle dialog open and close
   const handleDialogOpen = () => {
@@ -129,7 +134,7 @@ function Students() {
 
   // Handle new student data
   const handleNewStudentChange = (e) => {
-    setNewStudent({...newStudent, [e.target.name]: e.target.value});
+    setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
   }
 
   // Add a new student
@@ -139,10 +144,16 @@ function Students() {
     handleDialogClose();
   }
 
+  const generatePassword = () => {
+    // Generate a random password that is 4 characters long and has 2 numbers.
+    const password = crypto.randomBytes(2).toString('hex') + Math.floor(100 + Math.random() * 900);
+    setNewStudent({...newStudent, userPassWord: password});
+  }  
+
   return (
     <div className="examine-tests">
       <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
+        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
         <div className='HeaderTeacher'>
           <h1 className='TitleExamine'>Students</h1>
         </div>
@@ -150,8 +161,8 @@ function Students() {
           localStorage.removeItem('jwtTokenExpiration');
           localStorage.removeItem('jwtToken');
           localStorage.removeItem('loggedInTeacherName');
-          }}> <BiLogOut></BiLogOut>
-        </Link>      
+        }}> <BiLogOut></BiLogOut>
+        </Link>
       </header>
       {isSidebarOpen && (
         <aside className="sidebar">
@@ -187,13 +198,12 @@ function Students() {
           <div className='csvButton'>
             <button className='DownloadCSV' onClick={downloadCSV}><BiPrinter></BiPrinter></button>
           </div>
+          {/* Add new student button */}
+          <Button className='csvButton' onClick={handleDialogOpen}>
+            Add new student
+          </Button>
         </div>
       </section>
-
-      {/* Add new student button */}
-      <Button variant="contained" color="primary" onClick={handleDialogOpen}>
-        Add new student
-      </Button>
 
       {/* Add student dialog */}
       <Dialog open={openDialog} onClose={handleDialogClose}>
@@ -202,26 +212,48 @@ function Students() {
           <TextField
             autoFocus
             margin="dense"
-            name="name"
-            label="Name"
+            name="firstName"
+            label="First Name"
             type="text"
             fullWidth
+            required
             onChange={handleNewStudentChange}
           />
           <TextField
             margin="dense"
-            name="grade"
-            label="Grade"
-            type="number"
+            name="lastName"
+            label="Last Name"
+            type="text"
+            fullWidth
+            required
+            onChange={handleNewStudentChange}
+          />
+          <TextField
+            margin="dense"
+            name="userPassWord"
+            label="Password"
+            type="text"
+            fullWidth
+            required
+            onChange={handleNewStudentChange}
+          />
+          <Button onClick={generatePassword} color="rgb(97, 183, 212)">
+            Generate Password
+          </Button>
+          <TextField
+            margin="dense"
+            name="email"
+            label="Email"
+            type="email"
             fullWidth
             onChange={handleNewStudentChange}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
+          <Button onClick={handleDialogClose} color="rgb(97, 183, 212)">
             Cancel
           </Button>
-          <Button onClick={handleAddNewStudent} color="primary">
+          <Button onClick={handleAddNewStudent} color="rgb(97, 183, 212)">
             Add
           </Button>
         </DialogActions>
