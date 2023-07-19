@@ -7,6 +7,8 @@ import Papa from 'papaparse';
 import { BiLogOut, BiPrinter } from 'react-icons/bi';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 import crypto from 'crypto';
+import { User } from './models';
+
 
 function Students() {
   const navigate = useNavigate();
