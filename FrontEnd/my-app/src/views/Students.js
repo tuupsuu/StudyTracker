@@ -119,11 +119,10 @@ function Students() {
   // New states for dialog and student
   const [openDialog, setOpenDialog] = useState(false);
   const [newStudent, setNewStudent] = useState(
-    {firstname: "",
-    surname: "",
-    grade: "",
-    password: "",
-    email: ""});
+    {FirstName: "",
+    LastName: "",
+    UserPassword: "",
+    Email: ""});
 
   // Handle dialog open and close
   const handleDialogOpen = () => {
@@ -195,7 +194,7 @@ function Students() {
             <button className='DownloadCSV' onClick={downloadCSV}><BiPrinter></BiPrinter></button>
           </div>
           {/* Add new student button */}
-          <Button className='csvButton' onClick={handleDialogOpen}>
+          <Button className='AddStudent' onClick={handleDialogOpen}>
             Add new student
           </Button>
         </div>
@@ -208,8 +207,8 @@ function Students() {
           <TextField
             autoFocus
             margin="dense"
-            name="firstname"
-            label="Firstname"
+            name="FirstName"
+            label="FirstName"
             type="text"
             fullWidth
             onChange={handleNewStudentChange}
@@ -217,8 +216,8 @@ function Students() {
           <TextField
             autoFocus
             margin="dense"
-            name="surname"
-            label="Surname"
+            name="LastName"
+            label="LastName"
             type="text"
             fullWidth
             onChange={handleNewStudentChange}
@@ -226,17 +225,8 @@ function Students() {
           <TextField
             autoFocus
             margin="dense"
-            name="grade"
-            label="Grade"
-            type="number"
-            fullWidth
-            onChange={handleNewStudentChange}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            name="password"
-            label="Password"
+            name="UserPassword"
+            label="UserPassword"
             type="text"
             fullWidth
             onChange={handleNewStudentChange}
@@ -244,8 +234,8 @@ function Students() {
           <TextField
             autoFocus
             margin="dense"
-            name="email"
-            label="email"
+            name="Email"
+            label="Email"
             type="text"
             fullWidth
             onChange={handleNewStudentChange}

@@ -136,4 +136,12 @@
     cursor: pointer;
   }
 
+  .AddStudent {
+    color: rgb(97, 183, 212);
+    background-color: white;
+    border-radius: 10px;
+    margin-left: 10px;
+    border: none;
+  }
+
   
