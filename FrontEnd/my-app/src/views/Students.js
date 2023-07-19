@@ -6,8 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Papa from 'papaparse';
 import { BiLogOut, BiPrinter } from 'react-icons/bi';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
-import crypto from 'crypto';
-import { User } from './models';
 
 
 function Students() {
@@ -122,8 +120,7 @@ function Students() {
   // New states for dialog and student
   const [openDialog, setOpenDialog] = useState(false);
   const [newStudent, setNewStudent] = useState({ name: "", grade: "" });
-  const bcrypt = require('bcrypt');
-  const { User } = require('./models');
+
 
   // Handle dialog open and close
   const handleDialogOpen = () => {
