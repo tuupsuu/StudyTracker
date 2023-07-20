@@ -121,7 +121,7 @@ function Students() {
   const [newStudent, setNewStudent] = useState(
     {FirstName: "",
     LastName: "",
-    UserPassword: "",
+    UserPassWord: "",
     Email: "",
     Rights: 1});
 
@@ -145,10 +145,10 @@ function Students() {
 
   // Add a new student
   const handleAddNewStudent = async () => {
-    const { FirstName, LastName, UserPassword, Email, Rights } = { ...newStudent };
+    const { FirstName, LastName, UserPassWord, Email, Rights } = { ...newStudent };
 
     // Check if any of the TextField values are empty
-    if (FirstName.trim() === '' || LastName.trim() === '' || UserPassword.trim() === '' || Email.trim() === '') {
+    if (FirstName.trim() === '' || LastName.trim() === '' || UserPassWord.trim() === '' || Email.trim() === '') {
       // Display an error or show a message indicating that all fields are required
       alert('Please fill in all the fields');
       return;
@@ -158,7 +158,7 @@ function Students() {
   const newStudentData = {
     FirstName,
     LastName,
-    UserPassword,
+    UserPassWord,
     Email,
     Rights
   };
@@ -173,9 +173,7 @@ function Students() {
       },
       body: JSON.stringify(newStudentData)
     });
-
-    const responseData = await response.json(); // Parse the response data
-
+    
     if (response.ok) {
       // Student added successfully
       console.log('New student added successfully');
@@ -183,7 +181,7 @@ function Students() {
       setNewStudent({
         FirstName: "",
         LastName: "",
-        UserPassword: "",
+        UserPassWord: "",
         Email: "",
         Rights: 1
       });
@@ -281,8 +279,8 @@ function Students() {
           <TextField
             autoFocus
             margin="dense"
-            name="UserPassword"
-            label="UserPassword"
+            name="UserPassWord"
+            label="UserPassWord"
             type="text"
             fullWidth
             onChange={handleNewStudentChange}
