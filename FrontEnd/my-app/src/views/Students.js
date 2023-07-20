@@ -122,7 +122,8 @@ function Students() {
     {FirstName: "",
     LastName: "",
     UserPassword: "",
-    Email: ""});
+    Email: "",
+    Rights: 1});
 
   // Handle dialog open and close
   const handleDialogOpen = () => {
@@ -143,8 +144,8 @@ function Students() {
   };
 
   // Add a new student
-  const handleAddNewStudent = () => {
-    const { FirstName, LastName, UserPassword, Email } = { ...newStudent };
+  const handleAddNewStudent = async () => {
+    const { FirstName, LastName, UserPassword, Email, Rights } = { ...newStudent };
 
     // Check if any of the TextField values are empty
     if (FirstName.trim() === '' || LastName.trim() === '' || UserPassword.trim() === '' || Email.trim() === '') {
@@ -153,16 +154,47 @@ function Students() {
       return;
     }
 
-    // Here you'll implement adding the new student to your data...
-    console.log(newStudent);
-    setNewStudent({
-      FirstName: "",
-      LastName: "",
-      UserPassword: "",
-      Email: ""
-    });
-    handleDialogClose();
+  // Create the new student object
+  const newStudentData = {
+    FirstName,
+    LastName,
+    UserPassword,
+    Email,
+    Rights
   };
+
+  try {
+    // Send the HTTP POST request
+    const response = await fetch('https://studytracker.site/api2', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
+      },
+      body: JSON.stringify(newStudentData)
+    });
+
+    if (response.ok) {
+      // Student added successfully
+      console.log('New student added successfully');
+      // Reset the newStudent state to its initial values
+      setNewStudent({
+        FirstName: "",
+        LastName: "",
+        UserPassword: "",
+        Email: "",
+        Rights: 1
+      });
+      handleDialogClose();
+    } else {
+      // Handle error response
+      console.log('Failed to add new student');
+    }
+  } catch (error) {
+    // Handle network or other errors
+    console.log('Error adding new student:', error);
+  }
+};
 
 
   return (
@@ -213,10 +245,12 @@ function Students() {
           <div className='csvButton'>
             <button className='DownloadCSV' onClick={downloadCSV}><BiPrinter></BiPrinter></button>
           </div>
-          {/* Add new student button */}
-          <Button className='AddStudent' onClick={handleDialogOpen}>
-            Add new student
-          </Button>
+          <div csvButton>
+            {/* Add new student button */}
+            <Button className='DownloadCSV' onClick={handleDialogOpen}>
+              Add new student
+            </Button>
+          </div>  
         </div>
       </section>
 
