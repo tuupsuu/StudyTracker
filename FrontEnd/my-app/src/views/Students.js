@@ -133,18 +133,18 @@ function Students() {
     setOpenDialog(false);
   };
 
-// Handle new student data
-const handleNewStudentChange = (e) => {
-  const { name, value } = e.target;
-  setNewStudent((prevStudent) => ({
-    ...prevStudent,
-    [name]: value
-  }));
-};
+  // Handle new student data
+  const handleNewStudentChange = (e) => {
+    const { name, value } = e.target;
+    setNewStudent((prevStudent) => ({
+      ...prevStudent,
+      [name]: value
+    }));
+  };
 
   // Add a new student
   const handleAddNewStudent = () => {
-    const { FirstName, LastName, UserPassword, Email } = newStudent;
+    const { FirstName, LastName, UserPassword, Email } = { ...newStudent };
 
     // Check if any of the TextField values are empty
     if (FirstName.trim() === '' || LastName.trim() === '' || UserPassword.trim() === '' || Email.trim() === '') {
@@ -152,11 +152,12 @@ const handleNewStudentChange = (e) => {
       alert('Please fill in all the fields');
       return;
     }
-      
+
     // Here you'll implement adding the new student to your data...
     console.log(newStudent);
     handleDialogClose();
-  }
+  };
+
 
   return (
     <div className="examine-tests">
