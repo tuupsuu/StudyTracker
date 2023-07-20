@@ -133,10 +133,14 @@ function Students() {
     setOpenDialog(false);
   };
 
-  // Handle new student data
-  const handleNewStudentChange = (e) => {
-    setNewStudent({...newStudent, [e.target.name]: e.target.value});
-  }
+// Handle new student data
+const handleNewStudentChange = (e) => {
+  const { name, value } = e.target;
+  setNewStudent((prevStudent) => ({
+    ...prevStudent,
+    [name]: value
+  }));
+};
 
   // Add a new student
   const handleAddNewStudent = () => {
