@@ -247,7 +247,7 @@ function Students() {
           <div className='csvButton'>
             <button className='DownloadCSV' onClick={downloadCSV}><BiPrinter></BiPrinter></button>
           </div>
-          <div csvButton>
+          <div className='csvButton'>
             {/* Add new student button */}
             <Button className='DownloadCSV' onClick={handleDialogOpen}>
               Add new student
