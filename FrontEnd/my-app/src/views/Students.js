@@ -155,6 +155,12 @@ function Students() {
 
     // Here you'll implement adding the new student to your data...
     console.log(newStudent);
+    setNewStudent({
+      FirstName: "",
+      LastName: "",
+      UserPassword: "",
+      Email: ""
+    });
     handleDialogClose();
   };
 
