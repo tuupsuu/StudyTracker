@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './ExamineTests.css';
-import studentsData from '../jsonFiles/grades.json';
 import { FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import Papa from 'papaparse';
@@ -76,43 +75,62 @@ function Students() {
     // Clean up and remove the link
     document.body.removeChild(link);
   }
+//-------------------------------------------------
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await fetch('https://studytracker.site/api2', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
+          }
+        });
+  
+        if (response.ok) {
+          const students = await response.json();
+          setDisplayStudents(students);
+        } else {
+          console.log('Failed to fetch students:', response.statusText);
+        }
+      } catch (error) {
+        console.log('Error fetching students:', error);
+      }
+    };
+  
+    fetchStudents();
+  }, []);
+
+//-----------------------------------------
 
   const [search, setSearch] = useState('');
   const [sortOption, setSortOption] = useState('name');
-  const [displayStudents, setDisplayStudents] = useState(studentsData);
+  const [displayStudents, setDisplayStudents] = useState([]);
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  const [avgGrade, setAvgGrade] = useState(0);
+  const [avgGrade] = useState(0);
+
+
+
+  useEffect(() => {
+    let filteredStudents = [...displayStudents];
   
-  // Retrieve teacher's school and class from localStorage
-  const teacherSchool = localStorage.getItem('teacherSchool');
-  const teacherClass = localStorage.getItem('teacherClass');
-
-  useEffect(() => {
-    setAvgGrade(studentsData.reduce((sum, student) => sum + student.grade, 0) / studentsData.length);
-  }, []);
-
-  useEffect(() => {
-    let sortedStudents = [...studentsData];
-
     if (sortOption === 'name') {
-      sortedStudents.sort((a, b) => a.name.localeCompare(b.name));
+      filteredStudents.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortOption === 'grade-high') {
-      sortedStudents.sort((a, b) => b.grade - a.grade);
+      filteredStudents.sort((a, b) => b.grade - a.grade);
     } else if (sortOption === 'grade-low') {
-      sortedStudents.sort((a, b) => a.grade - b.grade);
+      filteredStudents.sort((a, b) => a.grade - b.grade);
     } else if (sortOption === 'below-average') {
-      sortedStudents = sortedStudents.filter(student => student.grade < avgGrade);
+      filteredStudents = filteredStudents.filter(student => student.grade < avgGrade);
     }
-
+  
     // Filter students by teacher's school and class
     setDisplayStudents(
-      sortedStudents.filter((student) =>
-        (student.school === teacherSchool && student.class === teacherClass) &&
-        (student.name.toLowerCase().includes(search.toLowerCase()) || 
-        student.grade.toString() === search)
+      filteredStudents.filter((student) =>
+        student.name.toLowerCase().includes(search.toLowerCase()) || 
+        student.grade.toString() === search
       )
     );
-  }, [search, sortOption, avgGrade, teacherSchool, teacherClass]);
+
+  }, [search, sortOption, avgGrade, displayStudents]);
 
 //------------------------------------------------------------------------------------------
 
@@ -173,7 +191,7 @@ function Students() {
       },
       body: JSON.stringify(newStudentData)
     });
-    
+
     if (response.ok) {
       // Student added successfully
       console.log('New student added successfully');
@@ -252,6 +270,18 @@ function Students() {
             </Button>
           </div>  
         </div>
+          {/* Display the students */}
+        {displayStudents.map((student) => (
+          <div key={student.id} className="student">
+            <div className="student-info">
+              <h2>{student.name}</h2>
+              <p className={`grade ${student.grade < avgGrade ? 'below-average' : ''}`}>
+                Grade: {student.grade}
+              </p>
+            </div>
+            {/* Add any other student information you want to display */}
+          </div>
+        ))}
       </section>
 
       {/* Add student dialog */}
