@@ -174,6 +174,8 @@ function Students() {
       body: JSON.stringify(newStudentData)
     });
 
+    const responseData = await response.json(); // Parse the response data
+
     if (response.ok) {
       // Student added successfully
       console.log('New student added successfully');
