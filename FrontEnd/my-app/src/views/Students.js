@@ -60,6 +60,7 @@ function Students() {
 
   // New states for dialog and student
   const [openDialog, setOpenDialog] = useState(false);
+  const [students, setStudents] = useState([]);  
   const [newStudent, setNewStudent] = useState(
     {FirstName: "",
     LastName: "",
@@ -135,8 +136,40 @@ function Students() {
   } catch (error) {
     // Handle network or other errors
     console.log('Error adding new student:', error);
-  }
-};
+  }};
+
+  // Fetch students
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  const fetchStudents = async () => {
+    try {
+      // Send the HTTP GET request
+      const response = await fetch('https://studytracker.site/api2', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
+        }
+      });
+
+      if (response.ok) {
+        // Parse the response as JSON
+        const data = await response.json();
+        // Filter students with Rights equal to "1"
+        const filteredStudents = data.filter(student => student.Rights === 1);
+        // Update the students state
+        setStudents(filteredStudents);
+      } else {
+        // Handle error response
+        console.log('Failed to fetch students');
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.log('Error fetching students:', error);
+    }
+  };
 
 
   return (
@@ -172,7 +205,16 @@ function Students() {
             <Button className='buttonAdd' onClick={handleDialogOpen}>
               Add new student
             </Button>
-          </div>  
+          </div>
+          
+          {/* Render the list of students */}
+          <ul>
+            {students.map((student, index) => (
+              <li key={index}>
+                {student.FirstName} {student.LastName}
+              </li>
+            ))}
+          </ul>            
         </div>
       </section>
 
