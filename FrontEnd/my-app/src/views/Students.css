@@ -66,7 +66,6 @@
     padding: 20px;
   }
 
-  
   .controls {
     display: flex;
     justify-content: space-between;
@@ -104,4 +103,6 @@
     border-bottom: 1px solid black;
   }
   
-  
+  .studentSearch {
+    border: 2px #333;
+  }

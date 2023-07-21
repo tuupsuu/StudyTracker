@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ExamineTests.css';
+import './Students.css';
 import { FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
@@ -219,6 +219,7 @@ function Students() {
             </Button>
           </div>
           <TextField
+            className='studentSearch'
             id="standard-basic"
             label="Search"
             variant="standard"
