@@ -124,24 +124,19 @@
     font-size: 20px;
   }  
   
-  .DownloadCSV {
+  .addStudent {
     font-size: 30px;
     margin-bottom: 20px;
     margin-left: 10px;
     padding: 10px;
     background-color: rgb(97, 183, 212);
-    color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
   }
 
-  .AddStudent {
-    background-color: rgb(97, 183, 212);
+  .buttonAdd {
     color: white;
-    border-radius: 10px;
-    margin-left: 10px;
-    border: none;
   }
 
   
