@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import _ from "lodash";
@@ -13,10 +13,62 @@ function ExamineSchools() {
   const [selectedSchool, setSelectedSchool] = useState("All");
   const [selectedClass, setSelectedClass] = useState("All");
   const location = useLocation();
+  const navigate = useNavigate();
+  const [officialName, setOfficialName] = useState("");
 
   const getParams = (query) => {
     return new URLSearchParams(query);
   };
+
+  useEffect(() => {
+    const isTokenExpired = () => {
+      const expirationTime = localStorage.getItem("jwtTokenExpiration");
+      return new Date().getTime() > expirationTime;
+    };
+
+    const intervalId = setInterval(() => {
+      if (isTokenExpired()) {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
+        navigate("..");
+      }
+    }, 1000); // checks every second
+
+    sessionStorage.setItem("isRefreshing", "true");
+
+    const loggedInOfficialName = localStorage.getItem("loggedInOfficialName");
+    if (loggedInOfficialName) {
+      setOfficialName(loggedInOfficialName);
+    }
+
+    window.addEventListener("beforeunload", (ev) => {
+      ev.preventDefault();
+      if (!sessionStorage.getItem("isRefreshing")) {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
+      }
+    });
+
+    return () => {
+      clearInterval(intervalId);
+      window.removeEventListener("beforeunload", (ev) => {
+        ev.preventDefault();
+        if (!sessionStorage.getItem("isRefreshing")) {
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("jwtTokenExpiration");
+          localStorage.removeItem("userRights");
+          localStorage.removeItem("loggedInOfficialName");
+          localStorage.removeItem("userName");
+        }
+      });
+    };
+  }, [navigate]);
 
   const params = getParams(location.search);
   const selectedSchoolFromUrl = params.get("school");
@@ -111,7 +163,17 @@ function ExamineSchools() {
         <div className="HeaderOfficial">
           <h1 className="TitleOfficial"> Examine Schools </h1>
         </div>
-        <Link to=".." className="LogoutButtonOfficial">
+        <Link
+          to=".."
+          className="LogoutButtonOfficial"
+          onClick={() => {
+            localStorage.removeItem("jwtToken");
+            localStorage.removeItem("jwtTokenExpiration");
+            localStorage.removeItem("userRights");
+            localStorage.removeItem("loggedInOfficialName");
+            localStorage.removeItem("userName");
+          }}
+        >
           <BiLogOut></BiLogOut>
         </Link>
       </header>

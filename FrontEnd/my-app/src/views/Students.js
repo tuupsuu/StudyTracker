@@ -16,10 +16,11 @@ function Students() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('jwtTokenExpiration');
-        localStorage.removeItem('userRights');
-        localStorage.removeItem('loggedInTeacherName');
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
         navigate("..");
       }
     }, 1000); // checks every second
@@ -32,10 +33,11 @@ function Students() {
       ev.preventDefault();
       // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
       if (!sessionStorage.getItem('isRefreshing')) {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('jwtTokenExpiration');
-        localStorage.removeItem('userRights');
-        localStorage.removeItem('loggedInTeacherName');
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
       }
     });
 
@@ -45,10 +47,11 @@ function Students() {
       window.removeEventListener('beforeunload', (ev) => {
         ev.preventDefault();
         if (!sessionStorage.getItem('isRefreshing')) {
-          localStorage.removeItem('jwtToken');
-          localStorage.removeItem('jwtTokenExpiration');
-          localStorage.removeItem('userRights');
-          localStorage.removeItem('loggedInTeacherName');
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("jwtTokenExpiration");
+          localStorage.removeItem("userRights");
+          localStorage.removeItem("loggedInOfficialName");
+          localStorage.removeItem("userName");
         }
       });
     };
@@ -192,9 +195,11 @@ function Students() {
           <h1 className='TitleExamine'>Students</h1>
         </div>
         <Link to='..' className='LogoutButtonTeacher' onClick={() => {
-          localStorage.removeItem('jwtTokenExpiration');
-          localStorage.removeItem('jwtToken');
-          localStorage.removeItem('loggedInTeacherName');
+            localStorage.removeItem("jwtToken");
+            localStorage.removeItem("jwtTokenExpiration");
+            localStorage.removeItem("userRights");
+            localStorage.removeItem("loggedInOfficialName");
+            localStorage.removeItem("userName");
           }}> <BiLogOut></BiLogOut>
         </Link>      
       </header>

@@ -66,15 +66,11 @@ function LoginWithBackend() {
       storeToken(token, expiresIn);
       setIsLoggedIn(true);
 
-      const userData = await fetch('/api2', {
+      const userData = await fetch(`/api2?userID=${id}`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userID: id
-        })
+          Authorization: `Bearer ${token}`
+        }
       })
         .then(response => response.json())
         .then(data => {

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './ExamineTests.css';
 import studentsData from '../jsonFiles/grades.json';
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import Papa from 'papaparse';
 import { BiLogOut, BiPrinter } from 'react-icons/bi';
 
 function ExamineTests() {
+    const navigate = useNavigate();
+    const [officialName, setOfficialName] = useState("");
   function downloadCSV() {
     const csv = Papa.unparse(displayStudents);
     const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -26,6 +28,56 @@ function ExamineTests() {
     // Clean up and remove the link
     document.body.removeChild(link);
   }
+
+  useEffect(() => {
+    const isTokenExpired = () => {
+      const expirationTime = localStorage.getItem("jwtTokenExpiration");
+      return new Date().getTime() > expirationTime;
+    };
+
+    const intervalId = setInterval(() => {
+      if (isTokenExpired()) {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
+        navigate("..");
+      }
+    }, 1000); // checks every second
+
+    sessionStorage.setItem("isRefreshing", "true");
+
+    const loggedInOfficialName = localStorage.getItem("loggedInOfficialName");
+    if (loggedInOfficialName) {
+      setOfficialName(loggedInOfficialName);
+    }
+
+    window.addEventListener("beforeunload", (ev) => {
+      ev.preventDefault();
+      if (!sessionStorage.getItem("isRefreshing")) {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
+      }
+    });
+
+    return () => {
+      clearInterval(intervalId);
+      window.removeEventListener("beforeunload", (ev) => {
+        ev.preventDefault();
+        if (!sessionStorage.getItem("isRefreshing")) {
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("jwtTokenExpiration");
+          localStorage.removeItem("userRights");
+          localStorage.removeItem("loggedInOfficialName");
+          localStorage.removeItem("userName");
+        }
+      });
+    };
+  }, [navigate]);
 
   const [search, setSearch] = useState('');
   const [sortOption, setSortOption] = useState('name');
@@ -71,7 +123,19 @@ function ExamineTests() {
         <div className='HeaderTeacher'>
           <h1 className='TitleExamine'>Examine Tests</h1>
         </div>
-        <Link to='..' className='LogoutButtonTeacher'><BiLogOut></BiLogOut></Link>
+        <Link
+          to=".."
+          className="LogoutButtonOfficial"
+          onClick={() => {
+            localStorage.removeItem("jwtToken");
+            localStorage.removeItem("jwtTokenExpiration");
+            localStorage.removeItem("userRights");
+            localStorage.removeItem("loggedInOfficialName");
+            localStorage.removeItem("userName");
+          }}
+        >
+          <BiLogOut></BiLogOut>
+        </Link>
       </header>
 
       {isSidebarOpen && (
