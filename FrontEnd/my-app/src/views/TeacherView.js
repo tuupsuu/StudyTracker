@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
 import GradeChart from '../components/GradeChart';
-import accounts from '../jsonFiles/accounts.json'; 
 
 function TeacherView() {  
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
@@ -19,10 +18,11 @@ function TeacherView() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('jwtTokenExpiration');
-        localStorage.removeItem('userRights');
-        localStorage.removeItem('loggedInTeacherName');
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
         navigate("..");
       }
     }, 1000); // checks every second
@@ -40,10 +40,11 @@ function TeacherView() {
       ev.preventDefault();
       // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
       if (!sessionStorage.getItem('isRefreshing')) {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('jwtTokenExpiration');
-        localStorage.removeItem('userRights');
-        localStorage.removeItem('loggedInTeacherName');
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
       }
     });
 
@@ -54,10 +55,11 @@ function TeacherView() {
       window.removeEventListener('beforeunload', (ev) => {
         ev.preventDefault();
         if (!sessionStorage.getItem('isRefreshing')) {
-          localStorage.removeItem('jwtToken');
-          localStorage.removeItem('jwtTokenExpiration');
-          localStorage.removeItem('userRights');
-          localStorage.removeItem('loggedInTeacherName');
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("jwtTokenExpiration");
+          localStorage.removeItem("userRights");
+          localStorage.removeItem("loggedInOfficialName");
+          localStorage.removeItem("userName");
         }
       });
     };
@@ -71,9 +73,11 @@ function TeacherView() {
           <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
         </div>
         <Link to='..' className='LogoutButtonTeacher' onClick={() => {
-          localStorage.removeItem('jwtTokenExpiration');
-          localStorage.removeItem('jwtToken');
-          localStorage.removeItem('loggedInTeacherName');
+            localStorage.removeItem("jwtToken");
+            localStorage.removeItem("jwtTokenExpiration");
+            localStorage.removeItem("userRights");
+            localStorage.removeItem("loggedInOfficialName");
+            localStorage.removeItem("userName");
           }}> <BiLogOut></BiLogOut>
         </Link>
       </header>
@@ -85,6 +89,7 @@ function TeacherView() {
             <li>Create a test</li>
             <li>Evaluate tests</li>
             <Link to='/examine-tests'>ExamineTests</Link>
+            <li><Link to='/students'>Students</Link></li>
           </ul>
         </aside>
       )}

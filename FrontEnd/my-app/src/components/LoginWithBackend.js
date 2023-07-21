@@ -18,7 +18,7 @@ function LoginWithBackend() {
 
   const storeToken = (token) => {
     // Set the expiration time to 1 hour (3600 seconds) from the current time.
-    const expirationTime = new Date().getTime() + 20 * 1000;
+    const expirationTime = new Date().getTime() + 3600 * 1000;
     localStorage.setItem('jwtToken', token);
     localStorage.setItem('jwtTokenExpiration', expirationTime);
   };
@@ -65,6 +65,26 @@ function LoginWithBackend() {
       localStorage.setItem('userRights', rights);
       storeToken(token, expiresIn);
       setIsLoggedIn(true);
+
+      const userData = await fetch(`/api2?userID=${id}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data
+          console.log(data);
+          return data; // Add this line to return the data
+        })
+        .catch(error => {
+          // Handle any errors
+          console.error(error);
+        });
+      
+      localStorage.setItem('userName', `${userData.FirstName} ${userData.LastName}`);
+      
 
     } catch (error) {
       console.error('Error:', error);
