@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute';
 import OfficialView from './views/OfficialView';
 import ExamineSchools from './views/ExamineSchools';
 import LoginWithBackend from './components/LoginWithBackend';
+import Students from './views/Students';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/examine-tests" element={<PrivateRoute element={<ExamineTests />} />} />
             <Route path="/example-test" element={<PrivateRoute element={<ExampleTest />} />} />
             <Route path="/examine-schools" element={<PrivateRoute element={<ExamineSchools />} />} />
+            <Route path="/students" element={<PrivateRoute element={<Students />} />} />
             <Route path="/examine-teachers" element={<PrivateRoute element={<ExamineTeachers />} />} />
           </Routes>
         </div>
