@@ -66,6 +66,30 @@ function LoginWithBackend() {
       storeToken(token, expiresIn);
       setIsLoggedIn(true);
 
+      const userData = await fetch('/api2', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userID: id
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data
+          console.log(data);
+          return data; // Add this line to return the data
+        })
+        .catch(error => {
+          // Handle any errors
+          console.error(error);
+        });
+      
+      localStorage.setItem('userName', `${userData.FirstName} ${userData.LastName}`);
+      
+
     } catch (error) {
       console.error('Error:', error);
       alert('Failed to verify password');
