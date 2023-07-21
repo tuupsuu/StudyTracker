@@ -35,11 +35,6 @@
     cursor: pointer;
   }
   
-  .grade {
-    color: #dc3545;
-    background-color: #e6f7ff;
-  }
-  
   .hamburger {
     font-size: xx-large;
     background: darkslategrey;
@@ -71,33 +66,6 @@
     padding: 20px;
   }
 
-  .student {
-    border: 1px solid black;
-    background-color: #e6f7ff;
-    padding: 10px;
-    margin-bottom: 20px; /* Adds margin between each student box */
-    width: 800px; /* Set a fixed width for each box */
-    box-sizing: border-box; /* This makes sure the padding and border are included in the box's total width */
-  }
-  
-  .student-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .student h2 {
-    margin: 0;
-    margin-right: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;  /* Truncate the text if it's too long */
-    flex-grow: 1;  /* Allow the name to take up as much space as possible */
-  }
-  
-  .student p {
-    margin: 0;
-  }
   
   .controls {
     display: flex;
@@ -105,42 +73,31 @@
     align-items: center;
     margin-bottom: 20px;
   }
-
-  .sortButtons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;  /* Space between buttons */
-    margin-bottom: 20px;  /* Space between buttons and names */
-  }
-
-  .sortButtons select {
-    width: 500px;  /* Set the width */
-    height: 40px;  /* Set the height */
-    font-size: 20px;    
-  }
-  .sortButtons input {
-    width: 492px;  /* Set the width */
-    height: 40px;  /* Set the height */
-    font-size: 20px;
-  }  
   
-  .DownloadCSV {
+  .addStudent {
     font-size: 30px;
     margin-bottom: 20px;
     margin-left: 10px;
     padding: 10px;
     background-color: rgb(97, 183, 212);
-    color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
   }
 
-  .AddStudent {
+  .buttonAdd {
     color: white;
-    border-radius: 10px;
-    margin-left: 10px;
-    border: none;
   }
 
+  .table {
+    border: 2px solid #333;
+    border-radius: 5px;
+    margin: 0 auto;
+  }
+  
+  .TableCell {
+    font-size: 20px; /* adjust this value as needed */
+    border-bottom: 1px solid #ccc;
+  }
+  
   
