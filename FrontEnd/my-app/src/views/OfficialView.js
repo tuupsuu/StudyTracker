@@ -93,6 +93,7 @@ function OfficialView() {
         localStorage.removeItem("jwtTokenExpiration");
         localStorage.removeItem("userRights");
         localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
         navigate("..");
       }
     }, 1000); // checks every second
@@ -114,6 +115,7 @@ function OfficialView() {
         localStorage.removeItem("jwtTokenExpiration");
         localStorage.removeItem("userRights");
         localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
       }
     });
 
@@ -128,6 +130,7 @@ function OfficialView() {
           localStorage.removeItem("jwtTokenExpiration");
           localStorage.removeItem("userRights");
           localStorage.removeItem("loggedInOfficialName");
+          localStorage.removeItem("userName");
         }
       });
     };
@@ -199,9 +202,11 @@ function OfficialView() {
           to=".."
           className="LogoutButtonOfficial"
           onClick={() => {
-            localStorage.removeItem("jwtTokenExpiration");
             localStorage.removeItem("jwtToken");
+            localStorage.removeItem("jwtTokenExpiration");
+            localStorage.removeItem("userRights");
             localStorage.removeItem("loggedInOfficialName");
+            localStorage.removeItem("userName");
           }}
         >
           <BiLogOut></BiLogOut>
