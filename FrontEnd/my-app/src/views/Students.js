@@ -3,7 +3,7 @@ import './ExamineTests.css';
 import { FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 
 function Students() {
   const navigate = useNavigate();
@@ -60,7 +60,8 @@ function Students() {
 
   // New states for dialog and student
   const [openDialog, setOpenDialog] = useState(false);
-  const [students, setStudents] = useState([]);  
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);  
   const [newStudent, setNewStudent] = useState(
     {FirstName: "",
     LastName: "",
@@ -138,6 +139,8 @@ function Students() {
     console.log('Error adding new student:', error);
   }};
 
+//--------------------------------------------------------------
+
   // Fetch students
   useEffect(() => {
     fetchStudents();
@@ -170,7 +173,15 @@ function Students() {
       console.log('Error fetching students:', error);
     }
   };
+//----------------------------------------------------------------
 
+  const handleStudentRowClick = (student) => {
+    setSelectedStudent(student);
+  };
+
+  const handleCloseStudentInfoDialog = () => {
+    setSelectedStudent(null);
+  };
 
   return (
     <div className="examine-tests">
@@ -206,15 +217,20 @@ function Students() {
               Add new student
             </Button>
           </div>
-          
-          {/* Render the list of students */}
-          <ul>
-            {students.map((student, index) => (
-              <li key={index}>
-                {student.FirstName} {student.LastName}
-              </li>
-            ))}
-          </ul>            
+
+          {/* Render students in a table */}
+          <TableContainer>
+            <Table>
+              <TableBody>
+                {students.map((student, index) => (
+                  <TableRow key={index} onClick={() => handleStudentRowClick(student)}>
+                    <TableCell>{student.FirstName}</TableCell>
+                    <TableCell>{student.LastName}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>           
         </div>
       </section>
 
@@ -268,6 +284,64 @@ function Students() {
           </Button>
         </DialogActions>
       </Dialog>
+      
+      {/* Student information dialog */}
+      {selectedStudent && (
+        <Dialog open={true} onClose={handleCloseStudentInfoDialog}>
+          <DialogTitle>{`${selectedStudent.FirstName} ${selectedStudent.LastName}`}</DialogTitle>
+          <DialogContent>
+            <TextField
+              margin="dense"
+              name="FirstName"
+              label="FirstName"
+              type="text"
+              fullWidth
+              value={selectedStudent.FirstName}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextField
+              margin="dense"
+              name="LastName"
+              label="LastName"
+              type="text"
+              fullWidth
+              value={selectedStudent.LastName}
+              InputProps={{
+                readOnly: true,
+              }}
+            />          
+            <TextField
+              margin="dense"
+              name="UserPassWord"
+              label="UserPassWord"
+              type="text"
+              fullWidth
+              value={selectedStudent.UserPassWord}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextField
+              margin="dense"
+              name="Email"
+              label="Email"
+              type="text"
+              fullWidth
+              value={selectedStudent.Email}
+              InputProps={{
+                readOnly: true,
+              }}
+            />                    
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseStudentInfoDialog} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}      
     </div>
   );
 }
