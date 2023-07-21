@@ -69,8 +69,10 @@ const removeUser = async (req, res) => {
 // Get all users or single user
 const getUsers = async (req, res) => {
   try {
-    if (req.userID) {
-      const user = await User.findByPk(req.userID);
+    const userID = req.query.userID;
+
+    if (userID) {
+      const user = await User.findByPk(userID);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
@@ -84,6 +86,7 @@ const getUsers = async (req, res) => {
     res.status(500).json({ error: 'Failed to get users' });
   }
 };
+
 
 
 module.exports = { addUser, editUser, removeUser, getUsers };
