@@ -3,7 +3,6 @@ import './ExamineTests.css';
 import studentsData from '../jsonFiles/grades.json';
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import Papa from 'papaparse';
 import { BiLogOut, BiPrinter } from 'react-icons/bi';
 
