@@ -86,18 +86,22 @@
   }
 
   .buttonAdd {
+    display: flex;
+    background-color: rgb(97, 183, 212);
     color: white;
   }
 
-  .table {
+  .studentTable {
     border: 2px solid #333;
+    width: 80%;
     border-radius: 5px;
     margin: 0 auto;
   }
   
   .TableCell {
-    font-size: 20px; /* adjust this value as needed */
-    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 25px; /* adjust this value as needed */
+    border-bottom: 1px solid black;
   }
   
   

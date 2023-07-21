@@ -61,7 +61,8 @@ function Students() {
   // New states for dialog and student
   const [openDialog, setOpenDialog] = useState(false);
   const [students, setStudents] = useState([]);
-  const [selectedStudent, setSelectedStudent] = useState(null);  
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');  
   const [newStudent, setNewStudent] = useState(
     {FirstName: "",
     LastName: "",
@@ -216,7 +217,14 @@ function Students() {
             <Button className='buttonAdd' onClick={handleDialogOpen}>
               Add new student
             </Button>
-          </div>         
+          </div>
+          <TextField
+            id="standard-basic"
+            label="Search"
+            variant="standard"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />                    
         </div>
       </section>
 
@@ -225,7 +233,16 @@ function Students() {
           <TableContainer>
             <Table>
               <TableBody>
-                {students.map((student, index) => (
+                {students.filter((student) => {
+                  if (searchTerm === '') {
+                    return student;
+                  } else if (
+                    student.FirstName.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                    student.LastName.toLowerCase().includes(searchTerm.toLowerCase())
+                  ) {
+                    return student;
+                  }
+                }).map((student, index) => (
                   <TableRow key={index} onClick={() => handleStudentRowClick(student)}>
                     <TableCell>{student.FirstName}</TableCell>
                     <TableCell>{student.LastName}</TableCell>
@@ -233,7 +250,7 @@ function Students() {
                 ))}
               </TableBody>
             </Table>
-          </TableContainer>          
+          </TableContainer>           
       </section>
 
       {/* Add student dialog */}
