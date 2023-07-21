@@ -8,10 +8,10 @@ import { BiLogOut, BiPrinter } from 'react-icons/bi';
 
 function ExamineTests() {
     const navigate = useNavigate();
+    const [officialName, setOfficialName] = useState("");
   function downloadCSV() {
     const csv = Papa.unparse(displayStudents);
     const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const [officialName, setOfficialName] = useState("");
     
     // Create link element
     let link = document.createElement('a');
