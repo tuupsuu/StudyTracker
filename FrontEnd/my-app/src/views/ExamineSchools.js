@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import _ from "lodash";
@@ -13,6 +14,8 @@ function ExamineSchools() {
   const [selectedSchool, setSelectedSchool] = useState("All");
   const [selectedClass, setSelectedClass] = useState("All");
   const location = useLocation();
+  const navigate = useNavigate();
+  const [officialName, setOfficialName] = useState("");
 
   const getParams = (query) => {
     return new URLSearchParams(query);
