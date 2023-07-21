@@ -69,7 +69,7 @@ function LoginWithBackend() {
       const userData = await fetch(`/api2?userID=${id}`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
+          Authorization: `Bearer ${token}`
         }
       })
         .then(response => response.json())
