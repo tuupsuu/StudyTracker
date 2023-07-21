@@ -182,7 +182,7 @@ function Students() {
   const handleDeleteStudent = async () => {
     try {
       // Send the HTTP DELETE request
-      const response = await fetch(`https://studytracker.site/api2/${selectedStudent.id}`, {
+      const response = await fetch(`https://studytracker.site/api2/${selectedStudent.userID}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
