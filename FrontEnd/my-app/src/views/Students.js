@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './Students.css';
+import './ExamineTests.css';
 import { FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow, InputBase, IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import GetAppIcon from '@mui/icons-material/GetApp';
-import { json2csv } from 'json2csv'; 
-import { saveAs } from 'file-saver';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 
 function Students() {
   const navigate = useNavigate();
@@ -65,10 +61,7 @@ function Students() {
   // New states for dialog and student
   const [openDialog, setOpenDialog] = useState(false);
   const [students, setStudents] = useState([]);
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredStudents, setFilteredStudents] = useState([]);  
-  const [searchInput, setSearchInput] = useState('');  
+  const [selectedStudent, setSelectedStudent] = useState(null);  
   const [newStudent, setNewStudent] = useState(
     {FirstName: "",
     LastName: "",
@@ -151,7 +144,7 @@ function Students() {
   // Fetch students
   useEffect(() => {
     fetchStudents();
-  }, [searchTerm]);
+  }, []);
 
   const fetchStudents = async () => {
     try {
@@ -165,19 +158,18 @@ function Students() {
       });
 
       if (response.ok) {
+        // Parse the response as JSON
         const data = await response.json();
+        // Filter students with Rights equal to "1"
         const filteredStudents = data.filter(student => student.Rights === 1);
+        // Update the students state
         setStudents(filteredStudents);
-  
-        // filtering students based on search term
-        if (searchTerm !== "") {
-          const searchFiltered = filteredStudents.filter(student => student.FirstName.toLowerCase().includes(searchTerm.toLowerCase()));
-          setFilteredStudents(searchFiltered);
-        } else {
-          setFilteredStudents(filteredStudents);
-        }
+      } else {
+        // Handle error response
+        console.log('Failed to fetch students');
       }
     } catch (error) {
+      // Handle network or other errors
       console.log('Error fetching students:', error);
     }
   };
@@ -190,26 +182,7 @@ function Students() {
   const handleCloseStudentInfoDialog = () => {
     setSelectedStudent(null);
   };
-//----------------------------------------------------------------
-  // Function to handle search input change
-  const handleSearchInputChange = (event) => {
-    setSearchInput(event.target.value);
-  };
 
-  // Function to filter students
-  const filterStudents = () => {
-    const filtered = students.filter(student => student.FirstName.toLowerCase().includes(searchInput.toLowerCase()));
-    setFilteredStudents(filtered);
-  };  
-
-// Function to download students data
-  const downloadStudentsData = () => {
-    const csvData = json2csv.parse(filteredStudents, { fields: ['FirstName', 'LastName', 'UserPassWord'] });
-    const blob = new Blob([csvData], { type: "text/csv" });
-    saveAs(blob, 'students_data.csv');
-  };
-
-//----------------------------------------------------------------
   return (
     <div className="examine-tests">
       <header className="header">
@@ -238,33 +211,21 @@ function Students() {
 
       <section className="content">
         <div className='controls'>
-          <IconButton onClick={filterStudents}>
-            <SearchIcon />
-          </IconButton>
           <div className='addStudent'>
             {/* Add new student button */}
             <Button className='buttonAdd' onClick={handleDialogOpen}>
               Add new student
             </Button>
-          </div>
-          <InputBase
-            placeholder="Search by name"
-            inputProps={{ 'aria-label': 'search by name' }}
-            value={searchInput}
-            onChange={handleSearchInputChange}
-          />   
-          <IconButton onClick={downloadStudentsData}>
-            <GetAppIcon />
-          </IconButton>
+          </div>         
         </div>
       </section>
 
-      <section className='table'>
+      <section className='studentTable'>
           {/* Render students in a table */}
           <TableContainer>
             <Table>
               <TableBody>
-                {filteredStudents.map((student, index) => (
+                {students.map((student, index) => (
                   <TableRow key={index} onClick={() => handleStudentRowClick(student)}>
                     <TableCell>{student.FirstName}</TableCell>
                     <TableCell>{student.LastName}</TableCell>
@@ -272,7 +233,7 @@ function Students() {
                 ))}
               </TableBody>
             </Table>
-          </TableContainer> 
+          </TableContainer>          
       </section>
 
       {/* Add student dialog */}
@@ -325,7 +286,7 @@ function Students() {
           </Button>
         </DialogActions>
       </Dialog>
-
+      
       {/* Student information dialog */}
       {selectedStudent && (
         <Dialog open={true} onClose={handleCloseStudentInfoDialog}>
