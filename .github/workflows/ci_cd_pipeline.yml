@@ -5,8 +5,8 @@ on:
     branches:
       - dev
       - main
-      - topias
       - Eemil
+      - topias
 
 jobs:
   build:
