@@ -15,6 +15,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
   }
 });
 
+
 const Result = sequelize.define('TestResults', {
     Resu_ID: {
         type: DataTypes.INTEGER,
@@ -37,6 +38,7 @@ Result.belongsTo(Student, {
   foreignKey: 'Stud_ID',
   onDelete: 'CASCADE'
 });
+
 
 sequelize.sync();
 

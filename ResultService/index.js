@@ -23,6 +23,27 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
 
+
+app.post('/results/addFromJson', async (req, res) => {
+  try {
+    await resultController.addFromJson(req.body);
+    res.status(201).json({ message: 'TestResult, QuestionResults and SectionResults succesfully created.'});
+  } catch (err) {
+    res.status(500).json({ message: 'An error occurred while adding the results.', error: err.message });
+  }
+});
+
+app.get('/results/:id', async (req, res) => {
+  try {
+    const testResults = await resultController.get(req.params.id);
+
+    res.json(testResults);
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+})
+
+
 // methods for handling test result data
 app.post('/results', (req, res) => resultController.add(req, res));
 
@@ -49,6 +70,12 @@ app.put('/sectionResults/:id', (req, res) => sectionController.edit(req, res));
 app.delete('/sectionResults/:id', sectionController.delete);
 
 app.get('/sectionResults', sectionController.getAll);
+
+// error middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 
 sequelize.authenticate()
