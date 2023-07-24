@@ -30,13 +30,12 @@ class BaseController {
     }
 
 
-    async add(req, res) {
+    async add(data) {
         try {
-            const data = req.body;    
             const entity = await this.model.create(data);
-            res.status(201).json(entity);
+            return entity;
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            throw new Error(error.message);
         }
     }
 
