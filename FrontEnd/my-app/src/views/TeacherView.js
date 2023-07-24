@@ -30,7 +30,7 @@ function TeacherView() {
     // Set sessionStorage item on page load
     sessionStorage.setItem('isRefreshing', 'true');
 
-    const loggedInTeacherName = localStorage.getItem('loggedInTeacherName');
+    const loggedInTeacherName = localStorage.getItem('userName');
     if (loggedInTeacherName) {
       setTeacherName(loggedInTeacherName);
     }
@@ -70,7 +70,7 @@ function TeacherView() {
       <header className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
         <div className='HeaderTeacher'>
-          <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
+          <h1 className='TitleTeacher'>Welcome, {teacherName}</h1>
         </div>
         <Link to='..' className='LogoutButtonTeacher' onClick={() => {
             localStorage.removeItem("jwtToken");
