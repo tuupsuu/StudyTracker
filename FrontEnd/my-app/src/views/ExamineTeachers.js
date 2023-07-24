@@ -152,7 +152,7 @@ function OfficialView() {
       <header className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
         <div className="HeaderOfficial">
-          <h1 className="TitleOfficial">Welcome, {officialName}!</h1>
+          <h1 className="TitleOfficial">Examine teachers</h1>
         </div>
         <Link
           to=".."
@@ -185,6 +185,10 @@ function OfficialView() {
           </ul>
         </aside>
       )}
+
+      <section className="content">
+        <h2>Citys teachers</h2>
+      </section>
     </div>
   );
 }
