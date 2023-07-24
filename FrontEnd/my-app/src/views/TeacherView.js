@@ -30,7 +30,7 @@ function TeacherView() {
     // Set sessionStorage item on page load
     sessionStorage.setItem('isRefreshing', 'true');
 
-    const loggedInTeacherName = localStorage.getItem('loggedInTeacherName');
+    const loggedInTeacherName = localStorage.getItem('userName');
     if (loggedInTeacherName) {
       setTeacherName(loggedInTeacherName);
     }
