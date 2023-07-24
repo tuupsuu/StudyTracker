@@ -5,6 +5,8 @@ const config = require('./models/config');
 const resultController = require('./controllers/resultController');
 const questionController = require('./controllers/questionController');
 const sectionController = require('./controllers/sectionController');
+const studentController = require('./controllers/studentController');
+const teacherController = require('./controllers/teacherController');
 const { Sequelize, Datatypes } = require('sequelize');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
@@ -44,7 +46,7 @@ app.get('/results/:id', async (req, res) => {
 })
 
 
-// methods for handling test result data
+// endpoints for handling test result data
 app.post('/results', (req, res) => resultController.add(req, res));
 
 app.put('/results/:id', (req, res) => resultController.edit(req, res));
@@ -53,7 +55,7 @@ app.delete('/results/:id', resultController.delete);
 
 app.get('/results', resultController.getAll);
 
-// methods for handling question result data
+// endpoints for handling question result data
 app.post('/questionResults', (req, res) => questionController.add(req, res));
 
 app.put('/questionResults/:id', (req, res) => questionController.edit(req, res));
@@ -62,7 +64,7 @@ app.delete('/questionResults/:id', questionController.delete);
 
 app.get('/questionResults', questionController.getAll);
 
-// methods for handling question section result data
+// endpoints for handling question section result data
 app.post('/sectionResults', (req, res) => sectionController.add(req, res));
 
 app.put('/sectionResults/:id', (req, res) => sectionController.edit(req, res));
@@ -70,6 +72,25 @@ app.put('/sectionResults/:id', (req, res) => sectionController.edit(req, res));
 app.delete('/sectionResults/:id', sectionController.delete);
 
 app.get('/sectionResults', sectionController.getAll);
+
+// endpoints for handling student data
+app.post('/student', (req, res) => studentController.add(req, res));
+
+app.put('/student/:id', (req, res) => studentController.edit(req, res));
+
+app.delete('/student/:id', studentController.delete);
+
+app.get('/student', studentController.getAll);
+
+// endpoints for handling teacher data
+app.post('/teacher', (req, res) => teacherController.add(req, res));
+
+app.put('/teacher/:id', (req, res) => teacherController.edit(req, res));
+
+app.delete('/teacher/:id', teacherController.delete);
+
+app.get('/teacher', teacherController.getAll);
+
 
 // error middleware
 app.use((err, req, res, next) => {
