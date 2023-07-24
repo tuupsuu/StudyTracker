@@ -58,12 +58,12 @@ function TeacherView() {
         }
       });
     };
-  }, [navigate]);
 
-  const loggedInTeacherName = localStorage.getItem('userName');
-  if (loggedInTeacherName) {
-    setTeacherName(loggedInTeacherName);
-  }
+    const loggedInTeacherName = localStorage.getItem('userName');
+    if (loggedInTeacherName) {
+      setTeacherName(loggedInTeacherName);
+    }
+  }, [navigate]);
 
   return (
     <div className="teacher-view">
