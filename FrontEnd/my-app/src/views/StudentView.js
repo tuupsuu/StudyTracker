@@ -17,10 +17,11 @@ function StudentView() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('jwtTokenExpiration');
-        localStorage.removeItem('userRights');
-        localStorage.removeItem('loggedInStudentName');
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
         navigate("..");
       }
     }, 1000); // checks every second
@@ -38,10 +39,11 @@ function StudentView() {
       ev.preventDefault();
       // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
       if (!sessionStorage.getItem('isRefreshing')) {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('jwtTokenExpiration');
-        localStorage.removeItem('userRights');
-        localStorage.removeItem('loggedInStudentName');
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
       }
     });
 
@@ -52,10 +54,11 @@ function StudentView() {
       window.removeEventListener('beforeunload', (ev) => {
         ev.preventDefault();
         if (!sessionStorage.getItem('isRefreshing')) {
-          localStorage.removeItem('jwtToken');
-          localStorage.removeItem('jwtTokenExpiration');
-          localStorage.removeItem('userRights');
-          localStorage.removeItem('loggedInStudentName');
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("jwtTokenExpiration");
+          localStorage.removeItem("userRights");
+          localStorage.removeItem("loggedInOfficialName");
+          localStorage.removeItem("userName");
         }
       });
     };
@@ -76,9 +79,11 @@ function StudentView() {
           <p>You can choose your test from this page.</p>
         </div>
         <Link to='..' className='Student-LogOutButton' onClick={() => {
-          localStorage.removeItem('jwtTokenExpiration');
-          localStorage.removeItem('jwtToken');
-          localStorage.removeItem('loggedInStudentName');
+            localStorage.removeItem("jwtToken");
+            localStorage.removeItem("jwtTokenExpiration");
+            localStorage.removeItem("userRights");
+            localStorage.removeItem("loggedInOfficialName");
+            localStorage.removeItem("userName");
         }}><BiLogOut></BiLogOut></Link>
         </div>
       <div className='TestOptions'>
