@@ -29,11 +29,6 @@ function TeacherView() {
   
     // Set sessionStorage item on page load
     sessionStorage.setItem('isRefreshing', 'true');
-
-    const loggedInTeacherName = localStorage.getItem('userName');
-    if (loggedInTeacherName) {
-      setTeacherName(loggedInTeacherName);
-    }
   
     // Adding event listener for window/tab close
     window.addEventListener('beforeunload', (ev) => {
@@ -65,12 +60,17 @@ function TeacherView() {
     };
   }, [navigate]);
 
+  const loggedInTeacherName = localStorage.getItem('userName');
+  if (loggedInTeacherName) {
+    setTeacherName(loggedInTeacherName);
+  }
+
   return (
     <div className="teacher-view">
       <header className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
         <div className='HeaderTeacher'>
-          <h1 className='TitleTeacher'>Welcome, {teacherName}</h1>
+          <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
         </div>
         <Link to='..' className='LogoutButtonTeacher' onClick={() => {
             localStorage.removeItem("jwtToken");
