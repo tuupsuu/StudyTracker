@@ -66,7 +66,6 @@
     padding: 20px;
   }
 
-  
   .controls {
     display: flex;
     justify-content: space-between;
@@ -76,13 +75,13 @@
   
   .addStudent {
     font-size: 30px;
-    margin-bottom: 20px;
     margin-left: 10px;
     padding: 10px;
     background-color: rgb(97, 183, 212);
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    margin-right: 20px;
   }
 
   .buttonAdd {
@@ -104,4 +103,6 @@
     border-bottom: 1px solid black;
   }
   
-  
+  .studentSearch {
+    border: 2px #333;
+  }

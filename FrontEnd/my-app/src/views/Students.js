@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ExamineTests.css';
+import './Students.css';
 import { FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
@@ -177,6 +177,36 @@ function Students() {
       console.log('Error fetching students:', error);
     }
   };
+
+//----------------------------------------------------------------
+  const handleDeleteStudent = async () => {
+    try {
+      // Send the HTTP DELETE request
+      const response = await fetch(`https://studytracker.site/api2/${selectedStudent.UserID}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
+        }
+      });
+
+      if (response.ok) {
+        // Student deleted successfully
+        console.log('Student deleted successfully');
+        // Remove student from local state
+        setStudents(students.filter(student => student.id !== selectedStudent.id));
+        // Close the dialog
+        handleCloseStudentInfoDialog();
+      } else {
+        // Handle error response
+        console.log('Failed to delete student');
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.log('Error deleting student:', error);
+    }
+  };
+
 //----------------------------------------------------------------
 
   const handleStudentRowClick = (student) => {
@@ -186,7 +216,7 @@ function Students() {
   const handleCloseStudentInfoDialog = () => {
     setSelectedStudent(null);
   };
-
+//------------------------------------------------------------------
   return (
     <div className="examine-tests">
       <header className="header">
@@ -224,6 +254,7 @@ function Students() {
             </Button>
           </div>
           <TextField
+            className='studentSearch'
             id="standard-basic"
             label="Search"
             variant="standard"
@@ -362,6 +393,9 @@ function Students() {
           <DialogActions>
             <Button onClick={handleCloseStudentInfoDialog} color="primary">
               Close
+            </Button>
+            <Button onClick={handleDeleteStudent} color="primary">
+              Delete
             </Button>
           </DialogActions>
         </Dialog>
