@@ -1,25 +1,69 @@
 import React, { useState, useEffect } from 'react';
 import './TeacherView.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
 import GradeChart from '../components/GradeChart';
-import accounts from '../jsonFiles/accounts.json'; 
 
 function TeacherView() {  
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  const [teacherName, setTeacherName] = useState(''); 
+  const [teacherName, setTeacherName] = useState('');
+  const navigate = useNavigate(); 
 
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem('jwtTokenExpiration');
+    return new Date().getTime() > expirationTime;
+  };
 
   useEffect(() => {
-    const loggedInTeacherId = localStorage.getItem('loggedInTeacherId');
-    if (loggedInTeacherId) {
-      const teacherInfo = accounts.teachers.find(teacher => teacher.id === loggedInTeacherId);
-      if (teacherInfo) {
-        setTeacherName(teacherInfo.name);
+    const intervalId = setInterval(() => {
+      if (isTokenExpired()) {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
+        navigate("..");
       }
+    }, 1000); // checks every second
+  
+    // Set sessionStorage item on page load
+    sessionStorage.setItem('isRefreshing', 'true');
+
+    const loggedInTeacherName = localStorage.getItem('loggedInTeacherName');
+    if (loggedInTeacherName) {
+      setTeacherName(loggedInTeacherName);
     }
-  }, []);
+  
+    // Adding event listener for window/tab close
+    window.addEventListener('beforeunload', (ev) => {
+      ev.preventDefault();
+      // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
+      if (!sessionStorage.getItem('isRefreshing')) {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtTokenExpiration");
+        localStorage.removeItem("userRights");
+        localStorage.removeItem("loggedInOfficialName");
+        localStorage.removeItem("userName");
+      }
+    });
+
+    // remember to clear the interval when the component unmounts
+    return () => {
+      clearInterval(intervalId);
+      // Remove the event listener when the component unmounts
+      window.removeEventListener('beforeunload', (ev) => {
+        ev.preventDefault();
+        if (!sessionStorage.getItem('isRefreshing')) {
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("jwtTokenExpiration");
+          localStorage.removeItem("userRights");
+          localStorage.removeItem("loggedInOfficialName");
+          localStorage.removeItem("userName");
+        }
+      });
+    };
+  }, [navigate]);
 
   return (
     <div className="teacher-view">
@@ -28,7 +72,14 @@ function TeacherView() {
         <div className='HeaderTeacher'>
           <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
         </div>
-        <Link to='..' className='LogoutButtonTeacher'><BiLogOut></BiLogOut></Link>
+        <Link to='..' className='LogoutButtonTeacher' onClick={() => {
+            localStorage.removeItem("jwtToken");
+            localStorage.removeItem("jwtTokenExpiration");
+            localStorage.removeItem("userRights");
+            localStorage.removeItem("loggedInOfficialName");
+            localStorage.removeItem("userName");
+          }}> <BiLogOut></BiLogOut>
+        </Link>
       </header>
 
       {isSidebarOpen && (
@@ -38,6 +89,7 @@ function TeacherView() {
             <li>Create a test</li>
             <li>Evaluate tests</li>
             <Link to='/examine-tests'>ExamineTests</Link>
+            <li><Link to='/students'>Students</Link></li>
           </ul>
         </aside>
       )}
