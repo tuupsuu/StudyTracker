@@ -1,41 +1,57 @@
 const BaseController = require('./baseController');
+const questionController = require('./questionController');
 const { Result } = require('../models/result');
+const { QuestionResult } = require('../models/questionResult');
+const { SectionResult } = require('../models/sectionResult');
 
 class ResultsController extends BaseController {
   constructor() {
     super(Result);
   }
 
-
-  // old implementations
-  // async add(req, res) {
-  //   try {
-  //     const { studentId, testId } = req.body;
-  //     const result = await Result.create({ Stud_ID: studentId, Test_ID: testId });
-  //     res.status(201).json(result);
-  //   } catch (error) {
-  //     res.status(500).json({ message: error.message });
-  //   }
-  // }
+  async addFromJson(testData) {
+    const transaction = await this.model.sequelize.transaction();
+    try {
+      const testResult = await this.add(testData, { transaction });
+      for (let questionResult of testData.QuestionResults) {
+        questionResult.Resu_ID = testResult.Resu_ID;
+        await questionController.addFromJson(questionResult, { transaction });
+      }
 
 
-  // async edit(req, res) {
-  //   try {
-  //     const { id } = req.params;
-  //     const { studentId, testId } = req.body;
-  //     const result = await Result.findByPk(id);
-      
-  //     if (!result) throw new Error('Result not found');
+      await transaction.commit();
+    } catch (err) {
+      await transaction.rollback();
+      throw new Error(err.message || 'Some error occurred while creating the TestResult.');
+    }
+  }
 
-  //     result.Stud_ID = studentId;
-  //     result.Test_ID = testId;
-  //     await result.save();
+  async get(Resu_ID) {
+    let testResult = await Result.findByPk(Resu_ID);
 
-  //     res.status(200).json(result);
-  //   } catch (error) {
-  //     res.status(500).json({ message: error.message });
-  //   }
-  // }
+    if (!testResult) {
+      throw new Error(`No test results found with ID ${Resu_ID}`);
+    }
+
+    testResult = testResult.get({ plain: true });
+
+    const questionResults = await QuestionResult.findAll({
+      where: { Resu_ID: testResult.Resu_ID }
+    });
+
+    for (const questionResult of questionResults) {
+      const sectionResults = await SectionResult.findAll({
+        where: { QuesResu_ID: questionResult.QuesResu_ID }
+      });
+
+      questionResult.SectionResults = sectionResults.map(sr => sr.get({ plain: true }));
+    }
+
+    testResult.QuestionResults = questionResults.map(qr => qr.get({ plain: true }));
+
+    return testResult;
+  }
 }
+
 
 module.exports = new ResultsController();
