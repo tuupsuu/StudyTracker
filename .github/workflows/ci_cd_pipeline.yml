@@ -45,6 +45,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Docker clean up
+      run: docker system prune -af
+      
     - name: Checkout code
       uses: actions/checkout@v2
 
