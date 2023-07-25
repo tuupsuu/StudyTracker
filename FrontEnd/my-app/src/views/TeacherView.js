@@ -11,9 +11,10 @@ function TeacherView() {
   const navigate = useNavigate();
 
   const isTokenExpired = () => {
-    const expirationTime = localStorage.getItem('jwtTokenExpiration');
+    const expirationTime = parseInt(localStorage.getItem('jwtTokenExpiration'), 10);
     return new Date().getTime() > expirationTime;
   };
+  
 
   useEffect(() => {
     const loggedInTeacherName = localStorage.getItem('userName');
