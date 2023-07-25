@@ -74,7 +74,7 @@ app.delete('/sectionResults/:id', sectionController.delete);
 app.get('/sectionResults', sectionController.getAll);
 
 // endpoints for handling student data
-app.post('/student', (req, res) => studentController.add(req, res));
+app.post('/student/', (req, res) => studentController.add(req, res));
 
 app.put('/student/:id', (req, res) => studentController.edit(req, res));
 
@@ -83,7 +83,7 @@ app.delete('/student/:id', studentController.delete);
 app.get('/student', studentController.getAll);
 
 // endpoints for handling teacher data
-app.post('/teacher', (req, res) => teacherController.add(req, res));
+app.post('/teacher/', (req, res) => teacherController.add(req, res));
 
 app.put('/teacher/:id', (req, res) => teacherController.edit(req, res));
 
