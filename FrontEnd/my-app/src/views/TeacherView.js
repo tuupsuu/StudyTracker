@@ -65,13 +65,12 @@ function TeacherView() {
   }, [navigate]);
 
   useEffect(() => {
-    loggedInTeacherName();
+    const loggedInTeacherName = localStorage.getItem('userName');
+    if (loggedInTeacherName) {
+      setTeacherName(loggedInTeacherName);
+    }
   }, []);
-
-  const loggedInTeacherName = localStorage.getItem('userName');
-  if (loggedInTeacherName) {
-    setTeacherName(loggedInTeacherName);
-  }
+  
 
     return (
       <div className="teacher-view">
