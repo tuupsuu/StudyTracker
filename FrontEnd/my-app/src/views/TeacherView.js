@@ -8,6 +8,7 @@ import GradeChart from '../components/GradeChart';
 function TeacherView() {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [teacherName, setTeacherName] = useState('');
+  const [isTeacherNameLoaded, setIsTeacherNameLoaded] = useState(false); // New state variable
   const navigate = useNavigate();
 
   const isTokenExpired = () => {
@@ -19,7 +20,9 @@ function TeacherView() {
     const loggedInTeacherName = localStorage.getItem('userName');
     if (loggedInTeacherName) {
       setTeacherName(loggedInTeacherName);
+      setIsTeacherNameLoaded(true); // Set the flag to true once the teacher name is loaded
     }
+  }, []);
 
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
@@ -70,7 +73,8 @@ function TeacherView() {
       <header className="header">
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
         <div className='HeaderTeacher'>
-          <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
+          {/* Render the teacherName only if it's loaded */}
+          {isTeacherNameLoaded && <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>}       
         </div>
         <Link to='..' className='LogoutButtonTeacher' onClick={() => {
           localStorage.removeItem("jwtToken");
