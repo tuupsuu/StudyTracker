@@ -14,9 +14,13 @@ function TeacherView() {
     const expirationTime = parseInt(localStorage.getItem('jwtTokenExpiration'), 10);
     return new Date().getTime() > expirationTime;
   };
-  
 
   useEffect(() => {
+    const loggedInTeacherName = localStorage.getItem('userName');
+    if (loggedInTeacherName) {
+      setTeacherName(loggedInTeacherName);
+    }
+
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
         localStorage.removeItem("jwtToken");
@@ -61,50 +65,43 @@ function TeacherView() {
     };
   }, [navigate]);
 
-  useEffect(() => {
-    const loggedInTeacherName = localStorage.getItem('userName');
-    if (loggedInTeacherName) {
-      setTeacherName(loggedInTeacherName);
-    }
-  }, []);
-  
+  return (
+    <div className="teacher-view">
+      <header className="header">
+        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
+        <div className='HeaderTeacher'>
+          <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
+        </div>
+        <Link to='..' className='LogoutButtonTeacher' onClick={() => {
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("jwtTokenExpiration");
+          localStorage.removeItem("userRights");
+          localStorage.removeItem("loggedInOfficialName");
+          localStorage.removeItem("userName");
+        }}>
+          <BiLogOut />
+        </Link>
+      </header>
 
-    return (
-      <div className="teacher-view">
-        <header className="header">
-          <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
-          <div className='HeaderTeacher'>
-            <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
-          </div>
-          <Link to='..' className='LogoutButtonTeacher' onClick={() => {
-            localStorage.removeItem("jwtToken");
-            localStorage.removeItem("jwtTokenExpiration");
-            localStorage.removeItem("userRights");
-            localStorage.removeItem("loggedInOfficialName");
-            localStorage.removeItem("userName");
-          }}> <BiLogOut></BiLogOut>
-          </Link>
-        </header>
+      {isSidebarOpen && (
+        <aside className="sidebar">
+          <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
+          <ul>
+            <li>Create a test</li>
+            <li>Evaluate tests</li>
+            <Link to='/examine-tests'>ExamineTests</Link>
+            <li><Link to='/students'>Students</Link></li>
+          </ul>
+        </aside>
+      )}
 
-        {isSidebarOpen && (
-          <aside className="sidebar">
-            <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
-            <ul>
-              <li>Create a test</li>
-              <li>Evaluate tests</li>
-              <Link to='/examine-tests'>ExamineTests</Link>
-              <li><Link to='/students'>Students</Link></li>
-            </ul>
-          </aside>
-        )}
+      <section className="content">
+        <div className="alert">Some of the tests are not yet evaluated!</div>
+        <h2>Student Grades Distribution</h2>
+        <GradeChart />
+      </section>
+    </div>
+  );
+}
 
-        <section className="content">
-          <div className="alert">Some of the tests are not yet evaluated!</div>
-          <h2>Student Grades Distribution</h2>
-          <GradeChart />
-        </section>
-      </div>
-    );
-  }
-
-  export default TeacherView;
+export default TeacherView;
