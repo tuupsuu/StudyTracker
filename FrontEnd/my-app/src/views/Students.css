@@ -93,7 +93,7 @@
   .studentTable {
     width: 80%;
     margin: 0 auto;
-    border-bottom: #333;
+    border-bottom: 1px #333;
   }
   
   .TableCell {
