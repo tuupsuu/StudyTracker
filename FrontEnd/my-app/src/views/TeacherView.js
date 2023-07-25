@@ -23,7 +23,9 @@ function TeacherView() {
       setIsTeacherNameLoaded(true); // Set the flag to true once the teacher name is loaded
     }
   }, []);
+  
 
+  useEffect(() => {
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
         localStorage.removeItem("jwtToken");
@@ -68,44 +70,50 @@ function TeacherView() {
     };
   }, [navigate]);
 
-  return (
-    <div className="teacher-view">
-      <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
-        <div className='HeaderTeacher'>
-          {/* Render the teacherName only if it's loaded */}
-          {isTeacherNameLoaded && <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>}       
-        </div>
-        <Link to='..' className='LogoutButtonTeacher' onClick={() => {
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("jwtTokenExpiration");
-          localStorage.removeItem("userRights");
-          localStorage.removeItem("loggedInOfficialName");
-          localStorage.removeItem("userName");
-        }}>
-          <BiLogOut />
-        </Link>
-      </header>
+  useEffect(() => {
+    const loggedInTeacherName = localStorage.getItem('userName');
+    if (loggedInTeacherName) {
+      setTeacherName(loggedInTeacherName);
+    }
+  }, []);
+  
 
-      {isSidebarOpen && (
-        <aside className="sidebar">
-          <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
-          <ul>
-            <li>Create a test</li>
-            <li>Evaluate tests</li>
-            <Link to='/examine-tests'>ExamineTests</Link>
-            <li><Link to='/students'>Students</Link></li>
-          </ul>
-        </aside>
-      )}
+    return (
+      <div className="teacher-view">
+        <header className="header">
+          <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
+          <div className='HeaderTeacher'>
+            isTeacherNameLoaded && <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>
+          </div>
+          <Link to='..' className='LogoutButtonTeacher' onClick={() => {
+            localStorage.removeItem("jwtToken");
+            localStorage.removeItem("jwtTokenExpiration");
+            localStorage.removeItem("userRights");
+            localStorage.removeItem("loggedInOfficialName");
+            localStorage.removeItem("userName");
+          }}> <BiLogOut></BiLogOut>
+          </Link>
+        </header>
 
-      <section className="content">
-        <div className="alert">Some of the tests are not yet evaluated!</div>
-        <h2>Student Grades Distribution</h2>
-        <GradeChart />
-      </section>
-    </div>
-  );
-}
+        {isSidebarOpen && (
+          <aside className="sidebar">
+            <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
+            <ul>
+              <li>Create a test</li>
+              <li>Evaluate tests</li>
+              <Link to='/examine-tests'>ExamineTests</Link>
+              <li><Link to='/students'>Students</Link></li>
+            </ul>
+          </aside>
+        )}
 
-export default TeacherView;
+        <section className="content">
+          <div className="alert">Some of the tests are not yet evaluated!</div>
+          <h2>Student Grades Distribution</h2>
+          <GradeChart />
+        </section>
+      </div>
+    );
+  }
+
+  export default TeacherView;
