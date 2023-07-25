@@ -91,9 +91,9 @@
   }
 
   .studentTable {
-    border: 2px solid #333;
+    border-left: 2px solid #333;
+    border-right: 2px solid #333;
     width: 80%;
-    border-radius: 5px;
     margin: 0 auto;
   }
   
