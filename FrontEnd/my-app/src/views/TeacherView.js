@@ -17,10 +17,6 @@ function TeacherView() {
   
 
   useEffect(() => {
-    const loggedInTeacherName = localStorage.getItem('userName');
-    if (loggedInTeacherName) {
-      setTeacherName(loggedInTeacherName);
-    }
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
         localStorage.removeItem("jwtToken");
