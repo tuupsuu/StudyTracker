@@ -105,7 +105,7 @@ function StudentView() {
         <ul>
           {students.map((student, index) => (
             <li key={index}>
-              {student.FirstName} {student.LastName} - {student.Class_ID} {student.Stud_ID}
+              {student.FirstName} {student.Lastname} - {student.Class_ID} {student.Stud_ID}
             </li>
           ))}
         </ul>
