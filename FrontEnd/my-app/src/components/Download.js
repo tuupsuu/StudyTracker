@@ -25,7 +25,7 @@ function Download({ students }) {
   }
 
   return (
-    <button onClick={downloadCSV}>
+    <button className='buttonAdd' onClick={downloadCSV}>
       Download CSV
     </button>
   );

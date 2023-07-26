@@ -253,8 +253,10 @@ function Students() {
             <Button className='buttonAdd' onClick={handleDialogOpen}>
               Add new student
             </Button>
+          </div>
+          <div>
             {/* Download CSV button */}
-            <Download students={students} />
+            <Download students={students} />            
           </div>
           <TextField
             className='studentSearch'
