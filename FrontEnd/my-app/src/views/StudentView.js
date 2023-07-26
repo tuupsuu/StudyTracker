@@ -6,6 +6,7 @@ import { BiLogOut } from 'react-icons/bi';
 
 function StudentView() {
   const [studentName, setStudentName] = useState('');
+  const [students, setStudents] = useState([]);  // Add this line
   const navigate = useNavigate();
 
   const isTokenExpired = () => {
