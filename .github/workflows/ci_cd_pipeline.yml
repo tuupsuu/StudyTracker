@@ -6,7 +6,6 @@ on:
       - dev
       - main
       - Eemil
-      - topias
 
 jobs:
   build:
