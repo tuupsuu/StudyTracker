@@ -4,6 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import Download from '../components/Download';
 
 function Students() {
   const navigate = useNavigate();
@@ -252,6 +253,8 @@ function Students() {
             <Button className='buttonAdd' onClick={handleDialogOpen}>
               Add new student
             </Button>
+            {/* Download CSV button */}
+            <Download students={students} />
           </div>
           <TextField
             className='studentSearch'
