@@ -70,7 +70,7 @@ function Students() {
   const [newStudent, setNewStudent] = useState(
     {FirstName: "",
     LastName: "",
-    UserPassWord: "",
+    UserPassWord: "salasana",
     Email: "",
     Rights: 1});
 
@@ -97,7 +97,7 @@ function Students() {
     const { FirstName, LastName, UserPassWord, Email, Rights } = { ...newStudent };
 
     // Check if any of the TextField values are empty
-    if (FirstName.trim() === '' || LastName.trim() === '' || UserPassWord.trim() === '' || Email.trim() === '') {
+    if (FirstName.trim() === '' || LastName.trim() === '' || Email.trim() === '') {
       // Display an error or show a message indicating that all fields are required
       alert('Please fill in all the fields');
       return;
@@ -130,7 +130,7 @@ function Students() {
       setNewStudent({
         FirstName: "",
         LastName: "",
-        UserPassWord: "",
+        UserPassWord: "salasana",
         Email: "",
         Rights: 1
       });
@@ -256,7 +256,7 @@ function Students() {
           </div>
           <div>
             {/* Download CSV button */}
-            <Download students={students} />            
+            <button className='buttonAdd'><Download students={students} /></button>            
           </div>
           <TextField
             className='studentSearch'
@@ -319,15 +319,6 @@ function Students() {
           <TextField
             autoFocus
             margin="dense"
-            name="UserPassWord"
-            label="UserPassWord"
-            type="text"
-            fullWidth
-            onChange={handleNewStudentChange}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
             name="Email"
             label="Email"
             type="text"
@@ -372,17 +363,6 @@ function Students() {
                 readOnly: true,
               }}
             />          
-            <TextField
-              margin="dense"
-              name="UserPassWord"
-              label="UserPassWord"
-              type="text"
-              fullWidth
-              value={selectedStudent.UserPassWord}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
             <TextField
               margin="dense"
               name="Email"
