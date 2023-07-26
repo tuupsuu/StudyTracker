@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import StudentView from './views/StudentView';
 import TeacherView from './views/TeacherView';
 import ExampleTest from './views/ExampleTest';
