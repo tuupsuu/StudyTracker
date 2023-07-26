@@ -15,7 +15,7 @@ function StudentView() {
   };
 
   useEffect(() => {
-    fetch(`/api1/students`, {
+    fetch(`/api1/student`, {
       method: "GET",
       headers: {
       },
