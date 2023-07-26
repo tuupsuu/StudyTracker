@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import './StudentView.css';
 import Clock from '../components/Clock';
 import { BiLogOut } from 'react-icons/bi';
-import tests from '../jsonFiles/tests.json'; 
 
 function StudentView() {
   const [studentName, setStudentName] = useState('');
@@ -15,6 +14,20 @@ function StudentView() {
   };
 
   useEffect(() => {
+    fetch(`/api1/students`, {
+      method: "GET",
+      headers: {
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setStudents(data); // update state here
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
         localStorage.removeItem("jwtToken");
@@ -79,14 +92,24 @@ function StudentView() {
           <p>You can choose your test from this page.</p>
         </div>
         <Link to='..' className='Student-LogOutButton' onClick={() => {
-            localStorage.removeItem("jwtToken");
-            localStorage.removeItem("jwtTokenExpiration");
-            localStorage.removeItem("userRights");
-            localStorage.removeItem("loggedInOfficialName");
-            localStorage.removeItem("userName");
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("jwtTokenExpiration");
+          localStorage.removeItem("userRights");
+          localStorage.removeItem("loggedInOfficialName");
+          localStorage.removeItem("userName");
         }}><BiLogOut></BiLogOut></Link>
-        </div>
-      <div className='TestOptions'>
+      </div>
+      <div>
+        <h2>Student List</h2>
+        <ul>
+          {students.map((student, index) => (
+            <li key={index}>
+              {student.name} - {student.email}
+            </li>
+          ))}
+        </ul>
+      </div>
+      {/* <div className='TestOptions'>
         {tests.map(test => (
           <Link 
             to={`/start-test`} 
@@ -105,7 +128,7 @@ function StudentView() {
             </div>
           </Link>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
