@@ -256,7 +256,7 @@ function Students() {
           </div>
           <div>
             {/* Download CSV button */}
-            <button className='buttonAdd'><Download students={students} /></button>            
+            <Download students={students} />   
           </div>
           
           <TextField
