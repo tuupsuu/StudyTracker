@@ -91,10 +91,9 @@
   }
 
   .studentTable {
-    border: 2px solid #333;
     width: 80%;
-    border-radius: 5px;
     margin: 0 auto;
+    border-bottom: 1px #333;
   }
   
   .TableCell {
