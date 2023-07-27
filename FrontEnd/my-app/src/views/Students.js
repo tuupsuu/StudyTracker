@@ -234,6 +234,7 @@ function Students() {
         console.log('Student edited successfully');
         // Update student in local state
         setStudents(students.map(student => student.UserID === editStudent.UserID ? editStudent : student));
+        handleCloseEditDialog();
         handleDialogClose();
       } else {
         console.log('Failed to edit student');
