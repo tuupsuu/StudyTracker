@@ -17,11 +17,7 @@ function Students() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
         navigate("..");
       }
     }, 1000); // checks every second
@@ -34,11 +30,7 @@ function Students() {
       ev.preventDefault();
       // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
       if (!sessionStorage.getItem('isRefreshing')) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
       }
     });
 
@@ -48,11 +40,7 @@ function Students() {
       window.removeEventListener('beforeunload', (ev) => {
         ev.preventDefault();
         if (!sessionStorage.getItem('isRefreshing')) {
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("jwtTokenExpiration");
-          localStorage.removeItem("userRights");
-          localStorage.removeItem("loggedInOfficialName");
-          localStorage.removeItem("userName");
+          localStorage.clear();
         }
       });
     };
@@ -246,7 +234,7 @@ function Students() {
         console.log('Student edited successfully');
         // Update student in local state
         setStudents(students.map(student => student.UserID === editStudent.UserID ? editStudent : student));
-        handleCloseEditDialog();
+        handleDialogClose();
       } else {
         console.log('Failed to edit student');
       }
@@ -263,11 +251,7 @@ function Students() {
           <h1 className='TitleExamine'>Students</h1>
         </div>
         <Link to='..' className='LogoutButtonTeacher' onClick={() => {
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("jwtTokenExpiration");
-          localStorage.removeItem("userRights");
-          localStorage.removeItem("loggedInOfficialName");
-          localStorage.removeItem("userName");
+          localStorage.clear();
         }}> <BiLogOut></BiLogOut>
         </Link>
       </header>
