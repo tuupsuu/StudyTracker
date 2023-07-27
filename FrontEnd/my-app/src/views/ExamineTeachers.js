@@ -3,75 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import "./OfficialView.css";
-import accounts from "../jsonFiles/accounts.json";
-import StudentsGrades from "../jsonFiles/grades.json";
-
-function processCityData(cityData) {
-    // Group data by classNumber and subject
-    const groupedData = cityData.reduce((acc, student) => {
-      const key = `${student.classNumber}_${student.subject}`;
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(student);
-      return acc;
-    }, {});
-  
-    // Process each class's and subject's data
-    const processedData = Object.entries(groupedData).map(([key, students]) => {
-      const [classNumber, subject] = key.split("_");
-  
-      // Calculate average grade
-      const avgGrade =
-        students.reduce((acc, student) => acc + student.grade, 0) /
-        students.length;
-  
-      // Find best and worst schools
-      const schoolAvgs = students.reduce((acc, student) => {
-        if (!acc[student.school]) {
-          acc[student.school] = { total: 0, count: 0 };
-        }
-        acc[student.school].total += student.grade;
-        acc[student.school].count += 1;
-        return acc;
-      }, {});
-  
-      let worstSchool,
-        bestSchool,
-        worstAvg = Infinity,
-        bestAvg = -Infinity;
-      for (let school in schoolAvgs) {
-        const avg = schoolAvgs[school].total / schoolAvgs[school].count;
-        if (avg < worstAvg) {
-          worstAvg = avg;
-          worstSchool = school;
-        }
-        if (avg > bestAvg) {
-          bestAvg = avg;
-          bestSchool = school;
-        }
-      }
-  
-      return {
-        subject,
-        classNumber,
-        students: students.length,
-        avgGrade: avgGrade.toFixed(2),
-        worstSchool: worstSchool,
-        worstSchoolAvg: worstAvg.toFixed(2),
-        bestSchool: bestSchool,
-        bestSchoolAvg: bestAvg.toFixed(2),
-      };
-    });
-  
-    return processedData;
-  }
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import Download from '../components/Download';
 
 function OfficialView() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [officialName, setOfficialName] = useState("");
-  const [officialCity, setOfficialCity] = useState("");
-  const [cityData, setCityData] = useState([]);
 
   const navigate = useNavigate();
 
@@ -90,11 +26,6 @@ function OfficialView() {
 
     sessionStorage.setItem("isRefreshing", "true");
 
-    const loggedInOfficialName = localStorage.getItem("loggedInOfficialName");
-    if (loggedInOfficialName) {
-      setOfficialName(loggedInOfficialName);
-    }
-
     window.addEventListener("beforeunload", (ev) => {
       ev.preventDefault();
       if (!sessionStorage.getItem("isRefreshing")) {
@@ -112,29 +43,164 @@ function OfficialView() {
       });
     };
   }, [navigate]);
+// -------------------------------------------------------------------------------------------------------------
 
-  useEffect(() => {
-    const loggedInOfficialId = localStorage.getItem("loggedInOfficialId");
-    const officialCity = localStorage.getItem("officialCity");
-    if (loggedInOfficialId && officialCity) {
-      const officialInfo = accounts.officials.find(
-        (official) =>
-          official.id === loggedInOfficialId && official.city === officialCity
-      );
-      if (officialInfo) {
-        setOfficialName(officialInfo.name);
-        setOfficialCity(officialCity);
-      }
+  // New states for dialog and Teacher
+  const [openDialog, setOpenDialog] = useState(false);
+  const [teachers, setTeachers] = useState([]);
+  const [selectedTeacher, setSelectedTeacher] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');  
+  const [newTeacher, setNewTeacher] = useState(
+    {FirstName: "",
+    LastName: "",
+    UserPassWord: "",
+    Email: "",
+    Rights: 2});
+
+  // Handle dialog open and close
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+  // Handle new Teacher data
+  const handleNewTeacherChange = (e) => {
+    const { name, value } = e.target;
+    setNewTeacher((prevTeacher) => ({
+      ...prevTeacher,
+      [name]: value
+    }));
+  };
+
+  // Add a new Teacher
+  const handleAddNewTeacher = async () => {
+    const { FirstName, LastName, UserPassWord, Email, Rights } = { ...newTeacher };
+
+    // Check if any of the TextField values are empty
+    if (FirstName.trim() === '' || LastName.trim() === '' || Email.trim() === '') {
+      // Display an error or show a message indicating that all fields are required
+      alert('Please fill in all the fields');
+      return;
     }
+
+  // Create the new Teacher object
+  const newTeacherData = {
+    FirstName,
+    LastName,
+    UserPassWord,
+    Email,
+    Rights
+  };
+
+  try {
+    // Send the HTTP POST request
+    const response = await fetch('https://studytracker.site/api2', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
+      },
+      body: JSON.stringify(newTeacherData)
+    });
+    
+    if (response.ok) {
+      // Teacher added successfully
+      console.log('New teacher added successfully');
+      // Reset the newTeacher state to its initial values
+      setNewTeacher({
+        FirstName: "",
+        LastName: "",
+        UserPassWord: "",
+        Email: "",
+        Rights: 2
+      });
+      handleDialogClose();
+    } else {
+      // Handle error response
+      console.log('Failed to add new teacher');
+    }
+  } catch (error) {
+    // Handle network or other errors
+    console.log('Error adding new teacher:', error);
+  }};
+
+//--------------------------------------------------------------
+
+  // Fetch Teacher
+  useEffect(() => {
+    fetchTeachers();
   }, []);
 
-  useEffect(() => {
-    const data = StudentsGrades.filter((student) => student.city === officialCity);
-    setCityData(processCityData(data));
-  }, [officialCity]);
+  const fetchTeachers = async () => {
+    try {
+      // Send the HTTP GET request
+      const response = await fetch('https://studytracker.site/api2', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
+        }
+      });
 
-  // Rest of the code remains unchanged
+      if (response.ok) {
+        // Parse the response as JSON
+        const data = await response.json();
+        // Filter Teacher with Rights equal to "2"
+        const filteredTeachers = data.filter(teacher => teacher.Rights === 2);
+        // Update the Teacher state
+        setTeachers(filteredTeachers);
+      } else {
+        // Handle error response
+        console.log('Failed to fetch teacher');
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.log('Error fetching teacher:', error);
+    }
+  };
 
+//----------------------------------------------------------------
+  const handleDeleteTeacher = async () => {
+    try {
+      // Send the HTTP DELETE request
+      const response = await fetch(`https://studytracker.site/api2/${selectedTeacher.UserID}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
+        }
+      });
+
+      if (response.ok) {
+        // Teacher deleted successfully
+        console.log('Teacher deleted successfully');
+        // Remove Teacher from local state
+        setTeachers(teachers.filter(teacher => teacher.id !== selectedTeacher.id));
+        // Close the dialog
+        handleCloseTeacherInfoDialog();
+      } else {
+        // Handle error response
+        console.log('Failed to delete teacher');
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.log('Error deleting teacher:', error);
+    }
+  };
+
+//----------------------------------------------------------------
+
+  const handleTeacherRowClick = (teacher) => {
+    setSelectedTeacher(teacher);
+  };
+
+  const handleCloseTeacherInfoDialog = () => {
+    setSelectedTeacher(null);
+  };
+// -------------------------------------------------------------------------------------------------------------
   return (
     <div className="official-view">
       <header className="header">
@@ -152,15 +218,9 @@ function OfficialView() {
           <BiLogOut></BiLogOut>
         </Link>
       </header>
-
       {isSidebarOpen && (
         <aside className="sidebar">
-          <FaBars
-            className="close-button"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Close
-          </FaBars>
+          <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
           <ul>
             <li><Link to="/official">Homepage</Link></li>
             <li onClick={() => alert("Not implemented yet")}>Print Reports</li>
@@ -171,8 +231,145 @@ function OfficialView() {
       )}
 
       <section className="content">
-        <h2>Citys teachers</h2>
+        <div className='controls'>
+          <div className='addTeacher'>
+            {/* Add new teachers button */}
+            <Button className='buttonAdd' onClick={handleDialogOpen}>
+              Add new teacher
+            </Button>
+          </div>
+          <div>
+            {/* Download CSV button */}
+            <Download teachers={teachers} />   
+          </div>
+          
+          <TextField
+            className='teacherSearch'
+            id="standard-basic"
+            label="Search"
+            variant="standard"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />                    
+        </div>
       </section>
+
+      <section className='teacherTable'>
+          {/* Render Teacher in a table */}
+          <TableContainer>
+            <Table>
+              <TableBody>
+                {teachers.filter((teacher) => {
+                  if (searchTerm === '') {
+                    return teacher;
+                  } else if (
+                    teacher.FirstName.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                    teacher.LastName.toLowerCase().includes(searchTerm.toLowerCase())
+                  ) {
+                    return teacher;
+                  }
+                }).map((teacher, index) => (
+                  <TableRow key={index} onClick={() => handleTeacherRowClick(teacher)}>
+                    <TableCell>{teacher.FirstName}</TableCell>
+                    <TableCell>{teacher.LastName}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>           
+      </section>
+
+      {/* Add teacher dialog */}
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>Add New Teacher</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="FirstName"
+            label="FirstName"
+            type="text"
+            fullWidth
+            onChange={handleNewTeacherChange}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            name="LastName"
+            label="LastName"
+            type="text"
+            fullWidth
+            onChange={handleNewTeacherChange}
+          />          
+          <TextField
+            autoFocus
+            margin="dense"
+            name="Email"
+            label="Email"
+            type="text"
+            fullWidth
+            onChange={handleNewTeacherChange}
+          />                    
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleAddNewTeacher} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
+      
+      {/* Teacher information dialog */}
+      {selectedTeacher && (
+        <Dialog open={true} onClose={handleCloseTeacherInfoDialog}>
+          <DialogTitle>{`${selectedTeacher.FirstName} ${selectedTeacher.LastName}`}</DialogTitle>
+          <DialogContent>
+            <TextField
+              margin="dense"
+              name="FirstName"
+              label="FirstName"
+              type="text"
+              fullWidth
+              value={selectedTeacher.FirstName}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextField
+              margin="dense"
+              name="LastName"
+              label="LastName"
+              type="text"
+              fullWidth
+              value={selectedTeacher.LastName}
+              InputProps={{
+                readOnly: true,
+              }}
+            />          
+            <TextField
+              margin="dense"
+              name="Email"
+              label="Email"
+              type="text"
+              fullWidth
+              value={selectedTeacher.Email}
+              InputProps={{
+                readOnly: true,
+              }}
+            />                    
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseTeacherInfoDialog} color="primary">
+              Close
+            </Button>
+            <Button onClick={handleDeleteTeacher} color="primary">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}      
     </div>
   );
 }
