@@ -59,7 +59,7 @@ function OfficialView() {
 
   // New states for dialog and Teacher
   const [openDialog, setOpenDialog] = useState(false);
-  const [teacher, setTeacher] = useState([]);
+  const [teachers, setTeachers] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');  
   const [newTeacher, setNewTeacher] = useState(
@@ -143,10 +143,10 @@ function OfficialView() {
 
   // Fetch Teacher
   useEffect(() => {
-    fetchTeacher();
+    fetchTeachers();
   }, []);
 
-  const fetchTeacher = async () => {
+  const fetchTeachers = async () => {
     try {
       // Send the HTTP GET request
       const response = await fetch('https://studytracker.site/api2', {
@@ -161,9 +161,9 @@ function OfficialView() {
         // Parse the response as JSON
         const data = await response.json();
         // Filter Teacher with Rights equal to "2"
-        const filteredTeacher = data.filter(teacher => teacher.Rights === 2);
+        const filteredTeachers = data.filter(teacher => teacher.Rights === 2);
         // Update the Teacher state
-        setTeacher(filteredTeacher);
+        setTeachers(filteredTeachers);
       } else {
         // Handle error response
         console.log('Failed to fetch teacher');
@@ -190,7 +190,7 @@ function OfficialView() {
         // Teacher deleted successfully
         console.log('Teacher deleted successfully');
         // Remove Teacher from local state
-        setTeacher(teacher.filter(teacher => teacher.id !== selectedTeacher.id));
+        setTeachers(teachers.filter(teacher => teacher.id !== selectedTeacher.id));
         // Close the dialog
         handleCloseTeacherInfoDialog();
       } else {
@@ -213,9 +213,6 @@ function OfficialView() {
     setSelectedTeacher(null);
   };
 // -------------------------------------------------------------------------------------------------------------
-
-  // Rest of the code remains unchanged
-
   return (
     <div className="official-view">
       <header className="header">
@@ -223,29 +220,18 @@ function OfficialView() {
         <div className="HeaderOfficial">
           <h1 className="TitleOfficial">Examine teachers</h1>
         </div>
-        <Link
-          to=".."
-          className="LogoutButtonOfficial"
-          onClick={() => {
+        <Link to='..' className='LogoutButtonTeacher' onClick={() => {
             localStorage.removeItem("jwtToken");
             localStorage.removeItem("jwtTokenExpiration");
             localStorage.removeItem("userRights");
             localStorage.removeItem("loggedInOfficialName");
             localStorage.removeItem("userName");
-          }}
-        >
-          <BiLogOut></BiLogOut>
+          }}> <BiLogOut></BiLogOut>
         </Link>
       </header>
-
       {isSidebarOpen && (
         <aside className="sidebar">
-          <FaBars
-            className="close-button"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Close
-          </FaBars>
+          <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
           <ul>
             <li><Link to="/official">Homepage</Link></li>
             <li onClick={() => alert("Not implemented yet")}>Print Reports</li>
@@ -256,20 +242,16 @@ function OfficialView() {
       )}
 
       <section className="content">
-        <h2>Citys teachers</h2>
-      </section>
-
-      <section className="content">
         <div className='controls'>
           <div className='addTeacher'>
-            {/* Add new student button */}
+            {/* Add new teachers button */}
             <Button className='buttonAdd' onClick={handleDialogOpen}>
               Add new teacher
             </Button>
           </div>
           <div>
             {/* Download CSV button */}
-            <Download teacher={teacher} />   
+            <Download teachers={teachers} />   
           </div>
           
           <TextField
@@ -288,7 +270,7 @@ function OfficialView() {
           <TableContainer>
             <Table>
               <TableBody>
-                {teacher.filter((teacher) => {
+                {teachers.filter((teacher) => {
                   if (searchTerm === '') {
                     return teacher;
                   } else if (
