@@ -89,11 +89,7 @@ function OfficialView() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
         navigate("..");
       }
     }, 1000); // checks every second
@@ -111,11 +107,7 @@ function OfficialView() {
       ev.preventDefault();
       // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
       if (!sessionStorage.getItem("isRefreshing")) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
       }
     });
 
@@ -126,11 +118,7 @@ function OfficialView() {
       window.removeEventListener("beforeunload", (ev) => {
         ev.preventDefault();
         if (!sessionStorage.getItem("isRefreshing")) {
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("jwtTokenExpiration");
-          localStorage.removeItem("userRights");
-          localStorage.removeItem("loggedInOfficialName");
-          localStorage.removeItem("userName");
+          localStorage.clear();
         }
       });
     };
@@ -202,11 +190,7 @@ function OfficialView() {
           to=".."
           className="LogoutButtonOfficial"
           onClick={() => {
-            localStorage.removeItem("jwtToken");
-            localStorage.removeItem("jwtTokenExpiration");
-            localStorage.removeItem("userRights");
-            localStorage.removeItem("loggedInOfficialName");
-            localStorage.removeItem("userName");
+            localStorage.clear();
           }}
         >
           <BiLogOut></BiLogOut>
