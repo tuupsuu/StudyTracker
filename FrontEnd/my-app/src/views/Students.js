@@ -67,6 +67,9 @@ function Students() {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');  
+  const [editMode, setEditMode] = useState(false);
+  const [editedStudent, setEditedStudent] = useState(null);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
   const [newStudent, setNewStudent] = useState(
     {FirstName: "",
     LastName: "",
@@ -81,7 +84,16 @@ function Students() {
 
   const handleDialogClose = () => {
     setOpenDialog(false);
+    setNewStudent({
+        FirstName: "",
+        LastName: "",
+        UserPassWord: "salasana",
+        Email: "",
+        Rights: 1
+    });
+    setEditMode(false);
   };
+
 
   // Handle new student data
   const handleNewStudentChange = (e) => {
@@ -112,16 +124,18 @@ function Students() {
     Rights
   };
 
+  const url = `https://studytracker.site/api2/${editMode ? newStudentData.UserID : ''}`;
+  const method = editMode ? 'PUT' : 'POST';
+
   try {
-    // Send the HTTP POST request
-    const response = await fetch('https://studytracker.site/api2', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
-      },
-      body: JSON.stringify(newStudentData)
-    });
+      const response = await fetch(url, {
+          method: method,
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
+          },
+          body: JSON.stringify(newStudentData)
+  });
     
     if (response.ok) {
       // Student added successfully
@@ -211,12 +225,31 @@ function Students() {
 //----------------------------------------------------------------
 
   const handleStudentRowClick = (student) => {
-    setSelectedStudent(student);
+    setNewStudent(student);
+    setEditMode(true);
+    handleDialogOpen();
   };
+
 
   const handleCloseStudentInfoDialog = () => {
     setSelectedStudent(null);
   };
+
+  // Function to handle opening the edit dialog
+  const handleEditDialogOpen = (student) => {
+    // Set the selected student
+    setSelectedStudent(student);
+
+    // Open the edit dialog
+    setOpenEditDialog(true);
+  };
+
+  // Function to handle closing the edit dialog
+  const handleEditDialogClose = () => {
+    // Close the edit dialog
+    setOpenEditDialog(false);
+  };  
+
 //------------------------------------------------------------------
   return (
     <div className="examine-tests">
@@ -258,7 +291,6 @@ function Students() {
             {/* Download CSV button */}
             <Download students={students} />   
           </div>
-          
           <TextField
             className='studentSearch'
             id="standard-basic"
@@ -382,6 +414,9 @@ function Students() {
             </Button>
             <Button onClick={handleDeleteStudent} color="primary">
               Delete
+            </Button>
+            <Button onClick={handleEditDialogOpen} color="primary">
+              Edit
             </Button>
           </DialogActions>
         </Dialog>
