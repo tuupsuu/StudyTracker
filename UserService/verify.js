@@ -4,14 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('./models');
 const secretKey = process.env.SECRET_KEY;
-const currentTime = Math.floor(Date.now() / 1000); // Current Unix timestamp
-const expirationTime = currentTime + 3600; // Add 3600 seconds (1 hour)
-const payload = {
-  exp: expirationTime,
-  // Other custom claims or rules can be added here
-};
-
-
+const currentTime = Math.floor(Date.now()); // Current Unix timestamp
+const expirationTime = currentTime + 3600000; // Add 3600 seconds (1 hour)
 
 // Verify password
 const verifyPassword = async (req, res) => {
