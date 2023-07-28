@@ -8,9 +8,9 @@ const secretKey = process.env.SECRET_KEY;
 // Verify password
 const verifyPassword = async (req, res) => {
   try {
+    const currentTime = Math.floor(Date.now() / 1000); // Current Unix timestamp
+    const expirationTime = currentTime + 3600; // Add 3600 seconds (1 hour)
     const { userID, password } = req.body;
-    const expirationTime = currentTime + 3600000; // Add 3600 seconds (1 hour)
-    const currentTime = Math.floor(Date.now()); // Current Unix timestamp
     
     // Retrieve the user from the database
     const user = await User.findOne({ where: { UserID: userID } });
