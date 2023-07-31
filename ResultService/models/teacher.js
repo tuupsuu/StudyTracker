@@ -27,8 +27,7 @@ const Teacher = sequelize.define('Teacher', {
         type:DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
-    },
-
+    }
 }, {
     timestamps: false,
     tableName: 'Teacher',

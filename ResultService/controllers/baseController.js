@@ -1,5 +1,3 @@
-
-
 class BaseController {
     constructor(model) {
         this.model = model;
@@ -30,12 +28,13 @@ class BaseController {
     }
 
 
-    async add(data) {
+    add = async (req, res) => {
         try {
+            const data = req.body;
             const entity = await this.model.create(data);
-            return entity;
+            res.status(201).json(entity);
         } catch (error) {
-            throw new Error(error.message);
+            res.status(500).json({ message: error.message });
         }
     }
 
