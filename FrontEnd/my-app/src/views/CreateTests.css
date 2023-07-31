@@ -1,0 +1,98 @@
+.CreateTestPage, body  {
+    background: linear-gradient(to top right, lightblue, lightyellow);
+
+}
+
+.CreateTests {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .CreateTests h1 { /* Create Test title */
+    text-align: center;
+    font-size: 2.5em;
+  }
+  
+  .CreateTests form { /* Exercise fonts */
+    margin-top: 2em;
+  }
+  
+  .TypeInput {
+    text-align: center;
+  }
+
+.checkbox {
+  transform: scale(2);
+  margin-right: -300px;
+  margin-left: -350px;
+}
+
+  .exercise {
+    margin-bottom: 2em;
+    border: 1px solid black;
+    padding: 2em;
+    border-radius: 5px;
+  }
+  
+  .exercise label {
+    display: block;
+    font-size: 1.3em;
+  }
+  
+  .exercise input {
+    width: 100%;
+    font-size: 1.2em;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .exercise select {
+    width: 100%;
+    font-size: 1.2em;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+  
+  .option-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .option-container label {
+    flex-grow: 1;
+  }
+  
+  .option-container button {
+    font-size: 1.5em;
+    margin-left: 10px;
+    margin-top: 30px;
+  }
+  
+  .button-label {
+    display: block;
+    font-size: 1.3em;
+    margin-top: 1em;
+  }
+  
+  button {
+    display: block;
+    font-size: 1.3em;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  [type="submit"] {
+    font-size: 2em;
+    width: 100%;
+  }
+  
+  .AddOptionButton, .RemoveExerciseButton, .AddExerciseButton {
+    margin-left: 45%;
+  }
