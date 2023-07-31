@@ -270,25 +270,28 @@ function Students() {
 
       <section className="content">
         <div className='controls'>
-          <div className='addStudent'>
-            {/* Add new student button */}
-            <Button className='buttonAdd' onClick={handleDialogOpen}>
-              Add new student
-            </Button>
-          </div>
+          <div className='buttonsContainer'>
+            <div className='addStudent'>
+              {/* Add new student button */}
+              <Button className='buttonAdd' onClick={handleDialogOpen}>
+                Add new student
+              </Button>
+            </div>
+            <div>
+              {/* Download CSV button */}
+              <Download students={students}></Download>
+            </div>
+          </div>  
           <div>
-            {/* Download CSV button */}
-            <Download students={students} />
-          </div>
-
-          <TextField
-            className='studentSearch'
-            id="standard-basic"
-            label="Search"
-            variant="standard"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-          />
+            <TextField
+              className='studentSearch'
+              id="standard-basic"
+              label="Search"
+              variant="standard"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
+          </div>  
         </div>
       </section>
 

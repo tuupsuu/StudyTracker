@@ -1,6 +1,8 @@
 // Import necessary libraries
 import React from 'react';
 import Papa from 'papaparse';
+import '../views/Students.css';
+import { BiPrinter } from 'react-icons/bi';
 
 // Download component
 function Download({ students }) {
@@ -36,9 +38,9 @@ function Download({ students }) {
   }
 
   return (
-    <button className='buttonAdd' onClick={downloadCSV}>
-      Download CSV
-    </button>
+    <div>
+      <button className='DownloadCSV' onClick={downloadCSV}><BiPrinter></BiPrinter></button>
+    </div>
   );
 }
 
