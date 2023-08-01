@@ -4,6 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import Download from '../components/Download';
 
 function Students() {
   const navigate = useNavigate();
@@ -16,11 +17,7 @@ function Students() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
         navigate("..");
       }
     }, 1000); // checks every second
@@ -33,11 +30,7 @@ function Students() {
       ev.preventDefault();
       // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
       if (!sessionStorage.getItem('isRefreshing')) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
       }
     });
 
@@ -47,11 +40,7 @@ function Students() {
       window.removeEventListener('beforeunload', (ev) => {
         ev.preventDefault();
         if (!sessionStorage.getItem('isRefreshing')) {
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("jwtTokenExpiration");
-          localStorage.removeItem("userRights");
-          localStorage.removeItem("loggedInOfficialName");
-          localStorage.removeItem("userName");
+          localStorage.clear();
         }
       });
     };
@@ -59,19 +48,22 @@ function Students() {
 
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
 
-//------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------
 
   // New states for dialog and student
   const [openDialog, setOpenDialog] = useState(false);
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');  
+  const [searchTerm, setSearchTerm] = useState('');
+  const [editStudent, setEditStudent] = useState(null);
   const [newStudent, setNewStudent] = useState(
-    {FirstName: "",
-    LastName: "",
-    UserPassWord: "",
-    Email: "",
-    Rights: 1});
+    {
+      FirstName: "",
+      LastName: "",
+      UserPassWord: "salasana",
+      Email: "",
+      Rights: 1
+    });
 
   // Handle dialog open and close
   const handleDialogOpen = () => {
@@ -96,54 +88,55 @@ function Students() {
     const { FirstName, LastName, UserPassWord, Email, Rights } = { ...newStudent };
 
     // Check if any of the TextField values are empty
-    if (FirstName.trim() === '' || LastName.trim() === '' || UserPassWord.trim() === '' || Email.trim() === '') {
+    if (FirstName.trim() === '' || LastName.trim() === '' || Email.trim() === '') {
       // Display an error or show a message indicating that all fields are required
       alert('Please fill in all the fields');
       return;
     }
 
-  // Create the new student object
-  const newStudentData = {
-    FirstName,
-    LastName,
-    UserPassWord,
-    Email,
-    Rights
+    // Create the new student object
+    const newStudentData = {
+      FirstName,
+      LastName,
+      UserPassWord,
+      Email,
+      Rights
+    };
+
+    try {
+      // Send the HTTP POST request
+      const response = await fetch('https://studytracker.site/api2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
+        },
+        body: JSON.stringify(newStudentData)
+      });
+
+      if (response.ok) {
+        // Student added successfully
+        console.log('New student added successfully');
+        // Reset the newStudent state to its initial values
+        setNewStudent({
+          FirstName: "",
+          LastName: "",
+          UserPassWord: "salasana",
+          Email: "",
+          Rights: 1
+        });
+        handleDialogClose();
+      } else {
+        // Handle error response
+        console.log('Failed to add new student');
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.log('Error adding new student:', error);
+    }
   };
 
-  try {
-    // Send the HTTP POST request
-    const response = await fetch('https://studytracker.site/api2', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
-      },
-      body: JSON.stringify(newStudentData)
-    });
-    
-    if (response.ok) {
-      // Student added successfully
-      console.log('New student added successfully');
-      // Reset the newStudent state to its initial values
-      setNewStudent({
-        FirstName: "",
-        LastName: "",
-        UserPassWord: "",
-        Email: "",
-        Rights: 1
-      });
-      handleDialogClose();
-    } else {
-      // Handle error response
-      console.log('Failed to add new student');
-    }
-  } catch (error) {
-    // Handle network or other errors
-    console.log('Error adding new student:', error);
-  }};
-
-//--------------------------------------------------------------
+  //--------------------------------------------------------------
 
   // Fetch students
   useEffect(() => {
@@ -178,7 +171,7 @@ function Students() {
     }
   };
 
-//----------------------------------------------------------------
+  //----------------------------------------------------------------
   const handleDeleteStudent = async () => {
     try {
       // Send the HTTP DELETE request
@@ -207,7 +200,7 @@ function Students() {
     }
   };
 
-//----------------------------------------------------------------
+  //----------------------------------------------------------------
 
   const handleStudentRowClick = (student) => {
     setSelectedStudent(student);
@@ -216,22 +209,52 @@ function Students() {
   const handleCloseStudentInfoDialog = () => {
     setSelectedStudent(null);
   };
-//------------------------------------------------------------------
+  //------------------------------------------------------------------
+  const handleOpenEditDialog = (student) => {
+    setEditStudent(student);
+  };
+
+  const handleCloseEditDialog = () => {
+    setEditStudent(null);
+  };
+
+  const handleEditStudent = async () => {
+    const { FirstName, LastName, UserPassWord, Email, Rights } = editStudent;
+    try {
+      const response = await fetch(`https://studytracker.site/api2/${editStudent.UserID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}` // Include JWT token from local storage
+        },
+        body: JSON.stringify({ FirstName, LastName, UserPassWord, Email, Rights })
+      });
+
+      if (response.ok) {
+        console.log('Student edited successfully');
+        // Update student in local state
+        setStudents(students.map(student => student.UserID === editStudent.UserID ? editStudent : student));
+        handleCloseStudentInfoDialog();
+        handleCloseEditDialog();
+      } else {
+        console.log('Failed to edit student');
+      }
+    } catch (error) {
+      console.log('Error editing student:', error);
+    }
+  };
+  //------------------------------------------------------------------
   return (
     <div className="examine-tests">
       <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
+        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
         <div className='HeaderTeacher'>
           <h1 className='TitleExamine'>Students</h1>
         </div>
         <Link to='..' className='LogoutButtonTeacher' onClick={() => {
-            localStorage.removeItem("jwtToken");
-            localStorage.removeItem("jwtTokenExpiration");
-            localStorage.removeItem("userRights");
-            localStorage.removeItem("loggedInOfficialName");
-            localStorage.removeItem("userName");
-          }}> <BiLogOut></BiLogOut>
-        </Link>      
+          localStorage.clear();
+        }}> <BiLogOut></BiLogOut>
+        </Link>
       </header>
       {isSidebarOpen && (
         <aside className="sidebar">
@@ -247,46 +270,54 @@ function Students() {
 
       <section className="content">
         <div className='controls'>
-          <div className='addStudent'>
-            {/* Add new student button */}
-            <Button className='buttonAdd' onClick={handleDialogOpen}>
-              Add new student
-            </Button>
-          </div>
-          <TextField
-            className='studentSearch'
-            id="standard-basic"
-            label="Search"
-            variant="standard"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-          />                    
+          <div className='buttonsContainer'>
+            <div className='addStudent'>
+              {/* Add new student button */}
+              <Button className='buttonAdd' onClick={handleDialogOpen}>
+                Add new student
+              </Button>
+            </div>
+            <div>
+              {/* Download CSV button */}
+              <Download students={students}></Download>
+            </div>
+          </div>  
+          <div>
+            <TextField
+              className='studentSearch'
+              id="standard-basic"
+              label="Search"
+              variant="standard"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
+          </div>  
         </div>
       </section>
 
       <section className='studentTable'>
-          {/* Render students in a table */}
-          <TableContainer>
-            <Table>
-              <TableBody>
-                {students.filter((student) => {
-                  if (searchTerm === '') {
-                    return student;
-                  } else if (
-                    student.FirstName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                    student.LastName.toLowerCase().includes(searchTerm.toLowerCase())
-                  ) {
-                    return student;
-                  }
-                }).map((student, index) => (
-                  <TableRow key={index} onClick={() => handleStudentRowClick(student)}>
-                    <TableCell>{student.FirstName}</TableCell>
-                    <TableCell>{student.LastName}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>           
+        {/* Render students in a table */}
+        <TableContainer>
+          <Table>
+            <TableBody>
+              {students.filter((student) => {
+                if (searchTerm === '') {
+                  return student;
+                } else if (
+                  student.FirstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                  student.LastName.toLowerCase().includes(searchTerm.toLowerCase())
+                ) {
+                  return student;
+                }
+              }).map((student, index) => (
+                <TableRow key={index} onClick={() => handleStudentRowClick(student)}>
+                  <TableCell>{student.FirstName}</TableCell>
+                  <TableCell>{student.LastName}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </section>
 
       {/* Add student dialog */}
@@ -310,15 +341,6 @@ function Students() {
             type="text"
             fullWidth
             onChange={handleNewStudentChange}
-          />          
-          <TextField
-            autoFocus
-            margin="dense"
-            name="UserPassWord"
-            label="UserPassWord"
-            type="text"
-            fullWidth
-            onChange={handleNewStudentChange}
           />
           <TextField
             autoFocus
@@ -328,7 +350,7 @@ function Students() {
             type="text"
             fullWidth
             onChange={handleNewStudentChange}
-          />                    
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose} color="primary">
@@ -339,7 +361,7 @@ function Students() {
           </Button>
         </DialogActions>
       </Dialog>
-      
+
       {/* Student information dialog */}
       {selectedStudent && (
         <Dialog open={true} onClose={handleCloseStudentInfoDialog}>
@@ -366,17 +388,6 @@ function Students() {
               InputProps={{
                 readOnly: true,
               }}
-            />          
-            <TextField
-              margin="dense"
-              name="UserPassWord"
-              label="UserPassWord"
-              type="text"
-              fullWidth
-              value={selectedStudent.UserPassWord}
-              InputProps={{
-                readOnly: true,
-              }}
             />
             <TextField
               margin="dense"
@@ -388,7 +399,7 @@ function Students() {
               InputProps={{
                 readOnly: true,
               }}
-            />                    
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseStudentInfoDialog} color="primary">
@@ -397,9 +408,56 @@ function Students() {
             <Button onClick={handleDeleteStudent} color="primary">
               Delete
             </Button>
+            <Button onClick={() => handleOpenEditDialog(selectedStudent)} color="primary">
+              Edit
+            </Button>
           </DialogActions>
         </Dialog>
-      )}      
+      )}
+      {/* Edit student dialog */}
+      {editStudent && (
+        <Dialog open={true} onClose={handleCloseEditDialog}>
+          <DialogTitle>Edit Student</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              name="FirstName"
+              label="FirstName"
+              type="text"
+              fullWidth
+              value={editStudent.FirstName}
+              onChange={e => setEditStudent({ ...editStudent, FirstName: e.target.value })}
+            />
+            <TextField
+              margin="dense"
+              name="LastName"
+              label="LastName"
+              type="text"
+              fullWidth
+              value={editStudent.LastName}
+              onChange={e => setEditStudent({ ...editStudent, LastName: e.target.value })}
+            />
+            <TextField
+              margin="dense"
+              name="Email"
+              label="Email"
+              type="text"
+              fullWidth
+              value={editStudent.Email}
+              onChange={e => setEditStudent({ ...editStudent, Email: e.target.value })}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseEditDialog} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleEditStudent} color="primary">
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </div>
   );
 }
