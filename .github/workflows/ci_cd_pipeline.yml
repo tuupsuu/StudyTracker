@@ -40,6 +40,12 @@ jobs:
           screen -dmS node-server node .
           cd ../FrontEnd/my-app/
           screen -dmS node-server npm start
+        
+      - name: Debug Commit Hashes
+        run: |
+          echo "Before Commit: ${{ github.event.before }}"
+          echo "Current Commit: ${{ github.sha }}"
+        
 
       - name: Detect modified service
         id: detect_modified_service
