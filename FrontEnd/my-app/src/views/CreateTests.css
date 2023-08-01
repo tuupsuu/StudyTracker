@@ -118,6 +118,25 @@
 /* ---------------------------------------------------------------------------- */
 /* Whats next css */
 
-.sequence-container {
-  
+.sequence-container { /* The whole whats next section */
+
 }
+
+.sequence-row { /* The number sequence and the answer */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.number-input-container { /* The options */
+  width: 200px;
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.number-input-container::after {
+  content: ',';
+  margin-left: 5px;
+}
+

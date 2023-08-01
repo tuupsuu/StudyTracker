@@ -7,7 +7,7 @@ function CreateTests() {
 
   const [testName, setTestName] = useState('');
   const [exercises, setExercises] = useState([
-    { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', ''], ['']], answers: ['', ''] }
+    { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }
   ]);
 
   const updateExerciseQuestion = (index, question) => {
@@ -41,7 +41,7 @@ function CreateTests() {
   };
 
   const addExercise = () => {
-    setExercises([...exercises, { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', ''], ['']], answers: ['', ''] }]);
+    setExercises([...exercises, { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }]);
   };
 
   const removeExercise = (index) => {
@@ -66,7 +66,7 @@ function CreateTests() {
     console.log('Submitting test:', { testName, exercises });
 
     setTestName('');
-    setExercises([{ question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', ''], ['']], answers: ['', ''] }]);
+    setExercises([{ question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }]);
   };
 
   const updateSequence = (exerciseIndex, sequenceIndex, numberIndex, value) => {
@@ -94,6 +94,7 @@ function CreateTests() {
     updatedExercises[exerciseIndex].answers[sequenceIndex] = value;
     setExercises(updatedExercises);
   };
+
 
   return (
     <div className='CreateTestPage'>
@@ -166,6 +167,7 @@ function CreateTests() {
               )}
               {exercise.type === "whats next" && (
                 <div className="sequence-container">
+                  <span style={{fontSize: "18px"}}>Insert the number sequence and the right answer</span>
                   {exercise.sequences.map((sequence, sequenceIndex) => (
                     <div className="sequence-row" key={sequenceIndex}>
                       {sequence.map((number, numberIndex) => (
@@ -176,17 +178,14 @@ function CreateTests() {
                             onChange={(e) => updateSequence(exerciseIndex, sequenceIndex, numberIndex, e.target.value)}
                             required
                           />
-                          <span>,</span>
                         </div>
                       ))}
-                      <button onClick={() => addSequence(exerciseIndex)}>
-                        <FaPlus />
-                      </button>
                       <input
                         type="text"
                         value={exercise.answers[sequenceIndex]}
                         onChange={(e) => updateAnswer(exerciseIndex, sequenceIndex, e.target.value)}
                         required
+                        style={{borderColor: "lime"}}
                       />
                       {exercise.sequences.length > 1 && (
                         <button onClick={() => removeSequence(exerciseIndex, sequenceIndex)}>
@@ -195,6 +194,9 @@ function CreateTests() {
                       )}
                     </div>
                   ))}
+                      <button onClick={() => addSequence(exerciseIndex)}>
+                        <FaPlus />
+                      </button>
                 </div>
               )}
               {exercises.length > 1 && (
