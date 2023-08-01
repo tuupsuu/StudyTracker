@@ -10,115 +10,100 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      modified_service: ${{ steps.detect_modified_service.outputs.modified_service }}
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
 
-    - name: Install dependencies
-      run: |
-        cd UserService/
-        npm ci
-        cd ../ResultService/
-        npm ci
-        cd ../FrontEnd/my-app/ 
-        npm ci
+      - name: Install dependencies
+        run: |
+          cd UserService/
+          npm ci
+          cd ../ResultService/
+          npm ci
+          cd ../FrontEnd/my-app/
+          npm ci
 
-    - name: Build and test
-      run: |
-        cd UserService/
-        screen -dmS node-server node .
-        cd ../ResultService/
-        screen -dmS node-server node .
-        cd ../FrontEnd/my-app/
-        screen -dmS node-server npm start
+      - name: Build and test
+        run: |
+          cd UserService/
+          screen -dmS node-server node .
+          cd ../ResultService/
+          screen -dmS node-server node .
+          cd ../FrontEnd/my-app/
+          screen -dmS node-server npm start
 
-
+      - name: Detect modified service
+        id: detect_modified_service
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^UserService/'; then
+            modified_service="userservice"
+          elif git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^ResultService/'; then
+            modified_service="resultservice"
+          elif git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^FrontEnd/'; then
+            modified_service="frontend"
+          else
+            modified_service="none"
+          fi
+          echo "modified_service=${modified_service}" >> $GITHUB_ENV
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-    - name: Docker clean up
-      run: docker system prune -af
-      
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Docker clean up
+        run: docker system prune -af
 
-    - name: Set up Docker usermetadata
-      uses: docker/metadata-action@v3
-      with:
-        images: 'userservicecontainer'
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Docker resultmetadata
-      uses: docker/metadata-action@v3
-      with:
-        images: 'resultservicecontainer'  
+      # Add conditional steps based on the modified service
+      - name: Deploy User Service
+        if: ${{ needs.build.outputs.modified_service == 'userservice' }}
+        run: |
+          cd UserService/
+          docker build -t tuupsuu/userservicecontainer .
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker push tuupsuu/userservicecontainer
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservicecontainer || true'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservicecontainer || true'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer -p 83:3002 tuupsuu/userservicecontainer'
+          # Clean up unused Docker images
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker image prune -f'
 
-    - name: Set up Docker frontmetadata
-      uses: docker/metadata-action@v3
-      with:
-        images: 'frontendcontainer'  
+      - name: Deploy Result Service
+        if: ${{ needs.build.outputs.modified_service == 'resultservice' }}
+        run: |
+          cd ResultService/
+          docker build -t kivical/resultservicecontainer .
+          echo "${{ secrets.DOCKER_PASSWORD_ELIAS }}" | docker login -u "${{ secrets.DOCKER_USERNAME_ELIAS }}" --password-stdin
+          docker push kivical/resultservicecontainer
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull kivical/resultservicecontainer'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop resultservicecontainer || true'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm resultservicecontainer || true'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name resultservicecontainer -p 82:3002 kivical/resultservicecontainer'
+          # Clean up unused Docker images
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker image prune -f'
 
-    - name: Build Docker image
-      run: |
-        cd UserService/
-        docker build -t tuupsuu/userservicecontainer .
-        cd ../ResultService/
-        docker build -t kivical/resultservicecontainer .
-        cd ../FrontEnd/my-app/ 
-        docker build -t eepehukk/frontendcontainer .
-        
-
-    - name: Push Docker image
-      run: |
-        cd UserService/
-        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-        docker push tuupsuu/userservicecontainer
-        cd ../ResultService
-        echo "${{ secrets.DOCKER_PASSWORD_ELIAS }}" | docker login -u "${{ secrets.DOCKER_USERNAME_ELIAS }}" --password-stdin
-        docker push kivical/resultservicecontainer
-        cd ../FrontEnd/my-app/
-        echo "${{ secrets.DOCKER_PASSWORD_EEMIL }}" | docker login -u "${{ secrets.DOCKER_USERNAME_EEMIL }}" --password-stdin
-        docker push eepehukk/frontendcontainer
-
-    - name: Add SSH known hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -t rsa 172.104.236.131 >> ~/.ssh/known_hosts
-
-    - name: Deploy to Docker server
-      run: |
-        cd UserService/
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull tuupsuu/userservicecontainer'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop userservicecontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm userservicecontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name userservicecontainer -p 83:3002 tuupsuu/userservicecontainer'
-        
-        # Clean up unused Docker images
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker image prune -f'
-    
-        cd ../ResultService/
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull kivical/resultservicecontainer'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop resultservicecontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm resultservicecontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name resultservicecontainer -p 82:3002 kivical/resultservicecontainer'
-    
-        # Clean up unused Docker images
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker image prune -f'
-    
-        cd ../FrontEnd/my-app/
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull eepehukk/frontendcontainer'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop frontendcontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm frontendcontainer || true'
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name frontendcontainer -p 81:80 eepehukk/frontendcontainer'
-        
-        # Clean up unused Docker images
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker image prune -f'
-    
+      - name: Deploy Frontend
+        if: ${{ needs.build.outputs.modified_service == 'frontend' }}
+        run: |
+          cd FrontEnd/my-app/
+          docker build -t eepehukk/frontendcontainer .
+          echo "${{ secrets.DOCKER_PASSWORD_EEMIL }}" | docker login -u "${{ secrets.DOCKER_USERNAME_EEMIL }}" --password-stdin
+          docker push eepehukk/frontendcontainer
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker pull eepehukk/frontendcontainer'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker stop frontendcontainer || true'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker rm frontendcontainer || true'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker run -d --name frontendcontainer -p 81:80 eepehukk/frontendcontainer'
+          # Clean up unused Docker images
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker image prune -f'
