@@ -45,6 +45,8 @@ jobs:
         run: |
           echo "Before Commit: ${{ github.event.before }}"
           echo "Current Commit: ${{ github.sha }}"
+          echo "Pull Request: ${{ github.event.pull_request.head.sha }}"
+          echo "Base Branch: ${{ github.event.pull_request.base.sha }}"
         
       - name: Get Commit Range
         id: commit_range
@@ -61,9 +63,12 @@ jobs:
       - name: Detect modified service
         id: detect_modified_service
         run: |
-          source_branch="${{ needs.commit_range.outputs.source_branch }}"
-          target_branch="${{ needs.commit_range.outputs.target_branch }}"
-
+          source_branch="${{ github.event.pull_request.head.sha }}"
+          target_branch="${{ github.event.pull_request.base.sha }}"
+          
+          echo "source_branch=${source_branch}" >> $GITHUB_ENV
+          echo "target_branch=${target_branch}" >> $GITHUB_ENV
+          
           if git diff --name-only $source_branch^..$target_branch | grep -q '^UserService/'; then
             modified_service="userservice"
           elif git diff --name-only $source_branch^..$target_branch | grep -q '^ResultService/'; then
@@ -73,6 +78,7 @@ jobs:
           else
             modified_service="none"
           fi
+          
           echo "modified_service=${modified_service}" >> $GITHUB_ENV
 
   deploy:
