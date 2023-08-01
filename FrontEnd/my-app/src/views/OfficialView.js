@@ -102,25 +102,20 @@ function OfficialView() {
       setOfficialName(loggedInOfficialName);
     }
 
-    // Adding event listener for window/tab close
-    window.addEventListener("beforeunload", (ev) => {
-      ev.preventDefault();
+    const handleBeforeUnload = (ev) => {
       // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
       if (!sessionStorage.getItem("isRefreshing")) {
         localStorage.clear();
       }
-    });
+    };
 
-    // remember to clear the interval when the component unmounts
+    // Adding event listener for window/tab close
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // remember to clear the interval and remove the event listener when the component unmounts
     return () => {
       clearInterval(intervalId);
-      // Remove the event listener when the component unmounts
-      window.removeEventListener("beforeunload", (ev) => {
-        ev.preventDefault();
-        if (!sessionStorage.getItem("isRefreshing")) {
-          localStorage.clear();
-        }
-      });
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [navigate]);
 
