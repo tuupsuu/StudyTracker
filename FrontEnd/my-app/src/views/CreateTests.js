@@ -7,7 +7,7 @@ function CreateTests() {
 
   const [testName, setTestName] = useState('');
   const [exercises, setExercises] = useState([
-    { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }
+    { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''], timeAllowed: '', timerQuestions: [{ question: '', answer: '' }] }
   ]);
 
   const updateExerciseQuestion = (index, question) => {
@@ -95,6 +95,36 @@ function CreateTests() {
     setExercises(updatedExercises);
   };
 
+  const updateTimerQuestion = (exerciseIndex, questionIndex, value) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].timerQuestions[questionIndex].question = value;
+    setExercises(updatedExercises);
+  };
+
+  const updateTimerAnswer = (exerciseIndex, questionIndex, value) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].timerQuestions[questionIndex].answer = value;
+    setExercises(updatedExercises);
+  };
+
+  const addTimerQuestion = (exerciseIndex) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].timerQuestions.push({ question: '', answer: '' });
+    setExercises(updatedExercises);
+  };
+
+  const removeTimerQuestion = (exerciseIndex, questionIndex) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].timerQuestions.splice(questionIndex, 1);
+    setExercises(updatedExercises);
+  };
+
+  const updateAllowedTime = (exerciseIndex, time) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].timeAllowed = time;
+    setExercises(updatedExercises);
+  };
+
 
   return (
     <div className='CreateTestPage'>
@@ -134,6 +164,49 @@ function CreateTests() {
                   required
                 />
               </label>
+              {exercise.type === "timer" && (
+                <div>
+                  <label>
+                    Allowed Time:
+                    <input
+                      type="text"
+                      value={exercise.timeAllowed}
+                      onChange={(e) => updateAllowedTime(exerciseIndex, e.target.value)}
+                      required
+                    />
+                  </label>
+                  {exercise.timerQuestions.map((timerQuestion, questionIndex) => (
+                    <div className="timer-question-container" key={questionIndex}>
+                      <label>
+                        Question {questionIndex + 1}:
+                        <input
+                          type="text"
+                          value={timerQuestion.question}
+                          onChange={(e) => updateTimerQuestion(exerciseIndex, questionIndex, e.target.value)}
+                          required
+                        />
+                      </label>
+                      <label>
+                        Answer:
+                        <input
+                          type="text"
+                          value={timerQuestion.answer}
+                          onChange={(e) => updateTimerAnswer(exerciseIndex, questionIndex, e.target.value)}
+                          required
+                        />
+                      </label>
+                      {exercise.timerQuestions.length > 1 && (
+                        <button onClick={() => removeTimerQuestion(exerciseIndex, questionIndex)}>
+                          <FaMinus />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button onClick={() => addTimerQuestion(exerciseIndex)}>
+                    <FaPlus />
+                  </button>
+                </div>
+              )}
               {exercise.type === "single" && (
                 <div>
                   {exercise.options.map((option, optionIndex) => (
