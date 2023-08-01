@@ -9,17 +9,8 @@ const studentController = require('./controllers/studentController');
 const teacherController = require('./controllers/teacherController');
 const { Sequelize, Datatypes } = require('sequelize');
 
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: config.host,
-    dialect: config.dialect,
-    dialectOptions: {
-      ssl: {
-        require: config.ssl.require,
-        ca: [config.ssl.ca],
-        rejectUnauthorized: false
-      }
-    }
-});
+const sequelize = require('./models/db');
+require('./models/associations');
 
 const app = express();
 app.use(bodyParser.json());

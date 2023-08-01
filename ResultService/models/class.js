@@ -3,17 +3,7 @@ const config = require('./config');
 const { School } = require('./school');
 const { Teacher } = require('./teacher');
 
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-  host: config.host,
-  dialect: config.dialect,
-  dialectOptions: {
-    ssl: {
-      require: config.ssl.require,
-      ca: [config.ssl.ca],
-      rejectUnauthorized: false
-    }
-  }
-});
+const sequelize = require('./db');
 
 const Class = sequelize.define('Class', {
     Class_ID: {
@@ -49,4 +39,12 @@ Class.belongsTo(School, {
     onDelete: 'CASCADE'
 });
 
+sequelize.sync();
+
 module.exports = { Class };
+
+// const { Student } = require('./student');
+
+// Class.hasMany(Student, {
+//     foreignKey: 'Class_ID'
+// });
