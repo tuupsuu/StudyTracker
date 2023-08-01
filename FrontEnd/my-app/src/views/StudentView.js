@@ -31,11 +31,7 @@ function StudentView() {
 
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
         navigate("..");
       }
     }, 1000); // checks every second
@@ -53,11 +49,7 @@ function StudentView() {
       ev.preventDefault();
       // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
       if (!sessionStorage.getItem('isRefreshing')) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
       }
     });
 
@@ -68,11 +60,7 @@ function StudentView() {
       window.removeEventListener('beforeunload', (ev) => {
         ev.preventDefault();
         if (!sessionStorage.getItem('isRefreshing')) {
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("jwtTokenExpiration");
-          localStorage.removeItem("userRights");
-          localStorage.removeItem("loggedInOfficialName");
-          localStorage.removeItem("userName");
+          localStorage.clear();
         }
       });
     };
@@ -93,11 +81,7 @@ function StudentView() {
           <p>You can choose your test from this page.</p>
         </div>
         <Link to='..' className='Student-LogOutButton' onClick={() => {
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("jwtTokenExpiration");
-          localStorage.removeItem("userRights");
-          localStorage.removeItem("loggedInOfficialName");
-          localStorage.removeItem("userName");
+          localStorage.clear();
         }}><BiLogOut></BiLogOut></Link>
       </div>
       <div>
