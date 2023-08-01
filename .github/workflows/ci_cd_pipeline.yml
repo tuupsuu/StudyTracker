@@ -6,6 +6,7 @@ on:
       - dev
       - main
       - frontend
+      - backend
 
 jobs:
   build:
@@ -43,11 +44,11 @@ jobs:
       - name: Detect modified service
         id: detect_modified_service
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^UserService/'; then
+          if git diff --name-only ${{ github.event.before }}^..${{ github.sha }} | grep -q '^UserService/'; then
             modified_service="userservice"
-          elif git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^ResultService/'; then
+          elif git diff --name-only ${{ github.event.before }}^..${{ github.sha }} | grep -q '^ResultService/'; then
             modified_service="resultservice"
-          elif git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^FrontEnd/'; then
+          elif git diff --name-only ${{ github.event.before }}^..${{ github.sha }} | grep -q '^FrontEnd/'; then
             modified_service="frontend"
           else
             modified_service="none"
