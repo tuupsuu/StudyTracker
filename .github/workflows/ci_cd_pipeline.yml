@@ -7,6 +7,7 @@ on:
       - main
       - frontend
       - backend
+      - topias
 
 jobs:
   build:
