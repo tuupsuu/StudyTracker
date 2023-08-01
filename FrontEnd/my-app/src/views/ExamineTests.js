@@ -37,11 +37,7 @@ function ExamineTests() {
 
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
         navigate("..");
       }
     }, 1000); // checks every second
@@ -56,11 +52,7 @@ function ExamineTests() {
     window.addEventListener("beforeunload", (ev) => {
       ev.preventDefault();
       if (!sessionStorage.getItem("isRefreshing")) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
       }
     });
 
@@ -69,11 +61,7 @@ function ExamineTests() {
       window.removeEventListener("beforeunload", (ev) => {
         ev.preventDefault();
         if (!sessionStorage.getItem("isRefreshing")) {
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("jwtTokenExpiration");
-          localStorage.removeItem("userRights");
-          localStorage.removeItem("loggedInOfficialName");
-          localStorage.removeItem("userName");
+          localStorage.clear();
         }
       });
     };
@@ -127,11 +115,7 @@ function ExamineTests() {
           to=".."
           className="LogoutButtonOfficial"
           onClick={() => {
-            localStorage.removeItem("jwtToken");
-            localStorage.removeItem("jwtTokenExpiration");
-            localStorage.removeItem("userRights");
-            localStorage.removeItem("loggedInOfficialName");
-            localStorage.removeItem("userName");
+            localStorage.clear();
           }}
         >
           <BiLogOut></BiLogOut>
