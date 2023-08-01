@@ -102,6 +102,7 @@ jobs:
           # Clean up unused Docker images
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@172.104.236.131 'docker image prune -f'
 
+     
       - name: Deploy Frontend
         if: ${{ needs.build.outputs.modified_service == 'frontend' }}
         run: |
