@@ -19,11 +19,7 @@ function OfficialView() {
 
     const intervalId = setInterval(() => {
       if (isTokenExpired()) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
         navigate("..");
       }
     }, 1000); // checks every second
@@ -33,11 +29,7 @@ function OfficialView() {
     window.addEventListener("beforeunload", (ev) => {
       ev.preventDefault();
       if (!sessionStorage.getItem("isRefreshing")) {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("jwtTokenExpiration");
-        localStorage.removeItem("userRights");
-        localStorage.removeItem("loggedInOfficialName");
-        localStorage.removeItem("userName");
+        localStorage.clear();
       }
     });
 
@@ -46,11 +38,7 @@ function OfficialView() {
       window.removeEventListener("beforeunload", (ev) => {
         ev.preventDefault();
         if (!sessionStorage.getItem("isRefreshing")) {
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("jwtTokenExpiration");
-          localStorage.removeItem("userRights");
-          localStorage.removeItem("loggedInOfficialName");
-          localStorage.removeItem("userName");
+          localStorage.clear();
         }
       });
     };
@@ -220,13 +208,14 @@ function OfficialView() {
         <div className="HeaderOfficial">
           <h1 className="TitleOfficial">Examine teachers</h1>
         </div>
-        <Link to='..' className='LogoutButtonTeacher' onClick={() => {
-            localStorage.removeItem("jwtToken");
-            localStorage.removeItem("jwtTokenExpiration");
-            localStorage.removeItem("userRights");
-            localStorage.removeItem("loggedInOfficialName");
-            localStorage.removeItem("userName");
-          }}> <BiLogOut></BiLogOut>
+        <Link
+          to=".."
+          className="LogoutButtonOfficial"
+          onClick={() => {
+            localStorage.clear();
+          }}
+        >
+          <BiLogOut></BiLogOut>
         </Link>
       </header>
       {isSidebarOpen && (
