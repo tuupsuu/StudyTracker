@@ -5,8 +5,9 @@ import './CreateTests.css';
 function CreateTests() {
   const questionTypes = ['single', 'whats next', 'audio', 'timer', 'money'];
 
+  const [testName, setTestName] = useState('');
   const [exercises, setExercises] = useState([
-    { question: '', options: [''], type: questionTypes[0], correctAnswer: -1 }
+    { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', ''], ['']], answers: ['', ''] }
   ]);
 
   const updateExerciseQuestion = (index, question) => {
@@ -40,7 +41,7 @@ function CreateTests() {
   };
 
   const addExercise = () => {
-    setExercises([...exercises, { question: '', options: [''], type: questionTypes[0], correctAnswer: -1 }]);
+    setExercises([...exercises, { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', ''], ['']], answers: ['', ''] }]);
   };
 
   const removeExercise = (index) => {
@@ -55,20 +56,61 @@ function CreateTests() {
     setExercises(updatedExercises);
   };
 
+  const handleTestNameChange = (event) => {
+    setTestName(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Here is where you'd call your API to create the test
-    console.log('Submitting test:', exercises);
+    console.log('Submitting test:', { testName, exercises });
 
-    // Clear the form
-    setExercises([{ question: '', options: [''], type: questionTypes[0], correctAnswer: -1 }]);
+    setTestName('');
+    setExercises([{ question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', ''], ['']], answers: ['', ''] }]);
+  };
+
+  const updateSequence = (exerciseIndex, sequenceIndex, numberIndex, value) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].sequences[sequenceIndex][numberIndex] = value;
+    setExercises(updatedExercises);
+  };
+
+  const addSequence = (exerciseIndex) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].sequences.push(['', '', '']);
+    updatedExercises[exerciseIndex].answers.push('');
+    setExercises(updatedExercises);
+  };
+
+  const removeSequence = (exerciseIndex, sequenceIndex) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].sequences.splice(sequenceIndex, 1);
+    updatedExercises[exerciseIndex].answers.splice(sequenceIndex, 1);
+    setExercises(updatedExercises);
+  };
+
+  const updateAnswer = (exerciseIndex, sequenceIndex, value) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].answers[sequenceIndex] = value;
+    setExercises(updatedExercises);
   };
 
   return (
     <div className='CreateTestPage'>
       <div className="CreateTests">
         <h1>Create a Test</h1>
+        <div className="test-name-section">
+          <label>
+            Test Name:
+            <input
+            className='test-name-box'
+              type="text"
+              value={testName}
+              onChange={handleTestNameChange}
+              required
+            />
+          </label>
+        </div>
         <form onSubmit={handleSubmit}>
           {exercises.map((exercise, exerciseIndex) => (
             <div className="exercise" key={exerciseIndex}>
@@ -91,50 +133,79 @@ function CreateTests() {
                   required
                 />
               </label>
-              {exercise.options.map((option, optionIndex) => (
-                <div className="option-container" key={optionIndex}>
-                  {exercise.type === "single" && (
-                    <input 
-                      className="checkbox"
-                      type="checkbox" 
-                      checked={optionIndex === exercise.correctAnswer} 
-                      onChange={() => updateCorrectAnswer(exerciseIndex, optionIndex)}
-                    />
-                  )}
-                  <label>
-                    Option {optionIndex + 1}:
-                    <input
-                      type="text"
-                      value={option}
-                      onChange={(e) => updateOption(exerciseIndex, optionIndex, e.target.value)}
-                      style={optionIndex === exercise.correctAnswer ? {borderColor: "green"} : {}}
-                      required
-                    />
-                  </label>
-                  {exercise.options.length > 1 && (
-                    <button onClick={() => removeOption(exerciseIndex, optionIndex)}>
-                      <FaMinus />
-                    </button>
-                  )}
-                </div>
-              ))}
-              <span className="button-label">Add Option</span>
-              <button className='AddOptionButton' onClick={() => addOption(exerciseIndex)}>
-                <FaPlus />
-              </button>
-              {exercises.length > 1 && (
-                <>
-                  <span className="button-label">Remove Exercise</span>
-                  <button className='RemoveExerciseButton' onClick={() => removeExercise(exerciseIndex)}>
-                    <FaMinus />
+              {exercise.type === "single" && (
+                <div>
+                  {exercise.options.map((option, optionIndex) => (
+                    <div className="option-container" key={optionIndex}>
+                      <input 
+                        className="checkbox"
+                        type="checkbox" 
+                        checked={optionIndex === exercise.correctAnswer} 
+                        onChange={() => updateCorrectAnswer(exerciseIndex, optionIndex)}
+                      />
+                      <label>
+                        Option {optionIndex + 1}:
+                        <input
+                          type="text"
+                          value={option}
+                          onChange={(e) => updateOption(exerciseIndex, optionIndex, e.target.value)}
+                          required
+                        />
+                      </label>
+                      {exercise.options.length > 2 && (
+                        <button onClick={() => removeOption(exerciseIndex, optionIndex)}>
+                          <FaMinus />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button onClick={() => addOption(exerciseIndex)}>
+                    <FaPlus />
                   </button>
-                </>
+                </div>
+              )}
+              {exercise.type === "whats next" && (
+                <div className="sequence-container">
+                  {exercise.sequences.map((sequence, sequenceIndex) => (
+                    <div className="sequence-row" key={sequenceIndex}>
+                      {sequence.map((number, numberIndex) => (
+                        <div className="number-input-container" key={numberIndex}>
+                          <input
+                            type="text"
+                            value={number}
+                            onChange={(e) => updateSequence(exerciseIndex, sequenceIndex, numberIndex, e.target.value)}
+                            required
+                          />
+                          <span>,</span>
+                        </div>
+                      ))}
+                      <button onClick={() => addSequence(exerciseIndex)}>
+                        <FaPlus />
+                      </button>
+                      <input
+                        type="text"
+                        value={exercise.answers[sequenceIndex]}
+                        onChange={(e) => updateAnswer(exerciseIndex, sequenceIndex, e.target.value)}
+                        required
+                      />
+                      {exercise.sequences.length > 1 && (
+                        <button onClick={() => removeSequence(exerciseIndex, sequenceIndex)}>
+                          <FaMinus />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {exercises.length > 1 && (
+                <button onClick={() => removeExercise(exerciseIndex)}>
+                  Remove Exercise
+                </button>
               )}
             </div>
           ))}
-          <span className="button-label">Add Exercise</span>
-          <button className='AddExerciseButton' onClick={addExercise}>
-            <FaPlus />
+          <button onClick={addExercise}>
+            Add Exercise
           </button>
           <button type="submit">Create Test</button>
         </form>
