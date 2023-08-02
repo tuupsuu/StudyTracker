@@ -1,9 +1,6 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const config = require('./config');
-const { Test } = require('./testCategory');
-
+const { DataTypes } = require('sequelize');
+const { TestCategory } = require('./testCategory');
 const sequelize = require('./db');
-
 
 
 const Question = sequelize.define('Question', {
