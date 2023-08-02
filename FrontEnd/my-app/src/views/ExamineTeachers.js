@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
-import "./OfficialView.css";
+import "./Students.css";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import Download from '../components/Download';
 
@@ -232,19 +232,20 @@ function OfficialView() {
 
       <section className="content">
         <div className='controls'>
-          <div className='addTeacher'>
-            {/* Add new teachers button */}
-            <Button className='buttonAdd' onClick={handleDialogOpen}>
-              Add new teacher
-            </Button>
+          <div className="buttonsContainer">
+            <div className='addStudent'>
+              {/* Add new teachers button */}
+              <Button className='buttonAdd' onClick={handleDialogOpen}>
+                Add new teacher
+              </Button>
+            </div>
+            <div>
+              {/* Download CSV button */}
+              <Download teachers={teachers} />   
+            </div>
           </div>
-          <div>
-            {/* Download CSV button */}
-            <Download teachers={teachers} />   
-          </div>
-          
           <TextField
-            className='teacherSearch'
+            className='studentSearch'
             id="standard-basic"
             label="Search"
             variant="standard"
@@ -254,7 +255,7 @@ function OfficialView() {
         </div>
       </section>
 
-      <section className='teacherTable'>
+      <section className='studentTable'>
           {/* Render Teacher in a table */}
           <TableContainer>
             <Table>
