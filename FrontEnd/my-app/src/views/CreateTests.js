@@ -41,7 +41,16 @@ function CreateTests() {
   };
 
   const addExercise = () => {
-    setExercises([...exercises, { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }]);
+    setExercises([...exercises, {
+      question: '',
+      options: [''],
+      type: questionTypes[0],
+      correctAnswer: -1,
+      sequences: [['', '', '']],
+      answers: [''],
+      timeAllowed: '',
+      timerQuestions: [{ question: '', answer: '' }]
+    }]);
   };
 
   const removeExercise = (index) => {
@@ -164,49 +173,6 @@ function CreateTests() {
                   required
                 />
               </label>
-              {exercise.type === "timer" && (
-                <div>
-                  <label>
-                    Allowed Time:
-                    <input
-                      type="text"
-                      value={exercise.timeAllowed}
-                      onChange={(e) => updateAllowedTime(exerciseIndex, e.target.value)}
-                      required
-                    />
-                  </label>
-                  {exercise.timerQuestions.map((timerQuestion, questionIndex) => (
-                    <div className="timer-question-container" key={questionIndex}>
-                      <label>
-                        Question {questionIndex + 1}:
-                        <input
-                          type="text"
-                          value={timerQuestion.question}
-                          onChange={(e) => updateTimerQuestion(exerciseIndex, questionIndex, e.target.value)}
-                          required
-                        />
-                      </label>
-                      <label>
-                        Answer:
-                        <input
-                          type="text"
-                          value={timerQuestion.answer}
-                          onChange={(e) => updateTimerAnswer(exerciseIndex, questionIndex, e.target.value)}
-                          required
-                        />
-                      </label>
-                      {exercise.timerQuestions.length > 1 && (
-                        <button onClick={() => removeTimerQuestion(exerciseIndex, questionIndex)}>
-                          <FaMinus />
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                  <button onClick={() => addTimerQuestion(exerciseIndex)}>
-                    <FaPlus />
-                  </button>
-                </div>
-              )}
               {exercise.type === "single" && (
                 <div>
                   {exercise.options.map((option, optionIndex) => (
@@ -238,6 +204,7 @@ function CreateTests() {
                   </button>
                 </div>
               )}
+
               {exercise.type === "whats next" && (
                 <div className="sequence-container">
                   <span style={{fontSize: "18px"}}>Insert the number sequence and the right answer</span>
@@ -272,6 +239,54 @@ function CreateTests() {
                       </button>
                 </div>
               )}
+
+              {exercise.type === "timer" && (
+                <div>
+                  <label>
+                    Allowed Time:
+                    <input
+                      type="text"
+                      value={exercise.timeAllowed}
+                      onChange={(e) => updateAllowedTime(exerciseIndex, e.target.value)}
+                      required
+                    />
+                  </label>
+                    {exercise.timerQuestions.map((timerQuestion, questionIndex) => (
+                      <div className="timer-question-container" key={questionIndex}>
+                        <div className="timer-question-row"> 
+                          <label>
+                            Question {questionIndex + 1}:
+                            <input
+                              type="text"
+                              value={timerQuestion.question}
+                              onChange={(e) => updateTimerQuestion(exerciseIndex, questionIndex, e.target.value)}
+                              required
+                            />
+                          </label>
+                          <label>
+                            Answer:
+                            <input
+                              type="text"
+                              value={timerQuestion.answer}
+                              onChange={(e) => updateTimerAnswer(exerciseIndex, questionIndex, e.target.value)}
+                              required
+                              style={{borderColor: "lime"}}
+                            />
+                          </label>
+                          {exercise.timerQuestions.length > 1 && (
+                            <button className="remove-button" onClick={() => removeTimerQuestion(exerciseIndex, questionIndex)}>
+                              <FaMinus />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  <button onClick={() => addTimerQuestion(exerciseIndex)}>
+                    <FaPlus />
+                  </button>
+                </div>
+              )}
+
               {exercises.length > 1 && (
                 <button onClick={() => removeExercise(exerciseIndex)}>
                   Remove Exercise
