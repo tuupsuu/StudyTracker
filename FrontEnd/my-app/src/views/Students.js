@@ -250,7 +250,6 @@ function Students() {
         <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
         <div className='HeaderTeacher'>
           <h1 className='TitleExamine'>Students</h1>
-          <h2>Minecraft</h2>
         </div>
         <Link to='..' className='LogoutButtonTeacher' onClick={() => {
           localStorage.clear();
