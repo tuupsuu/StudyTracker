@@ -83,7 +83,7 @@ function TeacherView() {
           <aside className="sidebar">
             <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
             <ul>
-              <li>Create a test</li>
+              <Link to= '/create-tests'>Create a Test</Link>
               <li>Evaluate tests</li>
               <Link to='/examine-tests'>ExamineTests</Link>
               <li><Link to='/students'>Students</Link></li>
