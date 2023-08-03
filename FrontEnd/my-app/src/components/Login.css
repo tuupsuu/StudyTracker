@@ -5,13 +5,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: auto;
     height: 100vh;
     background: linear-gradient(to bottom right, lightblue, rgb(251, 251, 152));  
   }
   
   .welcommingH1 {
     font-family: 'Roboto', sans-serif;
-    background-color: seetrought; 
+    background: seetrought; 
   }
 
   .login-form {

@@ -6,6 +6,16 @@
     min-height: 1500px;
   }
   
+  body, html {
+    margin: 0;
+    padding: 0;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -13,6 +23,7 @@
     padding: 30px;
     background-color: darkslategrey;
     color: #fff;
+    width: 100%; /* Stretch across full width */
   }
   /*
 -----------------------------------------------------
@@ -24,6 +35,8 @@
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
   }
 
   .sidebar ul {
