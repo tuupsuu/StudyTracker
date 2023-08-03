@@ -7,8 +7,19 @@ function CreateTests() {
 
   const [testName, setTestName] = useState('');
   const [exercises, setExercises] = useState([
-    { question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''], timeAllowed: '', timerQuestions: [{ question: '', answer: '' }] }
+    { 
+      question: '', 
+      options: [''], 
+      type: questionTypes[0], 
+      correctAnswer: -1, 
+      sequences: [['', '', '']], 
+      answers: [''], 
+      timeAllowed: '', 
+      timerQuestions: [{ question: '', answer: '' }], 
+      moneyQuestions: [{ amounts: [''], answer: '' }] // <-- Add this line
+    }
   ]);
+  
 
   const updateExerciseQuestion = (index, question) => {
     const updatedExercises = [...exercises];
@@ -41,7 +52,7 @@ function CreateTests() {
   };
 
   const addExercise = () => {
-    setExercises([...exercises, {
+    const newExercise = {
       question: '',
       options: [''],
       type: questionTypes[0],
@@ -49,9 +60,14 @@ function CreateTests() {
       sequences: [['', '', '']],
       answers: [''],
       timeAllowed: '',
-      timerQuestions: [{ question: '', answer: '' }]
-    }]);
+      timerQuestions: [{ question: '', answer: '' }],
+      moneyQuestions: [{ amounts: [''], answer: '' }]
+    };
+    setExercises([...exercises, newExercise]);
   };
+  
+  
+  
 
   const removeExercise = (index) => {
     const updatedExercises = [...exercises];
@@ -104,6 +120,9 @@ function CreateTests() {
     setExercises(updatedExercises);
   };
 
+  // -----------------------------------------------------------------------------
+  // Timer functions
+
   const updateTimerQuestion = (exerciseIndex, questionIndex, value) => {
     const updatedExercises = [...exercises];
     updatedExercises[exerciseIndex].timerQuestions[questionIndex].question = value;
@@ -134,6 +153,33 @@ function CreateTests() {
     setExercises(updatedExercises);
   };
 
+  // -----------------------------------------------------------------------------
+  // Money functions
+
+  const updateMoneyAmount = (exerciseIndex, questionIndex, amountIndex, value) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].moneyQuestions[questionIndex].amounts[amountIndex] = value;
+    setExercises(updatedExercises);
+  };
+  
+  const updateMoneyAnswer = (exerciseIndex, questionIndex, value) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].moneyQuestions[questionIndex].answer = value;
+    setExercises(updatedExercises);
+  };
+  
+  const addMoneyQuestion = (exerciseIndex) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].moneyQuestions.push({ amounts: [''], answer: '' });
+    setExercises(updatedExercises);
+  };
+  
+  const removeMoneyQuestion = (exerciseIndex, questionIndex) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[exerciseIndex].moneyQuestions.splice(questionIndex, 1);
+    setExercises(updatedExercises);
+  };
+  
 
   return (
     <div className='CreateTestPage'>
@@ -173,6 +219,7 @@ function CreateTests() {
                   required
                 />
               </label>
+
               {exercise.type === "single" && (
                 <div>
                   {exercise.options.map((option, optionIndex) => (
@@ -286,6 +333,53 @@ function CreateTests() {
                   </button>
                 </div>
               )}
+
+{exercise.type === "money" && (
+  <div className="money-container">
+    <label>
+      Insert the amounts of money and the correct sum
+    </label>
+    {exercise.moneyQuestions?.map((moneyQuestion, questionIndex) => (
+      <div className="money-question-container" key={questionIndex}>
+        <div className="money-question-row">
+          {moneyQuestion.amounts.map((amount, amountIndex) => (
+            <label key={amountIndex}>
+              Amount {amountIndex + 1}:
+              <input
+                type="text"
+                value={amount}
+                onChange={(e) => updateMoneyAmount(exerciseIndex, questionIndex, amountIndex, e.target.value)}
+                required
+                placeholder="Amount"
+                style={{ width: '200px' }}
+              />
+            </label>
+          ))}
+          <label>
+            Answer:
+            <input
+              type="text"
+              value={moneyQuestion.answer}
+              onChange={(e) => updateMoneyAnswer(exerciseIndex, questionIndex, e.target.value)}
+              required
+              placeholder='Answer'
+              style={{borderColor: "lime", width: '200px'}}
+            />
+          </label>
+          {exercise.moneyQuestions.length > 1 && (
+            <button onClick={() => removeMoneyQuestion(exerciseIndex, questionIndex)}>
+              <FaMinus />
+            </button>
+          )}
+        </div>
+      </div>
+    ))}
+    <button onClick={() => addMoneyQuestion(exerciseIndex)}>
+      <FaPlus />
+    </button>
+  </div>
+)}
+
 
               {exercises.length > 1 && (
                 <button onClick={() => removeExercise(exerciseIndex)}>
