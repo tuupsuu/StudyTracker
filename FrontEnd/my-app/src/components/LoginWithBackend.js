@@ -137,7 +137,7 @@ function LoginWithBackend() {
           Password:
           <input type="password" name="password" onChange={handleInputChange} />
         </label>
-        <input type="submit" value="Login" />
+        <input type="submit" className="loginButton" value="Login" />
       </form>
     </div>
   );
