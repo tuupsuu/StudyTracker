@@ -164,3 +164,36 @@
 /* Money css */
 
 
+.money-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  background-color: transparent;
+  border: none;
+}
+
+.money-question-container {
+}
+
+.money-question-row {
+  display: flex;
+  align-items: center;  
+  flex-wrap: wrap;  
+}
+
+.amount-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.amount-container input {
+  width: 60px;
+}
+
+.money-plusbutton {
+  margin-right: 90%
+}

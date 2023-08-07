@@ -334,52 +334,51 @@ function CreateTests() {
                 </div>
               )}
 
-{exercise.type === "money" && (
-  <div className="money-container">
-    <label>
-      Insert the amounts of money and the correct sum
-    </label>
-    {exercise.moneyQuestions?.map((moneyQuestion, questionIndex) => (
-      <div className="money-question-container" key={questionIndex}>
-        <div className="money-question-row">
-          {moneyQuestion.amounts.map((amount, amountIndex) => (
-            <label key={amountIndex}>
-              Amount {amountIndex + 1}:
-              <input
-                type="text"
-                value={amount}
-                onChange={(e) => updateMoneyAmount(exerciseIndex, questionIndex, amountIndex, e.target.value)}
-                required
-                placeholder="Amount"
-                style={{ width: '200px' }}
-              />
-            </label>
-          ))}
-          <label>
-            Answer:
-            <input
-              type="text"
-              value={moneyQuestion.answer}
-              onChange={(e) => updateMoneyAnswer(exerciseIndex, questionIndex, e.target.value)}
-              required
-              placeholder='Answer'
-              style={{borderColor: "lime", width: '200px'}}
-            />
-          </label>
-          {exercise.moneyQuestions.length > 1 && (
-            <button onClick={() => removeMoneyQuestion(exerciseIndex, questionIndex)}>
-              <FaMinus />
-            </button>
-          )}
-        </div>
-      </div>
-    ))}
-    <button onClick={() => addMoneyQuestion(exerciseIndex)}>
-      <FaPlus />
-    </button>
-  </div>
-)}
-
+              {exercise.type === "money" && (
+                <div className="money-container">
+                  <label>
+                    Insert the amounts of money and the correct sum
+                  </label>
+                  {exercise.moneyQuestions?.map((moneyQuestion, questionIndex) => (
+                    <div className="money-question-container" key={questionIndex}>
+                      <div className="money-question-row">
+                        {moneyQuestion.amounts.map((amount, amountIndex) => (
+                          <label key={amountIndex}>
+                            Amount {amountIndex + 1}:
+                            <input
+                              type="text"
+                              value={amount}
+                              onChange={(e) => updateMoneyAmount(exerciseIndex, questionIndex, amountIndex, e.target.value)}
+                              required
+                              placeholder="Amount"
+                              style={{ width: '200px', marginLeft: '10px' ,marginRight: '10px' }}
+                            />
+                          </label>
+                        ))}
+                        <label>
+                          Answer:
+                          <input
+                            type="text"
+                            value={moneyQuestion.answer}
+                            onChange={(e) => updateMoneyAnswer(exerciseIndex, questionIndex, e.target.value)}
+                            required
+                            placeholder='Answer'
+                            style={{borderColor: "lime", width: '200px', marginLeft: '10px' ,marginRight: '10px'}}
+                          />
+                        </label>
+                        {exercise.moneyQuestions.length > 1 && (
+                          <button onClick={() => removeMoneyQuestion(exerciseIndex, questionIndex)}>
+                            <FaMinus />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                  <button className='money-plusbutton' onClick={() => addMoneyQuestion(exerciseIndex)}>
+                    <FaPlus />
+                  </button>
+                </div>
+              )}
 
               {exercises.length > 1 && (
                 <button onClick={() => removeExercise(exerciseIndex)}>
