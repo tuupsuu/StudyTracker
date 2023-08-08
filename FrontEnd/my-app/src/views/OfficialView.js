@@ -88,41 +88,36 @@ function OfficialView() {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (isTokenExpired()) {
-        localStorage.clear();
-        navigate("..");
+        if (isTokenExpired()) {
+          localStorage.clear();
+          navigate("..");
+        }
+      }, 1000); // checks every second
+  
+      // Set sessionStorage item on page load
+      sessionStorage.setItem("isRefreshing", "true");
+  
+      const loggedInOfficialName = localStorage.getItem("userName");
+      if (loggedInOfficialName) {
+        setOfficialName(loggedInOfficialName);
       }
-    }, 1000); // checks every second
-
-    // Set sessionStorage item on page load
-    sessionStorage.setItem("isRefreshing", "true");
-
-    const loggedInOfficialName = localStorage.getItem("userName");
-    if (loggedInOfficialName) {
-      setOfficialName(loggedInOfficialName);
-    }
-
-    // Adding event listener for window/tab close
-    window.addEventListener("beforeunload", (ev) => {
-      ev.preventDefault();
-      // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
-      if (!sessionStorage.getItem("isRefreshing")) {
-        localStorage.clear();
-      }
-    });
-
-    // remember to clear the interval when the component unmounts
-    return () => {
-      clearInterval(intervalId);
-      // Remove the event listener when the component unmounts
-      window.removeEventListener("beforeunload", (ev) => {
-        ev.preventDefault();
+  
+      const handlePageClose = () => {
+        // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
         if (!sessionStorage.getItem("isRefreshing")) {
           localStorage.clear();
         }
-      });
-    };
-  }, [navigate]);
+      };
+  
+      // Adding event listener for window/tab close
+      window.addEventListener("beforeunload", handlePageClose);
+  
+      // remember to clear the interval and remove the event listener when the component unmounts
+      return () => {
+        clearInterval(intervalId);
+        window.removeEventListener("beforeunload", handlePageClose);
+      };
+    }, [navigate]);
 
   useEffect(() => {
     const loggedInOfficialId = localStorage.getItem("loggedInOfficialId");
