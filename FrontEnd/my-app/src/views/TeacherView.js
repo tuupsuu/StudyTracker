@@ -68,7 +68,8 @@ function TeacherView() {
     { label: "Create a test" },
     { label: "Evaluate tests" },
     { label: "ExamineTests", path: "/examine-tests" },
-    { label: "Students", path: "/students" }
+    { label: "Students", path: "/students" },
+    { label: "Create a Test", path: "/create-tests"}
   ];
 
     return (
