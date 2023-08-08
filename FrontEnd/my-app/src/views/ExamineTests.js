@@ -105,12 +105,23 @@ function ExamineTests() {
     );
   }, [search, sortOption, avgGrade, teacherSchool, teacherClass]);
 
+  const teacherLinks = [
+    { label: "Homepage", path: ".." },
+    { label: "Create a test" },
+    { label: "Evaluate tests" },
+    { label: "ExamineTests", path: "/examine-tests" },
+    { label: "Create tests", path: "/create-tests" },
+    { label: "Students", path: "/students" }
+  ];
+
+
   return (
     <div className="examine-tests">
       <Header
         isSidebarOpen={isSidebarOpen}
         setSidebarOpen={setSidebarOpen}
         title="Examine Tests" // Here's the custom title
+        links={teacherLinks}
       />
       <section className="content">
         <div className='controls'>

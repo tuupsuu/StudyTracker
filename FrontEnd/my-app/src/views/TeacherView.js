@@ -65,7 +65,6 @@ function TeacherView() {
   }, []);
   
   const teacherLinks = [
-    { label: "Create a test" },
     { label: "Evaluate tests" },
     { label: "ExamineTests", path: "/examine-tests" },
     { label: "Students", path: "/students" },
