@@ -107,9 +107,7 @@ function ExamineTests() {
 
   const teacherLinks = [
     { label: "Homepage", path: ".." },
-    { label: "Create a test" },
     { label: "Evaluate tests" },
-    { label: "ExamineTests", path: "/examine-tests" },
     { label: "Create tests", path: "/create-tests" },
     { label: "Students", path: "/students" }
   ];
