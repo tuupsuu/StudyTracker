@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import './CreateTests.css';
+import Header from '../components/Header';
 
 function CreateTests() {
   const questionTypes = ['single', 'whats next', 'audio', 'timer', 'money'];
-
+  const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [testName, setTestName] = useState('');
   const [exercises, setExercises] = useState([
     { 
@@ -180,11 +181,19 @@ function CreateTests() {
     setExercises(updatedExercises);
   };
   
-
+  const teacherLinks = [
+    { label: "Homepage", path: ".." }
+  ];
+  
   return (
     <div className='CreateTestPage'>
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        links={teacherLinks} 
+        title="Create a Test" // Pass the custom title here
+      />
       <div className="CreateTests">
-        <h1>Create a Test</h1>
         <div className="test-name-section">
           <label>
             Test Name:

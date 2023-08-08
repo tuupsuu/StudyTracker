@@ -242,12 +242,20 @@ function Students() {
       console.log('Error editing student:', error);
     }
   };
+
+  const teacherLinks = [
+    { label: "Homepage", path: ".." },
+    { label: "Create a test" },
+    { label: "Evaluate tests" },
+    { label: "ExamineTests", path: "/examine-tests" }
+  ];  
   //------------------------------------------------------------------
   return (
     <div className="examine-tests">
       <Header
         isSidebarOpen={isSidebarOpen}
         setSidebarOpen={setSidebarOpen}
+        links={teacherLinks} 
         title="Handle Students" // Pass the custom title here
       />
 
