@@ -85,11 +85,4 @@ describe('User Service API Endpoints', () => {
       expect(response.body).toEqual({});
     });
   });
-
-  afterAll((done) => {
-    app.close(() => {
-      console.log('Server closed');
-      done();
-    });
-  });
 });
