@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './ExamineTests.css';
 import studentsData from '../jsonFiles/grades.json';
-import { Link, useNavigate } from "react-router-dom";
-import { FaBars } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 import Papa from 'papaparse';
-import { BiLogOut, BiPrinter } from 'react-icons/bi';
+import { BiPrinter } from 'react-icons/bi';
+import Header from '../components/Header'; // Adjust the path if necessary
 
 function ExamineTests() {
     const navigate = useNavigate();
-    const [officialName, setOfficialName] = useState("");
+    const [setOfficialName] = useState("");
+
   function downloadCSV() {
     const csv = Papa.unparse(displayStudents);
     const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -106,33 +107,11 @@ function ExamineTests() {
 
   return (
     <div className="examine-tests">
-      <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)}/>
-        <div className='HeaderTeacher'>
-          <h1 className='TitleExamine'>Examine Tests</h1>
-        </div>
-        <Link
-          to=".."
-          className="LogoutButtonOfficial"
-          onClick={() => {
-            localStorage.clear();
-          }}
-        >
-          <BiLogOut></BiLogOut>
-        </Link>
-      </header>
-
-      {isSidebarOpen && (
-        <aside className="sidebar">
-          <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
-          <ul>
-            <li><Link to='/teacher'>Homepage</Link></li>
-            <li>Create a test</li>
-            <li>Evaluate tests</li>
-          </ul>
-        </aside>
-      )}
-
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        title="Examine Tests" // Here's the custom title
+      />
       <section className="content">
         <div className='controls'>
           <div className='sortButtons'>
