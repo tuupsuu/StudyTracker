@@ -33,6 +33,7 @@ jobs:
     - name: Build and test
       run: |
         cd UserService/
+        npm test
         screen -dmS node-server node .
         cd ../ResultService/
         screen -dmS node-server node .
