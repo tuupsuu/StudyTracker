@@ -64,6 +64,12 @@ function TeacherView() {
     }
   }, []);
   
+  const teacherLinks = [
+    { label: "Create a test" },
+    { label: "Evaluate tests" },
+    { label: "ExamineTests", path: "/examine-tests" },
+    { label: "Students", path: "/students" }
+  ];
 
     return (
       <div className="teacher-view">
@@ -71,7 +77,8 @@ function TeacherView() {
         isSidebarOpen={isSidebarOpen} 
         setSidebarOpen={setSidebarOpen} 
         teacherName={teacherName} 
-        isTeacherNameLoaded={isTeacherNameLoaded} 
+        isTeacherNameLoaded={isTeacherNameLoaded}
+        links={teacherLinks} 
       />
         <section className="content">
           <div className="alert">Some of the tests are not yet evaluated!</div>

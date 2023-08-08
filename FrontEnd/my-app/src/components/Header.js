@@ -4,7 +4,7 @@ import { BiLogOut } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import '../views/TeacherView.css';
 
-function Header({ isSidebarOpen, setSidebarOpen, teacherName, isTeacherNameLoaded, title }) {
+function Header({ isSidebarOpen, setSidebarOpen, teacherName, isTeacherNameLoaded, title, links }) {
   return (
     <>
       <header className="header">
@@ -22,10 +22,11 @@ function Header({ isSidebarOpen, setSidebarOpen, teacherName, isTeacherNameLoade
         <aside className="sidebar">
           <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
           <ul>
-            <li>Create a test</li>
-            <li>Evaluate tests</li>
-            <Link to='/examine-tests'>ExamineTests</Link>
-            <li><Link to='/students'>Students</Link></li>
+            {links.map((link, index) => (
+              <li key={index}>
+                {link.path ? <Link to={link.path}>{link.label}</Link> : link.label}
+              </li>
+            ))}
           </ul>
         </aside>
       )}
