@@ -85,12 +85,15 @@
   .addStudent {
     font-size: 30px;
     margin-bottom: 10px;
+    background-color: rgb(97, 183, 212);
+    border-radius: 15px;
   }
 
   .buttonAdd {
+    display: flex;
     margin-bottom: 10px;
     width: 200px;
-    height: 50px;
+    height: 68px;
     color: white !important;
   }
 

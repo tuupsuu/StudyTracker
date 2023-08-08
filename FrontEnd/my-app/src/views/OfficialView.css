@@ -196,34 +196,3 @@ table th, table td {
   align-items: center;
   margin-bottom: 20px;
 }
-
-
-.addStudent {
-  font-size: 30px;
-  margin-left: 10px;
-  padding: 10px;
-  background-color: rgb(97, 183, 212);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-right: 20px;
-}
-
-
-.buttonAdd {
-  display: flex;
-  background-color: rgb(97, 183, 212);
-  color: white;
-}
-
-
-.studentSearch {
-  border: 2px #333;
-}
-
-
-.studentTable {
-  width: 80%;
-  margin: 0 auto;
-  border-bottom: 1px #333;
-}
