@@ -244,7 +244,7 @@ function Students() {
   };
 
   const teacherLinks = [
-    { label: "Homepage", path: ".." },
+    { label: "Homepage", path: "/teacher" },
     { label: "Create a test" },
     { label: "Evaluate tests" },
     { label: "ExamineTests", path: "/examine-tests" }
