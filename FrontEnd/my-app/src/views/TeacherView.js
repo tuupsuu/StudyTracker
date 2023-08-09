@@ -73,13 +73,13 @@ function TeacherView() {
 
     return (
       <div className="teacher-view">
-      <Header 
-        isSidebarOpen={isSidebarOpen} 
-        setSidebarOpen={setSidebarOpen} 
-        teacherName={teacherName} 
-        isTeacherNameLoaded={isTeacherNameLoaded}
-        links={teacherLinks} 
-      />
+        <Header 
+          isSidebarOpen={isSidebarOpen} 
+          setSidebarOpen={setSidebarOpen} 
+          teacherName={teacherName} 
+          isTeacherNameLoaded={isTeacherNameLoaded}
+          links={teacherLinks} 
+        />
         <section className="content">
           <div className="alert">Some of the tests are not yet evaluated!</div>
           <h2>Student Grades Distribution</h2>
