@@ -182,7 +182,7 @@ function CreateTests() {
   };
   
   const teacherLinks = [
-    { label: "Homepage", path: ".." }
+    { label: "Homepage", path: "/teacher" }
   ];
   
   return (
