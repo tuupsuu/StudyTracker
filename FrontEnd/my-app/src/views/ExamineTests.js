@@ -106,7 +106,7 @@ function ExamineTests() {
   }, [search, sortOption, avgGrade, teacherSchool, teacherClass]);
 
   const teacherLinks = [
-    { label: "Homepage", path: ".." },
+    { label: "Homepage", path: "/teacher" },
     { label: "Evaluate tests" },
     { label: "Create tests", path: "/create-tests" },
     { label: "Students", path: "/students" }
