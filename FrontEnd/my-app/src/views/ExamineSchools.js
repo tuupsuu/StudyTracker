@@ -160,23 +160,6 @@ function ExamineSchools() {
         title="Examine Schools" // Pass the custom title here
       />
 
-      {isSidebarOpen && (
-        <aside className="sidebar">
-          <FaBars
-            className="close-button"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Close
-          </FaBars>
-          <ul>
-            <li><Link to="/official">Homepage</Link></li>
-            <li onClick={() => alert("Not implemented yet")}>Print Reports</li>
-            <li>Examine Schools</li>
-            <li><Link to="/examine-teachers">Examine teachers</Link></li>
-          </ul>
-        </aside>
-      )}
-
       <section className="content">
         <h2>City's different Schools Score Average Distribution</h2>
         <div className="search-container">
