@@ -6,8 +6,8 @@ import Header from '../components/Header'; // Import the Header component
 
 function TeacherView() {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  const [teacherName, setTeacherName] = useState('');
-  const [isTeacherNameLoaded, setIsTeacherNameLoaded] = useState(false); // New state variable
+  const [Name, setName] = useState('');
+  const [isNameLoaded, setIsNameLoaded] = useState(false); // New state variable
   const navigate = useNavigate();
 
   const isTokenExpired = () => {
@@ -18,8 +18,8 @@ function TeacherView() {
   useEffect(() => {
     const loggedInTeacherName = localStorage.getItem('userName');
     if (loggedInTeacherName) {
-      setTeacherName(loggedInTeacherName);
-      setIsTeacherNameLoaded(true); // Set the flag to true once the teacher name is loaded
+      setName(loggedInTeacherName);
+      setIsNameLoaded(true); // Set the flag to true once the teacher name is loaded
     }
   }, []);
   
@@ -60,11 +60,11 @@ function TeacherView() {
   useEffect(() => {
     const loggedInTeacherName = localStorage.getItem('userName');
     if (loggedInTeacherName) {
-      setTeacherName(loggedInTeacherName);
+      setName(loggedInTeacherName);
     }
   }, []);
   
-  const teacherLinks = [
+  const Links = [
     { label: "Evaluate tests" },
     { label: "ExamineTests", path: "/examine-tests" },
     { label: "Students", path: "/students" },
@@ -76,9 +76,9 @@ function TeacherView() {
         <Header 
           isSidebarOpen={isSidebarOpen} 
           setSidebarOpen={setSidebarOpen} 
-          teacherName={teacherName} 
-          isTeacherNameLoaded={isTeacherNameLoaded}
-          links={teacherLinks} 
+          Name={Name} 
+          isNameLoaded={isNameLoaded}
+          links={Links} 
         />
         <section className="content">
           <div className="alert">Some of the tests are not yet evaluated!</div>

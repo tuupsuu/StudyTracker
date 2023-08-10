@@ -69,7 +69,7 @@ function processCityData(cityData) {
 
 function OfficialView() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [officialName, setOfficialName] = useState("");
+  const [Name, setName] = useState("");
   const [officialCity, setOfficialCity] = useState("");
   const [cityData, setCityData] = useState([]);
   const [selectedClass, setSelectedClass] = useState("");
@@ -80,7 +80,7 @@ function OfficialView() {
   const subjects = [...new Set(cityData.map((row) => row.subject))];
   const [selectedSubject, setSelectedSubject] = useState("");
   const navigate = useNavigate();
-  const [isOfficialNameLoaded, setIsOfficialNameLoaded] = useState(false); // New state variable
+  const [isNameLoaded, setIsNameLoaded] = useState(false); // New state variable
 
 
   const isTokenExpired = () => {
@@ -101,7 +101,7 @@ function OfficialView() {
 
     const loggedInOfficialName = localStorage.getItem("userName");
     if (loggedInOfficialName) {
-      setOfficialName(loggedInOfficialName);
+      setName(loggedInOfficialName);
     }
 
     const handlePageClose = () => {
@@ -130,9 +130,9 @@ function OfficialView() {
           official.id === loggedInOfficialId && official.city === officialCity
       );
       if (officialInfo) {
-        setOfficialName(officialInfo.name);
+        setName(officialInfo.name);
         setOfficialCity(officialCity);
-        setIsOfficialNameLoaded(true);
+        setIsNameLoaded(true);
       }
     }
   }, []);
@@ -177,7 +177,7 @@ function OfficialView() {
     });
   }
 
-  const officialLinks = [
+  const Links = [
     { label: "Print Reports" },
     { label: "Examine Schools", path: "/examine-schools" },
     { label: "Examine Teachers", path: "/examine-teachers" }
@@ -188,9 +188,9 @@ function OfficialView() {
       <Header
         isSidebarOpen={isSidebarOpen}
         setSidebarOpen={setSidebarOpen}
-        OfficialName={officialName}
-        isOfficialNameLoaded={isOfficialNameLoaded}
-        links={officialLinks}
+        Name={Name}
+        isNameLoaded={isNameLoaded}
+        links={Links}
       />
 
       <h2 className="h2Official">Here is a results of different Schools</h2>
