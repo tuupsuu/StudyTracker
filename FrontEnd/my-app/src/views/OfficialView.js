@@ -102,6 +102,7 @@ function OfficialView() {
     const loggedInOfficialName = localStorage.getItem("userName");
     if (loggedInOfficialName) {
       setName(loggedInOfficialName);
+      setIsNameLoaded(true);
     }
 
     const handlePageClose = () => {
