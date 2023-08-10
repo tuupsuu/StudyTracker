@@ -46,6 +46,7 @@ function StudentView() {
     const loggedInStudentName = localStorage.getItem('loggedInStudentName');
     if (loggedInStudentName) {
       setStudentName(loggedInStudentName);
+      setIsNameLoaded(true); // Set the flag to true once the teacher name is loaded
     }
 
     // Adding event listener for window/tab close
