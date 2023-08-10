@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './TeacherView.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaBars } from 'react-icons/fa';
-import { BiLogOut } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 import GradeChart from '../components/GradeChart';
+import Header from '../components/Header'; // Import the Header component
 
 function TeacherView() {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  const [teacherName, setTeacherName] = useState('');
-  const [isTeacherNameLoaded, setIsTeacherNameLoaded] = useState(false); // New state variable
+  const [Name, setName] = useState('');
+  const [isNameLoaded, setIsNameLoaded] = useState(false); // New state variable
   const navigate = useNavigate();
 
   const isTokenExpired = () => {
@@ -19,8 +18,8 @@ function TeacherView() {
   useEffect(() => {
     const loggedInTeacherName = localStorage.getItem('userName');
     if (loggedInTeacherName) {
-      setTeacherName(loggedInTeacherName);
-      setIsTeacherNameLoaded(true); // Set the flag to true once the teacher name is loaded
+      setName(loggedInTeacherName);
+      setIsNameLoaded(true); // Set the flag to true once the teacher name is loaded
     }
   }, []);
   
@@ -61,36 +60,26 @@ function TeacherView() {
   useEffect(() => {
     const loggedInTeacherName = localStorage.getItem('userName');
     if (loggedInTeacherName) {
-      setTeacherName(loggedInTeacherName);
+      setName(loggedInTeacherName);
     }
   }, []);
   
+  const Links = [
+    { label: "Evaluate tests" },
+    { label: "ExamineTests", path: "/examine-tests" },
+    { label: "Students", path: "/students" },
+    { label: "Create a Test", path: "/create-tests"}
+  ];
 
     return (
       <div className="teacher-view">
-        <header className="header">
-          <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
-          <div className='HeaderTeacher'>
-            {isTeacherNameLoaded && <h1 className='TitleTeacher'>Welcome, {teacherName}!</h1>}
-          </div>
-          <Link to='..' className='LogoutButtonTeacher' onClick={() => {
-            localStorage.clear();
-          }}> <BiLogOut></BiLogOut>
-          </Link>
-        </header>
-
-        {isSidebarOpen && (
-          <aside className="sidebar">
-            <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
-            <ul>
-              <li>Create a test</li>
-              <li>Evaluate tests</li>
-              <Link to='/examine-tests'>ExamineTests</Link>
-              <li><Link to='/students'>Students</Link></li>
-            </ul>
-          </aside>
-        )}
-
+        <Header 
+          isSidebarOpen={isSidebarOpen} 
+          setSidebarOpen={setSidebarOpen} 
+          Name={Name} 
+          isNameLoaded={isNameLoaded}
+          links={Links} 
+        />
         <section className="content">
           <div className="alert">Some of the tests are not yet evaluated!</div>
           <h2>Student Grades Distribution</h2>

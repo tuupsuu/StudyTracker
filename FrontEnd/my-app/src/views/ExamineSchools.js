@@ -5,6 +5,7 @@ import { BiLogOut } from "react-icons/bi";
 import _ from "lodash";
 import "./OfficialView.css";
 import StudentsGrades from "../jsonFiles/grades.json";
+import Header from "../components/Header";
 
 function ExamineSchools() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -144,23 +145,20 @@ function ExamineSchools() {
     })
   );
 
+  const Links = [
+    { label: "Homepage", path: "/official" },
+    { label: "Print Reports" },
+    { label: "Examine Teachers", path: "/examine-teachers" }
+  ]; 
+
   return (
     <div className="official-view">
-      <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
-        <div className="HeaderOfficial">
-          <h1 className="TitleOfficial"> Examine Schools </h1>
-        </div>
-        <Link
-          to=".."
-          className="LogoutButtonOfficial"
-          onClick={() => {
-            localStorage.clear();
-          }}
-        >
-          <BiLogOut></BiLogOut>
-        </Link>
-      </header>
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        links={Links} 
+        title="Examine Schools" // Pass the custom title here
+      />
 
       {isSidebarOpen && (
         <aside className="sidebar">

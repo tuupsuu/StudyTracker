@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
-import "./OfficialView.css";
+import "./Students.css";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import Download from '../components/Download';
+import Header from "../components/Header";
 
 function OfficialView() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -200,51 +201,38 @@ function OfficialView() {
   const handleCloseTeacherInfoDialog = () => {
     setSelectedTeacher(null);
   };
+
+  const Links = [
+    { label: "Homepage", path: "/official" },
+    { label: "Print Reports" },
+    { label: "Examine Schools", path: "/examine-schools" }
+  ]; 
+
 // -------------------------------------------------------------------------------------------------------------
   return (
-    <div className="official-view">
-      <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
-        <div className="HeaderOfficial">
-          <h1 className="TitleOfficial">Examine teachers</h1>
-        </div>
-        <Link
-          to=".."
-          className="LogoutButtonOfficial"
-          onClick={() => {
-            localStorage.clear();
-          }}
-        >
-          <BiLogOut></BiLogOut>
-        </Link>
-      </header>
-      {isSidebarOpen && (
-        <aside className="sidebar">
-          <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
-          <ul>
-            <li><Link to="/official">Homepage</Link></li>
-            <li onClick={() => alert("Not implemented yet")}>Print Reports</li>
-            <li><Link to="/examine-schools">Examine Schools</Link></li>
-            <li>Examine teachers</li>
-          </ul>
-        </aside>
-      )}
-
+    <div className="examine-tests">
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        links={Links} 
+        title="Examine Teachers" // Pass the custom title here
+      />
       <section className="content">
         <div className='controls'>
-          <div className='addTeacher'>
-            {/* Add new teachers button */}
-            <Button className='buttonAdd' onClick={handleDialogOpen}>
-              Add new teacher
-            </Button>
+          <div className="buttonsContainer">
+            <div className='addStudent'>
+              {/* Add new teachers button */}
+              <Button className='buttonAdd' onClick={handleDialogOpen}>
+                Add new teacher
+              </Button>
+            </div>
+            <div>
+              {/* Download CSV button */}
+              <Download teachers={teachers} />   
+            </div>
           </div>
-          <div>
-            {/* Download CSV button */}
-            <Download teachers={teachers} />   
-          </div>
-          
           <TextField
-            className='teacherSearch'
+            className='studentSearch'
             id="standard-basic"
             label="Search"
             variant="standard"
@@ -254,7 +242,7 @@ function OfficialView() {
         </div>
       </section>
 
-      <section className='teacherTable'>
+      <section className='studentTable'>
           {/* Render Teacher in a table */}
           <TableContainer>
             <Table>

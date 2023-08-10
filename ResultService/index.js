@@ -7,19 +7,11 @@ const questionController = require('./controllers/questionController');
 const sectionController = require('./controllers/sectionController');
 const studentController = require('./controllers/studentController');
 const teacherController = require('./controllers/teacherController');
+const classController = require('./controllers/classController');
 const { Sequelize, Datatypes } = require('sequelize');
 
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: config.host,
-    dialect: config.dialect,
-    dialectOptions: {
-      ssl: {
-        require: config.ssl.require,
-        ca: [config.ssl.ca],
-        rejectUnauthorized: false
-      }
-    }
-});
+const sequelize = require('./models/db');
+require('./models/associations');
 
 const app = express();
 app.use(bodyParser.json());
@@ -45,6 +37,8 @@ app.get('/results/:id', async (req, res) => {
   }
 })
 
+// Get students of a class by class id
+app.get('/resultservice/class/:classId/students', classController.getStudentsByClass);
 
 // endpoints for handling test result data
 app.post('/resultservice/results', (req, res) => resultController.add(req, res));

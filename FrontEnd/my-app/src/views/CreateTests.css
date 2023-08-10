@@ -1,0 +1,166 @@
+.CreateTestPage, body  {
+    background: linear-gradient(to top right, lightblue, lightyellow);
+
+}
+
+.CreateTests { /* The whole create test section */
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .CreateTests h1 { /* Create Test title */
+    text-align: center;
+    font-size: 2.5em;
+  }
+  
+  .CreateTests form { /* Exercise fonts */
+    margin-top: 2em;
+  }
+  
+  .TypeInput { /* Exercise type dropdown box */
+    text-align: center;
+  }
+
+  .test-name-section { /* Test naming section */
+    font-size: 24px;
+    margin-right: 130px;
+  }
+
+  .test-name-box { /* Test naming textbox */
+    width: 500px;
+    height: 50px;
+    margin-left: 20px;
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .exercise { /* All the exercise boxes  */
+    margin-bottom: 2em;
+    border: 1px solid black;
+    padding: 2em;
+    border-radius: 5px;
+    background-color: aliceblue;
+  }
+  
+  .exercise label { /* Exercise boxes all the textboxes */
+    display: block;
+    font-size: 1.3em;
+  }
+  
+  .exercise input { /* Exercise boxes all text inputs */
+    width: 100%;
+    font-size: 1.2em;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .exercise select {/* Exercise type dropdown box */
+    width: 100%;
+    font-size: 1.2em;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+  
+  .option-container { /* All the options sections */
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .option-container label {
+    flex-grow: 1;
+  }
+  
+  .option-container button { /* Ei mitää hajuu */
+    font-size: 1.5em;
+    margin-left: 10px;
+    margin-top: 30px;
+  }
+  
+  .button-label { /* Ei mitää hajuu */
+    display: block;
+    font-size: 1.3em;
+    margin-top: 1em;
+  }
+  
+  button { /* All the buttons */
+    display: block;
+    font-size: 1.3em;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  [type="submit"] {
+    font-size: 2em;
+    width: 100%;
+  }
+  
+  .AddOptionButton, .RemoveExerciseButton, .AddExerciseButton {
+    margin-left: 45%;
+  }
+
+/* ---------------------------------------------------------------------------- */
+/* Single css */
+
+  .checkbox { /* Single type exercises right answer box */
+    transform: scale(3);
+    margin-right: -300px;
+    margin-left: -350px;
+  }
+  
+
+/* ---------------------------------------------------------------------------- */
+/* Whats next css */
+
+
+.sequence-row { /* The number sequence and the answer */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.number-input-container { /* The options */
+  width: 200px;
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.number-input-container::after {
+  content: ',';
+  margin-left: 5px;
+}
+
+/* ---------------------------------------------------------------------------- */
+/* Timer css */
+
+.timer-question-row { /* The rows of the questions and the answers */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timer-question-row label {
+  flex: 1; 
+  margin-right: 10px; 
+}
+
+.timer-question-row .remove-button {
+  margin-left: 10px; 
+}
+
+.timer-question-row input {
+  width: 90%;
+  margin-left: 10px;
+}
+
+/* ---------------------------------------------------------------------------- */
+/* Money css */
+
+
