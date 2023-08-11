@@ -1,5 +1,4 @@
 const { DataTypes } = require('sequelize');
-const { TestCategory } = require('./testCategory');
 const sequelize = require('./db');
 
 
@@ -13,13 +12,14 @@ const Question = sequelize.define('Question', {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    Points: {
+    correctIndex: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 0
     },
     Cate_ID: {
         type:DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
     }
 }, {
     timestamps: false,
@@ -27,11 +27,6 @@ const Question = sequelize.define('Question', {
 });
 
 
-Question.belongsTo(TestCategory, {
-    foreignKey: 'Cate_ID',
-    onDelete: 'CASCADE'
-});
-
 sequelize.sync();
 
-module.exports = Question;
+module.exports = { Question };
