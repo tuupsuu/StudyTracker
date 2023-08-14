@@ -1,12 +1,12 @@
 .CreateTestPage, body  {
     background: linear-gradient(to top right, lightblue, lightyellow);
-    min-height: 100em
-
 }
 
 .CreateTests { /* The whole create test section */
     max-width: 800px;
     margin: 0 auto;
+    margin-top: 50px;
+    min-height: 100em
   }
   
   .CreateTests h1 { /* Create Test title */
