@@ -9,6 +9,7 @@ const sectionController = require('./controllers/sectionController');
 const studentController = require('./controllers/studentController');
 const teacherController = require('./controllers/teacherController');
 const classController = require('./controllers/classController');
+const testController = require('./controllers/testController');
 
 app.use(express.json());
 require('./models/associations');
@@ -32,6 +33,9 @@ app.get('/results/:id', async (req, res) => {
     res.status(500).json({ error: error.toString() });
   }
 })
+
+app.post('/resultservice/tests', (req, res) => testController.postTest(req, res));
+app.get('/resultservice/tests', (req, res) => testController.getTests(req, res));
 
 
 // Get students of a class by class id

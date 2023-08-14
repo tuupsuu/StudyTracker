@@ -34,10 +34,10 @@ Question.hasMany(Option, {
     foreignKey: 'Ques_ID'
 });
 
-Question.belongsTo(TestCategory, {
-    foreignKey: 'Cate_ID',
-    onDelete: 'CASCADE'
-});
+// Question.belongsTo(TestCategory, {
+//     foreignKey: 'Cate_ID',
+//     onDelete: 'CASCADE'
+// });
 
 Question.belongsTo(Test, {
     foreignKey: 'Test_ID'
