@@ -224,12 +224,14 @@ function CreateTests() {
                 <div>
                   {exercise.options.map((option, optionIndex) => (
                     <div className="option-container" key={optionIndex}>
+                      <div className='checkbox-wrapper'>
                       <input 
                         className="checkbox"
                         type="checkbox" 
                         checked={optionIndex === exercise.correctAnswer} 
                         onChange={() => updateCorrectAnswer(exerciseIndex, optionIndex)}
                       />
+                      </div>
                       <label>
                         Option {optionIndex + 1}:
                         <input
