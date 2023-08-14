@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
-import { BiLogOut } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 import "./Students.css";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import Download from '../components/Download';
