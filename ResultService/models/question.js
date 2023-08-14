@@ -17,8 +17,8 @@ const Question = sequelize.define('Question', {
         allowNull: false,
         defaultValue: 0
     },
-    Cate_ID: {
-        type:DataTypes.INTEGER,
+    Test_ID: {
+        type: DataTypes.INTEGER,
         allowNull: false,
     }
 }, {
