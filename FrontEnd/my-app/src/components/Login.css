@@ -5,13 +5,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: auto;
     height: 100vh;
     background: linear-gradient(to bottom right, lightblue, rgb(251, 251, 152));  
   }
   
   .welcommingH1 {
     font-family: 'Roboto', sans-serif;
-    background-color: seetrought; 
+    background: seetrought; 
   }
 
   .login-form {
@@ -43,7 +44,7 @@
   }
 
   .login-form label {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #333333;
     margin-bottom: 10px;
   }
@@ -70,3 +71,6 @@
     background-color: #0056b3;
   }
   
+  .loginButton {
+    font-size: large;
+  }

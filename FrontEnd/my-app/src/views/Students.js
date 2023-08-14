@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Students.css';
-import { FaBars } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
-import { BiLogOut } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import Download from '../components/Download';
+import Header from '../components/Header';
 
 function Students() {
   const navigate = useNavigate();
@@ -243,52 +242,47 @@ function Students() {
       console.log('Error editing student:', error);
     }
   };
+
+  const teacherLinks = [
+    { label: "Homepage", path: "/teacher" },
+    { label: "Create a test" },
+    { label: "Evaluate tests" },
+    { label: "ExamineTests", path: "/examine-tests" }
+  ];  
   //------------------------------------------------------------------
   return (
     <div className="examine-tests">
-      <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
-        <div className='HeaderTeacher'>
-          <h1 className='TitleExamine'>Students</h1>
-        </div>
-        <Link to='..' className='LogoutButtonTeacher' onClick={() => {
-          localStorage.clear();
-        }}> <BiLogOut></BiLogOut>
-        </Link>
-      </header>
-      {isSidebarOpen && (
-        <aside className="sidebar">
-          <FaBars className="close-button" onClick={() => setSidebarOpen(false)}>Close</FaBars>
-          <ul>
-            <li><Link to='/teacher'>Homepage</Link></li>
-            <li><Link to='/examine-tests'>ExamineTests</Link></li>
-            <li>Create a test</li>
-            <li>Evaluate tests</li>
-          </ul>
-        </aside>
-      )}
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        links={teacherLinks} 
+        title="Handle Students" // Pass the custom title here
+      />
 
       <section className="content">
         <div className='controls'>
-          <div className='addStudent'>
-            {/* Add new student button */}
-            <Button className='buttonAdd' onClick={handleDialogOpen}>
-              Add new student
-            </Button>
-          </div>
+          <div className='buttonsContainer'>
+            <div className='addStudent'>
+              {/* Add new student button */}
+              <Button className='buttonAdd' onClick={handleDialogOpen}>
+                Add new student
+              </Button>
+            </div>
+            <div>
+              {/* Download CSV button */}
+              <Download students={students}></Download>
+            </div>
+          </div>  
           <div>
-            {/* Download CSV button */}
-            <Download students={students} />
-          </div>
-
-          <TextField
-            className='studentSearch'
-            id="standard-basic"
-            label="Search"
-            variant="standard"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-          />
+            <TextField
+              className='studentSearch'
+              id="standard-basic"
+              label="Search"
+              variant="standard"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
+          </div>  
         </div>
       </section>
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
-import { BiLogOut } from "react-icons/bi";
 import "./OfficialView.css";
 import accounts from "../jsonFiles/accounts.json";
 import StudentsGrades from "../jsonFiles/grades.json";
+import Header from '../components/Header'; // Import the Header component
+
 
 function processCityData(cityData) {
   // Group data by classNumber and subject
@@ -69,7 +69,7 @@ function processCityData(cityData) {
 
 function OfficialView() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [officialName, setOfficialName] = useState("");
+  const [Name, setName] = useState("");
   const [officialCity, setOfficialCity] = useState("");
   const [cityData, setCityData] = useState([]);
   const [selectedClass, setSelectedClass] = useState("");
@@ -80,6 +80,8 @@ function OfficialView() {
   const subjects = [...new Set(cityData.map((row) => row.subject))];
   const [selectedSubject, setSelectedSubject] = useState("");
   const navigate = useNavigate();
+  const [isNameLoaded, setIsNameLoaded] = useState(false); // New state variable
+
 
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem("jwtTokenExpiration");
@@ -99,28 +101,24 @@ function OfficialView() {
 
     const loggedInOfficialName = localStorage.getItem("userName");
     if (loggedInOfficialName) {
-      setOfficialName(loggedInOfficialName);
+      setName(loggedInOfficialName);
+      setIsNameLoaded(true);
     }
 
-    // Adding event listener for window/tab close
-    window.addEventListener("beforeunload", (ev) => {
-      ev.preventDefault();
+    const handlePageClose = () => {
       // If page is being refreshed, sessionStorage item 'isRefreshing' will exist
       if (!sessionStorage.getItem("isRefreshing")) {
         localStorage.clear();
       }
-    });
+    };
 
-    // remember to clear the interval when the component unmounts
+    // Adding event listener for window/tab close
+    window.addEventListener("beforeunload", handlePageClose);
+
+    // remember to clear the interval and remove the event listener when the component unmounts
     return () => {
       clearInterval(intervalId);
-      // Remove the event listener when the component unmounts
-      window.removeEventListener("beforeunload", (ev) => {
-        ev.preventDefault();
-        if (!sessionStorage.getItem("isRefreshing")) {
-          localStorage.clear();
-        }
-      });
+      window.removeEventListener("beforeunload", handlePageClose);
     };
   }, [navigate]);
 
@@ -133,8 +131,9 @@ function OfficialView() {
           official.id === loggedInOfficialId && official.city === officialCity
       );
       if (officialInfo) {
-        setOfficialName(officialInfo.name);
+        setName(officialInfo.name);
         setOfficialCity(officialCity);
+        setIsNameLoaded(true);
       }
     }
   }, []);
@@ -179,40 +178,21 @@ function OfficialView() {
     });
   }
 
+  const Links = [
+    { label: "Print Reports" },
+    { label: "Examine Schools", path: "/examine-schools" },
+    { label: "Examine Teachers", path: "/examine-teachers" }
+  ];
+
   return (
     <div className="official-view">
-      <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
-        <div className="HeaderOfficial">
-          <h1 className="TitleOfficial">Welcome, {officialName}!</h1>
-        </div>
-        <Link
-          to=".."
-          className="LogoutButtonOfficial"
-          onClick={() => {
-            localStorage.clear();
-          }}
-        >
-          <BiLogOut></BiLogOut>
-        </Link>
-      </header>
-
-      {isSidebarOpen && (
-        <aside className="sidebar">
-          <FaBars
-            className="close-button"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Close
-          </FaBars>
-          <ul>
-            <li>Homepage</li>
-            <li onClick={() => alert("Not implemented yet")}>Print Reports</li>
-            <li><Link to="/examine-schools">Examine Schools</Link></li>
-            <li><Link to="/examine-teachers">Examine teachers</Link></li>
-          </ul>
-        </aside>
-      )}
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        Name={Name}
+        isNameLoaded={isNameLoaded}
+        links={Links}
+      />
 
       <h2 className="h2Official">Here is a results of different Schools</h2>
 

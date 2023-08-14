@@ -3,17 +3,8 @@ const config = require('./config');
 const { Student } = require('./student');
 const { Test } = require('./test');
 
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-  host: config.host,
-  dialect: config.dialect,
-  dialectOptions: {
-    ssl: {
-      require: config.ssl.require,
-      ca: [config.ssl.ca],
-      rejectUnauthorized: false
-    }
-  }
-});
+const sequelize = require('./db');
+
 
 
 const Result = sequelize.define('TestResults', {
