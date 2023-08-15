@@ -25,10 +25,11 @@
   .test-name-section { /* Test naming section */
     font-size: 24px;
     margin-right: 130px;
+    margin-left: 10%;     
   }
 
   .test-name-box { /* Test naming textbox */
-    width: 500px;
+    width: 100%;
     height: 50px;
     margin-left: 20px;
     font-size: 24px;
