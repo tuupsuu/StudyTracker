@@ -17,7 +17,7 @@ function CreateTests() {
       answers: [''], 
       timeAllowed: '', 
       timerQuestions: [{ question: '', answer: '' }], 
-      moneyQuestions: [{ amounts: [''], answer: '' }] // <-- Add this line
+      moneyQuestions: [{ amounts: [''], answer: '' }] 
     }
   ]);
   
