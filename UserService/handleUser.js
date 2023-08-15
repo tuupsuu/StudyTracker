@@ -9,12 +9,11 @@ const addUser = async (req, res) => {
     // Generate a salt and hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(UserPassWord, saltRounds);
-    const hashedPasswordStudent = await bcrypt.hash('salasana', saltRounds);
 
     const user = await User.create({
       FirstName: FirstName,
       LastName: LastName,
-      UserPassWord: Rights === 1 ? hashedPasswordStudent : hashedPassword, // Store the hashed password
+      UserPassWord: hashedPassword, // Store the hashed password
       Email: Email,
       Rights: Rights
     });
@@ -38,20 +37,14 @@ const editUser = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // If "Rights" is equal to 1, don't change the password, otherwise hash the new password if provided
-    let hashedPassword;
-    if (Rights === 1) {
-      hashedPassword = user.UserPassWord; // Keep the existing hashed password
-    } else if (UserPassWord) {
-      const saltRounds = 10;
-      hashedPassword = await bcrypt.hash(UserPassWord, saltRounds);
-    }
+    const saltRounds = 10;
+    hashedPassword = await bcrypt.hash(UserPassWord, saltRounds);
 
     await User.update(
       {
         FirstName: FirstName,
         LastName: LastName,
-        UserPassWord: hashedPassword || user.UserPassWord, // Store the hashed password if provided, otherwise use the original password
+        UserPassWord: hashedPassword,
         Email: Email,
         Rights: Rights
       },
