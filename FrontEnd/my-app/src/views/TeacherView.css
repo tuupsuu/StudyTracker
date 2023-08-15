@@ -29,36 +29,29 @@ html {
 
 }
 
-/*
------------------------------------------------------
-  */
-.sidebar {
-  position: fixed;
-  width: 200px;
-  height: 100%;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  top: 0;
-  /* Align to the top */
-  left: 0;
-  /* Align to the left */
-}
 
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
-}
+  .sidebar {
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    z-index: 1;
+  }
 
-.sidebar li {
-  margin-bottom: 30px;
-  margin-top: 30px;
-  cursor: pointer;
-}
-
-/*
------------------------------------------------------
-  */
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    margin-bottom: 30px;
+    margin-top: 30px;
+    cursor: pointer;
+  }
 
 .graph {
   width: 100%;
