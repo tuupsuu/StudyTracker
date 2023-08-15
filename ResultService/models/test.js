@@ -10,15 +10,18 @@ const Test = sequelize.define('Test', {
     },
     TestName: {
         type: DataTypes.STRING,
-        allowNull: false
+        defaultValue: 'Test'
+        // allowNull: false
     },
     StartTime: {
         type:DataTypes.DATE,
-        allowNull: false
+        defaultValue: DataTypes.NOW,
+        // allowNull: false
     },
     EndTime: {
         type: DataTypes.DATE,
-        allowNull: true
+        defaultValue: null,
+        // allowNull: false
     },
 }, {
     timestamps: false,

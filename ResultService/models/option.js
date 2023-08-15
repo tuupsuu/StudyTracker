@@ -16,6 +16,9 @@ const Option = sequelize.define('Option', {
         type: DataTypes.INTEGER,
         allowNull: false
     }
+}, {
+        timestamps: false,
+        tableName: 'Options'
 });
 
 sequelize.sync();

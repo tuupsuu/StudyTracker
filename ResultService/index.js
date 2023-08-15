@@ -34,8 +34,14 @@ app.get('/results/:id', async (req, res) => {
   }
 })
 
+// Post test to backend
 app.post('/resultservice/tests', (req, res) => testController.postTest(req, res));
+
+// Get all tests, questions and options
 app.get('/resultservice/tests', (req, res) => testController.getTests(req, res));
+
+// Get tests by ID
+app.get('/resultservice/tests/:testId', testController.getById);
 
 
 // Get students of a class by class id

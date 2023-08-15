@@ -18,16 +18,18 @@ class TestController extends BaseController {
 
             for (const questionData of questions) {
                 const question = await Question.create({
-                    QuestionTest: questionData.question,
+                    QuestionText: questionData.question,
                     Test_ID: test.Test_ID,
                     correctIndex: questionData.correctIndex || 0,
                 });
 
-                for (const optionValue of questionData.options) {
-                    await Option.create({
-                        value: optionValue,
-                        Ques_ID: question.Ques_ID,
-                    });
+                for (const optionValues of questionData.options) {
+                    for (const optionValue of optionValues) {
+                        await Option.create({
+                            value: optionValue,
+                            Ques_ID: question.Ques_ID,
+                        });
+                    }
                 }
             }
 
@@ -51,6 +53,29 @@ class TestController extends BaseController {
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'An error occurred while fetching tests.' });
+        }
+    }
+
+
+    async getById(req, res) {
+        try {
+            const testId = req.params.testId;
+
+            const test = await Test.findByPk(testId, {
+                include: {
+                    model: Question,
+                    include: Option,
+                }
+            });
+
+            if (!test) {
+                return res.status(404).json({ error: 'Test not found' });
+            }
+
+            res.json(test);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'An error occurred while fetching tests by ID' });
         }
     }
 }
