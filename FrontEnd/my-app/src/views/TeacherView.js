@@ -83,8 +83,8 @@ function TeacherView() {
         <section className="content">
           <div className="alert">Some of the tests are not yet evaluated!</div>
           <h2>Student Grades Distribution</h2>
-          <GradeChart />
         </section>
+        <GradeChart />
       </div>
     );
   }
