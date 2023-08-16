@@ -57,12 +57,20 @@ function StudentView() {
       }
     });
 
-    fetch('/resultservice/tests/testId') // Replace 'testId' with the actual ID or adjust the endpoint as needed
-        .then(response => response.json())
-        .then(data => {
-            setTests(data);
-        })
-        .catch(error => console.error(error));
+    fetch(`/api1/tests`, {
+      method: "GET",
+      headers: {
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setTests(data); // update state here
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
 
     // remember to clear the interval when the component unmounts
     return () => {
@@ -77,7 +85,7 @@ function StudentView() {
     };
   }, [navigate]);
 
-  console.log(tests)
+  console.log("tests:" + tests)
 
   const Links = [
     { label: "Frontpage" },
