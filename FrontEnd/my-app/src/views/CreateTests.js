@@ -91,7 +91,7 @@ function CreateTests() {
     console.log('Submitting test:', { testName, exercises });
 
     try {
-      const response = await fetch('https://studytracker.site/resultservice/tests', {
+      const response = await fetch('https://studytracker.site/api1/tests', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
