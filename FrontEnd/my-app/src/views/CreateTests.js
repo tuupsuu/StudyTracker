@@ -7,7 +7,7 @@ function CreateTests() {
   const questionTypes = ['single', 'whats next', 'audio', 'timer', 'money'];
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [testName, setTestName] = useState('');
-  const [exercises, setExercises] = useState([
+  const [questions, setExercises] = useState([
     { 
       QuestionText: '', 
       options: [''], 
@@ -23,31 +23,31 @@ function CreateTests() {
   
 
   const updateExerciseQuestion = (index, QuestionText) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[index].QuestionText = QuestionText;
     setExercises(updatedExercises);
   };
 
   const updateExerciseType = (index, type) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[index].type = type;
     setExercises(updatedExercises);
   };
 
   const updateOption = (exerciseIndex, optionIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].options[optionIndex] = value;
     setExercises(updatedExercises);
   };
 
   const addOption = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].options.push('');
     setExercises(updatedExercises);
   };
 
   const removeOption = (exerciseIndex, optionIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].options.splice(optionIndex, 1);
     setExercises(updatedExercises);
   };
@@ -64,20 +64,20 @@ function CreateTests() {
       timerQuestions: [{ QuestionText: '', answer: '' }],
       moneyQuestions: [{ amounts: [''], answer: '' }]
     };
-    setExercises([...exercises, newExercise]);
+    setExercises([...questions, newExercise]);
   };
   
   
   
 
   const removeExercise = (index) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises.splice(index, 1);
     setExercises(updatedExercises);
   };
 
   const updateCorrectAnswer = (exerciseIndex, correctAnswer) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].correctAnswer = correctAnswer;
     setExercises(updatedExercises);
   };
@@ -88,7 +88,7 @@ function CreateTests() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Submitting test:', { testName, exercises });
+    console.log('Submitting test:', { testName, questions });
 
     try {
       const response = await fetch('https://studytracker.site/api1/tests', {
@@ -98,7 +98,7 @@ function CreateTests() {
           },
           body: JSON.stringify({
               testName,
-              exercises
+              questions
           })
       });
 
@@ -118,27 +118,27 @@ function CreateTests() {
   };
 
   const updateSequence = (exerciseIndex, sequenceIndex, numberIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].sequences[sequenceIndex][numberIndex] = value;
     setExercises(updatedExercises);
   };
 
   const addSequence = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].sequences.push(['', '', '']);
     updatedExercises[exerciseIndex].answers.push('');
     setExercises(updatedExercises);
   };
 
   const removeSequence = (exerciseIndex, sequenceIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].sequences.splice(sequenceIndex, 1);
     updatedExercises[exerciseIndex].answers.splice(sequenceIndex, 1);
     setExercises(updatedExercises);
   };
 
   const updateAnswer = (exerciseIndex, sequenceIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].answers[sequenceIndex] = value;
     setExercises(updatedExercises);
   };
@@ -147,31 +147,31 @@ function CreateTests() {
   // Timer functions
 
   const updateTimerQuestion = (exerciseIndex, questionIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].timerQuestions[questionIndex].QuestionText = value;
     setExercises(updatedExercises);
   };
 
   const updateTimerAnswer = (exerciseIndex, questionIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].timerQuestions[questionIndex].answer = value;
     setExercises(updatedExercises);
   };
 
   const addTimerQuestion = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].timerQuestions.push({ QuestionText: '', answer: '' });
     setExercises(updatedExercises);
   };
 
   const removeTimerQuestion = (exerciseIndex, questionIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].timerQuestions.splice(questionIndex, 1);
     setExercises(updatedExercises);
   };
 
   const updateAllowedTime = (exerciseIndex, time) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].time = time;
     setExercises(updatedExercises);
   };
@@ -180,25 +180,25 @@ function CreateTests() {
   // Money functions
 
   const updateMoneyAmount = (exerciseIndex, questionIndex, amountIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].moneyQuestions[questionIndex].amounts[amountIndex] = value;
     setExercises(updatedExercises);
   };
   
   const updateMoneyAnswer = (exerciseIndex, questionIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].moneyQuestions[questionIndex].answer = value;
     setExercises(updatedExercises);
   };
   
   const addMoneyQuestion = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].moneyQuestions.push({ amounts: [''], answer: '' });
     setExercises(updatedExercises);
   };
   
   const removeMoneyQuestion = (exerciseIndex, questionIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].moneyQuestions.splice(questionIndex, 1);
     setExercises(updatedExercises);
   };
@@ -229,7 +229,7 @@ function CreateTests() {
           </label>
         </div>
         <form onSubmit={handleSubmit}>
-          {exercises.map((exercise, exerciseIndex) => (
+          {questions.map((exercise, exerciseIndex) => (
             <div className="exercise" key={exerciseIndex}>
               <label>
                 Type:
@@ -413,7 +413,7 @@ function CreateTests() {
                 </div>
               )}
 
-              {exercises.length > 1 && (
+              {questions.length > 1 && (
                 <button onClick={() => removeExercise(exerciseIndex)}>
                   Remove Exercise
                 </button>
