@@ -8,8 +8,9 @@ function StudentView() {
   const [students, setStudents] = useState([]);  // Add this line
   const navigate = useNavigate();
   const [isNameLoaded, setIsNameLoaded] = useState(false); // New state variable
-  const [Name, ] = useState('');
+  const [Name,] = useState('');
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const [tests, setTests] = useState([]);
 
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem('jwtTokenExpiration');
@@ -56,6 +57,13 @@ function StudentView() {
       }
     });
 
+    fetch('/resultservice/tests/testId') // Replace 'testId' with the actual ID or adjust the endpoint as needed
+        .then(response => response.json())
+        .then(data => {
+            setTests(data);
+        })
+        .catch(error => console.error(error));
+
     // remember to clear the interval when the component unmounts
     return () => {
       clearInterval(intervalId);
@@ -69,6 +77,8 @@ function StudentView() {
     };
   }, [navigate]);
 
+  console.log(tests)
+
   const Links = [
     { label: "Frontpage" },
   ];
@@ -76,16 +86,17 @@ function StudentView() {
   return (
     <div className="StudentView-Container">
       <div className="StudentView-TopBar">
-        <Header 
-          Name={Name} 
+        <Header
+          Name={Name}
           isNameLoaded={isNameLoaded}
-          isSidebarOpen={isSidebarOpen} 
-          setSidebarOpen={setSidebarOpen} 
-          links={Links} 
+          isSidebarOpen={isSidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          links={Links}
         />
       </div>
       <div>
         <h2>Student List</h2>
+        {tests}
         <ul>
           {students.map((student, index) => (
             <li key={index}>
