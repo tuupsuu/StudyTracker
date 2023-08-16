@@ -8,8 +8,9 @@ function StudentView() {
   const [students, setStudents] = useState([]);  // Add this line
   const navigate = useNavigate();
   const [isNameLoaded, setIsNameLoaded] = useState(false); // New state variable
-  const [Name, ] = useState('');
+  const [Name,] = useState('');
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const [tests, setTests] = useState([]);
 
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem('jwtTokenExpiration');
@@ -56,6 +57,21 @@ function StudentView() {
       }
     });
 
+    fetch(`/api1/tests`, {
+      method: "GET",
+      headers: {
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setTests(data); // update state here
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+
     // remember to clear the interval when the component unmounts
     return () => {
       clearInterval(intervalId);
@@ -69,6 +85,8 @@ function StudentView() {
     };
   }, [navigate]);
 
+  console.log("tests:" + tests)
+
   const Links = [
     { label: "Frontpage" },
   ];
@@ -76,12 +94,12 @@ function StudentView() {
   return (
     <div className="StudentView-Container">
       <div className="StudentView-TopBar">
-        <Header 
-          Name={Name} 
+        <Header
+          Name={Name}
           isNameLoaded={isNameLoaded}
-          isSidebarOpen={isSidebarOpen} 
-          setSidebarOpen={setSidebarOpen} 
-          links={Links} 
+          isSidebarOpen={isSidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          links={Links}
         />
       </div>
       <div>
@@ -90,6 +108,13 @@ function StudentView() {
           {students.map((student, index) => (
             <li key={index}>
               {student.FirstName} {student.Lastname} - {student.Class_ID} {student.Stud_ID}
+            </li>
+          ))}
+        </ul>
+        <ul>
+          {tests.map((test, index) => (
+            <li key={index}>
+              {test.Test_ID} {test.TestName}
             </li>
           ))}
         </ul>

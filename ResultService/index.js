@@ -43,6 +43,7 @@ app.get('/resultservice/tests', (req, res) => testController.getTests(req, res))
 // Get tests by ID
 app.get('/resultservice/tests/:testId', testController.getById);
 
+
 // delete test using test ID
 app.delete('/resultservice/tests/:testId', testController.deleteTest);
 

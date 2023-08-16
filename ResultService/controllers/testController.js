@@ -81,6 +81,7 @@ class TestController extends BaseController {
         }
     }
 
+
     async deleteTest(req, res) {
         try {
             const testId = req.params.testId;
@@ -122,6 +123,7 @@ class TestController extends BaseController {
             res.status(500).json({ error: 'An error occurred while deleting the test.' });
         }
     }
+
 }
 
 module.exports = new TestController();
