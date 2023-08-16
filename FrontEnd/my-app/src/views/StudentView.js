@@ -104,11 +104,17 @@ function StudentView() {
       </div>
       <div>
         <h2>Student List</h2>
-        {tests}
         <ul>
           {students.map((student, index) => (
             <li key={index}>
               {student.FirstName} {student.Lastname} - {student.Class_ID} {student.Stud_ID}
+            </li>
+          ))}
+        </ul>
+        <ul>
+          {tests.map((test, index) => (
+            <li key={index}>
+              {test.Name}
             </li>
           ))}
         </ul>
