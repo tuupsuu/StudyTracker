@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import './CreateTests.css';
 import Header from '../components/Header';
+import { useParams } from 'react-router-dom';
 
 function CreateTests() {
+  const { testId } = useParams();
   const questionTypes = ['single', 'whats next', 'audio', 'timer', 'money'];
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [testName, setTestName] = useState('');
   const [exercises, setExercises] = useState([
+    
     { 
       question: '', 
       options: [''], 

@@ -104,12 +104,13 @@ function StudentView() {
       </div>
       <div>
     <h2>Test list</h2>
-    {tests.map((test, index) => (
+    {tests.map((test) => (
         <button 
             className="testButton" 
-            key={index} 
+            key={test.Test_ID} 
             onClick={() => {
-              navigate(`/start-test`)
+              localStorage.setItem('currentTest', test.TestName)
+              navigate(`/start-test/${test.Test_ID}`)
                 // navigate(`/test-detail/${test.Test_ID}`);
             }}
         >
