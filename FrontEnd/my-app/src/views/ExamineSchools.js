@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
-import { BiLogOut } from "react-icons/bi";
+import { useLocation, useNavigate } from "react-router-dom";
 import _ from "lodash";
 import "./OfficialView.css";
 import StudentsGrades from "../jsonFiles/grades.json";
@@ -15,7 +13,7 @@ function ExamineSchools() {
   const [selectedClass, setSelectedClass] = useState("All");
   const location = useLocation();
   const navigate = useNavigate();
-  const [officialName, setOfficialName] = useState("");
+  const [ , setOfficialName] = useState("");
 
   const getParams = (query) => {
     return new URLSearchParams(query);
@@ -159,23 +157,6 @@ function ExamineSchools() {
         links={Links} 
         title="Examine Schools" // Pass the custom title here
       />
-
-      {isSidebarOpen && (
-        <aside className="sidebar">
-          <FaBars
-            className="close-button"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Close
-          </FaBars>
-          <ul>
-            <li><Link to="/official">Homepage</Link></li>
-            <li onClick={() => alert("Not implemented yet")}>Print Reports</li>
-            <li>Examine Schools</li>
-            <li><Link to="/examine-teachers">Examine teachers</Link></li>
-          </ul>
-        </aside>
-      )}
 
       <section className="content">
         <h2>City's different Schools Score Average Distribution</h2>

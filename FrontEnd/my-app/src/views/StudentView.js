@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './StudentView.css';
-import Clock from '../components/Clock';
-import { BiLogOut } from 'react-icons/bi';
 import Header from '../components/Header'; // Import the Header component
 
 function StudentView() {
-  const [studentName, setStudentName] = useState('');
+  const [, setStudentName] = useState('');
   const [students, setStudents] = useState([]);  // Add this line
   const navigate = useNavigate();
   const [isNameLoaded, setIsNameLoaded] = useState(false); // New state variable
-  const [Name, setName] = useState('');
+  const [Name, ] = useState('');
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
 
   const isTokenExpired = () => {
@@ -70,12 +68,6 @@ function StudentView() {
       });
     };
   }, [navigate]);
-
-  const getRandomColor = () => {
-    const colors = ['pink', 'lightblue', 'lime', 'red', 'yellow'];
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
-  };
 
   const Links = [
     { label: "Frontpage" },
