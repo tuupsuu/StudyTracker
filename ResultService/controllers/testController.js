@@ -80,6 +80,50 @@ class TestController extends BaseController {
             res.status(500).json({ error: 'An error occurred while fetching tests by ID' });
         }
     }
+
+
+    async deleteTest(req, res) {
+        try {
+            const testId = req.params.testId;
+
+            const test = await Test.findByPk(testId, {
+                include: {
+                    model: Question,
+                    include: Option
+                }
+            });
+
+            if (!test) {
+                return res.status(404).json({ error: 'Test not found' });
+            }
+            
+            for (const question of test.Questions) {
+                await Option.destroy({
+                    where: {
+                        Ques_ID: question.Ques_ID
+                    }
+                });
+            }
+            
+            await Question.destroy({
+                where: {
+                    Test_ID: testId
+                }
+            })
+
+            await Test.destroy({
+                where: {
+                    Test_ID: testId
+                }
+            })
+
+            res.json({ message: 'Test deleted successfully' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'An error occurred while deleting the test.' });
+        }
+    }
+
 }
 
 module.exports = new TestController();
