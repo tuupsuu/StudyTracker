@@ -9,78 +9,78 @@ function CreateTests() {
   const questionTypes = ['single', 'whats next', 'audio', 'timer', 'money'];
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [testName, setTestName] = useState('');
-  const [exercises, setExercises] = useState([
-    
+  const [questions, setExercises] = useState([
+
     { 
-      question: '', 
+      QuestionText: '', 
       options: [''], 
       type: questionTypes[0], 
       correctAnswer: -1, 
       sequences: [['', '', '']], 
       answers: [''], 
-      timeAllowed: '', 
-      timerQuestions: [{ question: '', answer: '' }], 
+      time: '', 
+      timerQuestions: [{ QuestionText: '', answer: '' }], 
       moneyQuestions: [{ amounts: [''], answer: '' }] 
     }
   ]);
   
 
-  const updateExerciseQuestion = (index, question) => {
-    const updatedExercises = [...exercises];
-    updatedExercises[index].question = question;
+  const updateExerciseQuestion = (index, QuestionText) => {
+    const updatedExercises = [...questions];
+    updatedExercises[index].QuestionText = QuestionText;
     setExercises(updatedExercises);
   };
 
   const updateExerciseType = (index, type) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[index].type = type;
     setExercises(updatedExercises);
   };
 
   const updateOption = (exerciseIndex, optionIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].options[optionIndex] = value;
     setExercises(updatedExercises);
   };
 
   const addOption = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].options.push('');
     setExercises(updatedExercises);
   };
 
   const removeOption = (exerciseIndex, optionIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].options.splice(optionIndex, 1);
     setExercises(updatedExercises);
   };
 
   const addExercise = () => {
     const newExercise = {
-      question: '',
+      QuestionText: '',
       options: [''],
       type: questionTypes[0],
       correctAnswer: -1,
       sequences: [['', '', '']],
       answers: [''],
-      timeAllowed: '',
-      timerQuestions: [{ question: '', answer: '' }],
+      time: '',
+      timerQuestions: [{ QuestionText: '', answer: '' }],
       moneyQuestions: [{ amounts: [''], answer: '' }]
     };
-    setExercises([...exercises, newExercise]);
+    setExercises([...questions, newExercise]);
   };
   
   
   
 
   const removeExercise = (index) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises.splice(index, 1);
     setExercises(updatedExercises);
   };
 
   const updateCorrectAnswer = (exerciseIndex, correctAnswer) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].correctAnswer = correctAnswer;
     setExercises(updatedExercises);
   };
@@ -89,37 +89,59 @@ function CreateTests() {
     setTestName(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('Submitting test:', { testName, questions });
 
-    console.log('Submitting test:', { testName, exercises });
+    try {
+      const response = await fetch('https://studytracker.site/api1/tests', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              testName,
+              questions
+          })
+      });
+
+      const responseData = await response.json();
+      
+      if (response.ok) {
+          console.log('Test submitted successfully:', responseData);
+      } else {
+          console.error('Failed to submit test:', responseData);
+      }
+    } catch (error) {
+        console.error('Error submitting test:', error);
+    }
 
     setTestName('');
-    setExercises([{ question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }]);
+    setExercises([{ QuestionText: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }]);
   };
 
   const updateSequence = (exerciseIndex, sequenceIndex, numberIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].sequences[sequenceIndex][numberIndex] = value;
     setExercises(updatedExercises);
   };
 
   const addSequence = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].sequences.push(['', '', '']);
     updatedExercises[exerciseIndex].answers.push('');
     setExercises(updatedExercises);
   };
 
   const removeSequence = (exerciseIndex, sequenceIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].sequences.splice(sequenceIndex, 1);
     updatedExercises[exerciseIndex].answers.splice(sequenceIndex, 1);
     setExercises(updatedExercises);
   };
 
   const updateAnswer = (exerciseIndex, sequenceIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].answers[sequenceIndex] = value;
     setExercises(updatedExercises);
   };
@@ -128,32 +150,32 @@ function CreateTests() {
   // Timer functions
 
   const updateTimerQuestion = (exerciseIndex, questionIndex, value) => {
-    const updatedExercises = [...exercises];
-    updatedExercises[exerciseIndex].timerQuestions[questionIndex].question = value;
+    const updatedExercises = [...questions];
+    updatedExercises[exerciseIndex].timerQuestions[questionIndex].QuestionText = value;
     setExercises(updatedExercises);
   };
 
   const updateTimerAnswer = (exerciseIndex, questionIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].timerQuestions[questionIndex].answer = value;
     setExercises(updatedExercises);
   };
 
   const addTimerQuestion = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
-    updatedExercises[exerciseIndex].timerQuestions.push({ question: '', answer: '' });
+    const updatedExercises = [...questions];
+    updatedExercises[exerciseIndex].timerQuestions.push({ QuestionText: '', answer: '' });
     setExercises(updatedExercises);
   };
 
   const removeTimerQuestion = (exerciseIndex, questionIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].timerQuestions.splice(questionIndex, 1);
     setExercises(updatedExercises);
   };
 
   const updateAllowedTime = (exerciseIndex, time) => {
-    const updatedExercises = [...exercises];
-    updatedExercises[exerciseIndex].timeAllowed = time;
+    const updatedExercises = [...questions];
+    updatedExercises[exerciseIndex].time = time;
     setExercises(updatedExercises);
   };
 
@@ -161,25 +183,25 @@ function CreateTests() {
   // Money functions
 
   const updateMoneyAmount = (exerciseIndex, questionIndex, amountIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].moneyQuestions[questionIndex].amounts[amountIndex] = value;
     setExercises(updatedExercises);
   };
   
   const updateMoneyAnswer = (exerciseIndex, questionIndex, value) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].moneyQuestions[questionIndex].answer = value;
     setExercises(updatedExercises);
   };
   
   const addMoneyQuestion = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].moneyQuestions.push({ amounts: [''], answer: '' });
     setExercises(updatedExercises);
   };
   
   const removeMoneyQuestion = (exerciseIndex, questionIndex) => {
-    const updatedExercises = [...exercises];
+    const updatedExercises = [...questions];
     updatedExercises[exerciseIndex].moneyQuestions.splice(questionIndex, 1);
     setExercises(updatedExercises);
   };
@@ -210,7 +232,7 @@ function CreateTests() {
           </label>
         </div>
         <form onSubmit={handleSubmit}>
-          {exercises.map((exercise, exerciseIndex) => (
+          {questions.map((exercise, exerciseIndex) => (
             <div className="exercise" key={exerciseIndex}>
               <label>
                 Type:
@@ -226,7 +248,7 @@ function CreateTests() {
                 Exercise {exerciseIndex + 1} Question:
                 <input
                   type="text"
-                  value={exercise.question}
+                  value={exercise.QuestionText}
                   onChange={(e) => updateExerciseQuestion(exerciseIndex, e.target.value)}
                   required
                 />
@@ -307,7 +329,7 @@ function CreateTests() {
                     Allowed Time:
                     <input
                       type="text"
-                      value={exercise.timeAllowed}
+                      value={exercise.time}
                       onChange={(e) => updateAllowedTime(exerciseIndex, e.target.value)}
                       required
                     />
@@ -319,7 +341,7 @@ function CreateTests() {
                             Question {questionIndex + 1}:
                             <input
                               type="text"
-                              value={timerQuestion.question}
+                              value={timerQuestion.QuestionText}
                               onChange={(e) => updateTimerQuestion(exerciseIndex, questionIndex, e.target.value)}
                               required
                             />
@@ -394,7 +416,7 @@ function CreateTests() {
                 </div>
               )}
 
-              {exercises.length > 1 && (
+              {questions.length > 1 && (
                 <button onClick={() => removeExercise(exerciseIndex)}>
                   Remove Exercise
                 </button>
