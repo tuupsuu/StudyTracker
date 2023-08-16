@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './StudentView.css';
-import Clock from '../components/Clock';
-import { BiLogOut } from 'react-icons/bi';
+import Header from '../components/Header'; // Import the Header component
 
 function StudentView() {
-  const [studentName, setStudentName] = useState('');
+  const [, setStudentName] = useState('');
   const [students, setStudents] = useState([]);  // Add this line
   const navigate = useNavigate();
+  const [isNameLoaded, setIsNameLoaded] = useState(false); // New state variable
+  const [Name, ] = useState('');
+  const [isSidebarOpen, setSidebarOpen] = React.useState(false);
 
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem('jwtTokenExpiration');
@@ -42,6 +44,7 @@ function StudentView() {
     const loggedInStudentName = localStorage.getItem('loggedInStudentName');
     if (loggedInStudentName) {
       setStudentName(loggedInStudentName);
+      setIsNameLoaded(true); // Set the flag to true once the teacher name is loaded
     }
 
     // Adding event listener for window/tab close
@@ -66,23 +69,20 @@ function StudentView() {
     };
   }, [navigate]);
 
-  const getRandomColor = () => {
-    const colors = ['pink', 'lightblue', 'lime', 'red', 'yellow'];
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
-  };
+  const Links = [
+    { label: "Frontpage" },
+  ];
 
   return (
     <div className="StudentView-Container">
       <div className="StudentView-TopBar">
-        <Clock />
-        <div className="TextContainer">
-          <h1 className="Title">Welcome {studentName}!</h1>
-          <p>You can choose your test from this page.</p>
-        </div>
-        <Link to='..' className='Student-LogOutButton' onClick={() => {
-          localStorage.clear();
-        }}><BiLogOut></BiLogOut></Link>
+        <Header 
+          Name={Name} 
+          isNameLoaded={isNameLoaded}
+          isSidebarOpen={isSidebarOpen} 
+          setSidebarOpen={setSidebarOpen} 
+          links={Links} 
+        />
       </div>
       <div>
         <h2>Student List</h2>

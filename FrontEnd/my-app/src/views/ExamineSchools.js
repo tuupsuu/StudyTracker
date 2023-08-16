@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
-import { BiLogOut } from "react-icons/bi";
+import { useLocation, useNavigate } from "react-router-dom";
 import _ from "lodash";
 import "./OfficialView.css";
 import StudentsGrades from "../jsonFiles/grades.json";
+import Header from "../components/Header";
 
 function ExamineSchools() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -14,7 +13,7 @@ function ExamineSchools() {
   const [selectedClass, setSelectedClass] = useState("All");
   const location = useLocation();
   const navigate = useNavigate();
-  const [officialName, setOfficialName] = useState("");
+  const [ , setOfficialName] = useState("");
 
   const getParams = (query) => {
     return new URLSearchParams(query);
@@ -144,40 +143,20 @@ function ExamineSchools() {
     })
   );
 
+  const Links = [
+    { label: "Homepage", path: "/official" },
+    { label: "Print Reports" },
+    { label: "Examine Teachers", path: "/examine-teachers" }
+  ]; 
+
   return (
     <div className="official-view">
-      <header className="header">
-        <FaBars className="hamburger" onClick={() => setSidebarOpen(true)} />
-        <div className="HeaderOfficial">
-          <h1 className="TitleOfficial"> Examine Schools </h1>
-        </div>
-        <Link
-          to=".."
-          className="LogoutButtonOfficial"
-          onClick={() => {
-            localStorage.clear();
-          }}
-        >
-          <BiLogOut></BiLogOut>
-        </Link>
-      </header>
-
-      {isSidebarOpen && (
-        <aside className="sidebar">
-          <FaBars
-            className="close-button"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Close
-          </FaBars>
-          <ul>
-            <li><Link to="/official">Homepage</Link></li>
-            <li onClick={() => alert("Not implemented yet")}>Print Reports</li>
-            <li>Examine Schools</li>
-            <li><Link to="/examine-teachers">Examine teachers</Link></li>
-          </ul>
-        </aside>
-      )}
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        links={Links} 
+        title="Examine Schools" // Pass the custom title here
+      />
 
       <section className="content">
         <h2>City's different Schools Score Average Distribution</h2>

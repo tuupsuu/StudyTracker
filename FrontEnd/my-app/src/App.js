@@ -10,6 +10,7 @@ import StartTest from './views/StartTest';
 import { AuthProvider } from './components/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import OfficialView from './views/OfficialView';
+import CreateTests from './views/CreateTests';
 import ExamineSchools from './views/ExamineSchools';
 import LoginWithBackend from './components/LoginWithBackend';
 import Students from './views/Students';
@@ -27,6 +28,7 @@ function App() {
             <Route path="/start-test" element={<PrivateRoute element={<StartTest />} />} />
             <Route path="/examine-tests" element={<PrivateRoute element={<ExamineTests />} />} />
             <Route path="/example-test" element={<PrivateRoute element={<ExampleTest />} />} />
+            <Route path="/create-tests" element={<PrivateRoute element={<CreateTests />} />} />
             <Route path="/examine-schools" element={<PrivateRoute element={<ExamineSchools />} />} />
             <Route path="/students" element={<PrivateRoute element={<Students />} />} />
             <Route path="/examine-teachers" element={<PrivateRoute element={<ExamineTeachers />} />} />
