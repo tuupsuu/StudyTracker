@@ -103,22 +103,20 @@ function StudentView() {
         />
       </div>
       <div>
-        <h2>Student List</h2>
-        <ul>
-          {students.map((student, index) => (
-            <li key={index}>
-              {student.FirstName} {student.Lastname} - {student.Class_ID} {student.Stud_ID}
-            </li>
-          ))}
-        </ul>
-        <ul>
-          {tests.map((test, index) => (
-            <li key={index}>
-              {test.Test_ID} {test.TestName}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <h2>Test list</h2>
+    {tests.map((test, index) => (
+        <button 
+            className="testButton" 
+            key={index} 
+            onClick={() => {
+              navigate(`/start-test`)
+                // navigate(`/test-detail/${test.Test_ID}`);
+            }}
+        >
+            {test.Test_ID} - {test.TestName}
+        </button>
+    ))}
+</div>
       {/* <div className='TestOptions'>
         {tests.map(test => (
           <Link 
