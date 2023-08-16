@@ -20,6 +20,14 @@ const Question = sequelize.define('Question', {
     Test_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    time: {
+        type: DataTypes.INTEGER,
+        defaultValue: null
+    },
+    type: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 }, {
     timestamps: false,

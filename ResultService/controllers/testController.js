@@ -21,6 +21,8 @@ class TestController extends BaseController {
                     QuestionText: questionData.question,
                     Test_ID: test.Test_ID,
                     correctIndex: questionData.correctIndex || 0,
+                    time: questionData.time || null,
+                    type: questionData.type || ''
                 });
 
                 for (const optionValues of questionData.options) {
