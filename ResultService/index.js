@@ -44,6 +44,10 @@ app.get('/resultservice/tests', (req, res) => testController.getTests(req, res))
 app.get('/resultservice/tests/:testId', testController.getById);
 
 
+// delete test using test ID
+app.delete('/resultservice/tests/:testId', testController.deleteTest);
+
+
 // Get students of a class by class id
 app.get('/resultservice/class/:classId/students', classController.getStudentsByClass);
 
