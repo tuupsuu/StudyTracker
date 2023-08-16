@@ -9,22 +9,22 @@ function CreateTests() {
   const [testName, setTestName] = useState('');
   const [exercises, setExercises] = useState([
     { 
-      question: '', 
+      QuestionText: '', 
       options: [''], 
       type: questionTypes[0], 
       correctAnswer: -1, 
       sequences: [['', '', '']], 
       answers: [''], 
-      timeAllowed: '', 
-      timerQuestions: [{ question: '', answer: '' }], 
+      time: '', 
+      timerQuestions: [{ QuestionText: '', answer: '' }], 
       moneyQuestions: [{ amounts: [''], answer: '' }] 
     }
   ]);
   
 
-  const updateExerciseQuestion = (index, question) => {
+  const updateExerciseQuestion = (index, QuestionText) => {
     const updatedExercises = [...exercises];
-    updatedExercises[index].question = question;
+    updatedExercises[index].QuestionText = QuestionText;
     setExercises(updatedExercises);
   };
 
@@ -54,14 +54,14 @@ function CreateTests() {
 
   const addExercise = () => {
     const newExercise = {
-      question: '',
+      QuestionText: '',
       options: [''],
       type: questionTypes[0],
       correctAnswer: -1,
       sequences: [['', '', '']],
       answers: [''],
-      timeAllowed: '',
-      timerQuestions: [{ question: '', answer: '' }],
+      time: '',
+      timerQuestions: [{ QuestionText: '', answer: '' }],
       moneyQuestions: [{ amounts: [''], answer: '' }]
     };
     setExercises([...exercises, newExercise]);
@@ -114,7 +114,7 @@ function CreateTests() {
     }
 
     setTestName('');
-    setExercises([{ question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }]);
+    setExercises([{ QuestionText: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }]);
   };
 
   const updateSequence = (exerciseIndex, sequenceIndex, numberIndex, value) => {
@@ -148,7 +148,7 @@ function CreateTests() {
 
   const updateTimerQuestion = (exerciseIndex, questionIndex, value) => {
     const updatedExercises = [...exercises];
-    updatedExercises[exerciseIndex].timerQuestions[questionIndex].question = value;
+    updatedExercises[exerciseIndex].timerQuestions[questionIndex].QuestionText = value;
     setExercises(updatedExercises);
   };
 
@@ -160,7 +160,7 @@ function CreateTests() {
 
   const addTimerQuestion = (exerciseIndex) => {
     const updatedExercises = [...exercises];
-    updatedExercises[exerciseIndex].timerQuestions.push({ question: '', answer: '' });
+    updatedExercises[exerciseIndex].timerQuestions.push({ QuestionText: '', answer: '' });
     setExercises(updatedExercises);
   };
 
@@ -172,7 +172,7 @@ function CreateTests() {
 
   const updateAllowedTime = (exerciseIndex, time) => {
     const updatedExercises = [...exercises];
-    updatedExercises[exerciseIndex].timeAllowed = time;
+    updatedExercises[exerciseIndex].time = time;
     setExercises(updatedExercises);
   };
 
@@ -245,7 +245,7 @@ function CreateTests() {
                 Exercise {exerciseIndex + 1} Question:
                 <input
                   type="text"
-                  value={exercise.question}
+                  value={exercise.QuestionText}
                   onChange={(e) => updateExerciseQuestion(exerciseIndex, e.target.value)}
                   required
                 />
@@ -326,7 +326,7 @@ function CreateTests() {
                     Allowed Time:
                     <input
                       type="text"
-                      value={exercise.timeAllowed}
+                      value={exercise.time}
                       onChange={(e) => updateAllowedTime(exerciseIndex, e.target.value)}
                       required
                     />
@@ -338,7 +338,7 @@ function CreateTests() {
                             Question {questionIndex + 1}:
                             <input
                               type="text"
-                              value={timerQuestion.question}
+                              value={timerQuestion.QuestionText}
                               onChange={(e) => updateTimerQuestion(exerciseIndex, questionIndex, e.target.value)}
                               required
                             />
