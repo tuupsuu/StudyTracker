@@ -28,7 +28,7 @@ const Question = sequelize.define('Question', {
     type: {
         type: DataTypes.STRING(12),
         allowNull: false,
-        defaultValue: 0
+        defaultValue: ''
     }
 }, {
     timestamps: false,
