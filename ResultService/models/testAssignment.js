@@ -1,9 +1,7 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const config = require('./config');
+const { DataTypes } = require('sequelize');
 const { Class } = require('./class');
 const { Test } = require('./test');
 const { Teacher } = require('./teacher');
-
 const sequelize = require('./db');
 
 

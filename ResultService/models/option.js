@@ -1,30 +1,26 @@
 const { DataTypes } = require('sequelize');
-
 const sequelize = require('./db');
 
-const Class = sequelize.define('Class', {
-    Class_ID: {
+const Option = sequelize.define('Option', {
+    optionID: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         primaryKey: true,
         autoIncrement: true
     },
-    ClassName: {
-        type: DataTypes.CHAR(2),
-        allowNull: false
-    },
-    Teach_ID: {
+    value: {
         type: DataTypes.INTEGER,
         allowNull: false
-    }, 
-    School_ID: {
+    },
+    Ques_ID: {
         type: DataTypes.INTEGER,
         allowNull: false
     }
 }, {
-    timestamps: false,
-    tableName: 'Class'
+        timestamps: false,
+        tableName: 'Options'
 });
 
 sequelize.sync();
 
-module.exports = { Class };
+module.exports = { Option };

@@ -47,5 +47,7 @@ app.post('/users/verify', verifyPassword);
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on port http://localhost:${port}/users`);
+  // console.log(`Server is running on port http://localhost:${port}/users`);
 });
+
+module.exports = app;
