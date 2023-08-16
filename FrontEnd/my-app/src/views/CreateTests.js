@@ -86,10 +86,32 @@ function CreateTests() {
     setTestName(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
     console.log('Submitting test:', { testName, exercises });
+
+    try {
+      const response = await fetch('https://studytracker.site/resultservice/tests', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              testName,
+              exercises
+          })
+      });
+
+      const responseData = await response.json();
+      
+      if (response.ok) {
+          console.log('Test submitted successfully:', responseData);
+      } else {
+          console.error('Failed to submit test:', responseData);
+      }
+    } catch (error) {
+        console.error('Error submitting test:', error);
+    }
 
     setTestName('');
     setExercises([{ question: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }]);
