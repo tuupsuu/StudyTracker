@@ -9,22 +9,22 @@ function CreateTests() {
   const [testName, setTestName] = useState('');
   const [questions, setExercises] = useState([
     { 
-      QuestionText: '', 
+      question: '', 
       options: [''], 
       type: questionTypes[0], 
-      correctAnswer: -1, 
+      correctIndex: -1, 
       sequences: [['', '', '']], 
       answers: [''], 
       time: '', 
-      timerQuestions: [{ QuestionText: '', answer: '' }], 
+      timerQuestions: [{ question: '', answer: '' }], 
       moneyQuestions: [{ amounts: [''], answer: '' }] 
     }
   ]);
   
 
-  const updateExerciseQuestion = (index, QuestionText) => {
+  const updateExerciseQuestion = (index, question) => {
     const updatedExercises = [...questions];
-    updatedExercises[index].QuestionText = QuestionText;
+    updatedExercises[index].question = question;
     setExercises(updatedExercises);
   };
 
@@ -54,14 +54,14 @@ function CreateTests() {
 
   const addExercise = () => {
     const newExercise = {
-      QuestionText: '',
+      question: '',
       options: [''],
       type: questionTypes[0],
-      correctAnswer: -1,
+      correctIndex: -1,
       sequences: [['', '', '']],
       answers: [''],
       time: '',
-      timerQuestions: [{ QuestionText: '', answer: '' }],
+      timerQuestions: [{ question: '', answer: '' }],
       moneyQuestions: [{ amounts: [''], answer: '' }]
     };
     setExercises([...questions, newExercise]);
@@ -76,9 +76,9 @@ function CreateTests() {
     setExercises(updatedExercises);
   };
 
-  const updateCorrectAnswer = (exerciseIndex, correctAnswer) => {
+  const updateCorrectAnswer = (exerciseIndex, correctIndex) => {
     const updatedExercises = [...questions];
-    updatedExercises[exerciseIndex].correctAnswer = correctAnswer;
+    updatedExercises[exerciseIndex].correctIndex = correctIndex;
     setExercises(updatedExercises);
   };
 
@@ -114,7 +114,7 @@ function CreateTests() {
     }
 
     setTestName('');
-    setExercises([{ QuestionText: '', options: [''], type: questionTypes[0], correctAnswer: -1, sequences: [['', '', '']], answers: [''] }]);
+    setExercises([{ question: '', options: [''], type: questionTypes[0], correctIndex: -1, sequences: [['', '', '']], answers: [''] }]);
   };
 
   const updateSequence = (exerciseIndex, sequenceIndex, numberIndex, value) => {
@@ -148,7 +148,7 @@ function CreateTests() {
 
   const updateTimerQuestion = (exerciseIndex, questionIndex, value) => {
     const updatedExercises = [...questions];
-    updatedExercises[exerciseIndex].timerQuestions[questionIndex].QuestionText = value;
+    updatedExercises[exerciseIndex].timerQuestions[questionIndex].question = value;
     setExercises(updatedExercises);
   };
 
@@ -160,7 +160,7 @@ function CreateTests() {
 
   const addTimerQuestion = (exerciseIndex) => {
     const updatedExercises = [...questions];
-    updatedExercises[exerciseIndex].timerQuestions.push({ QuestionText: '', answer: '' });
+    updatedExercises[exerciseIndex].timerQuestions.push({ question: '', answer: '' });
     setExercises(updatedExercises);
   };
 
@@ -245,7 +245,7 @@ function CreateTests() {
                 Exercise {exerciseIndex + 1} Question:
                 <input
                   type="text"
-                  value={exercise.QuestionText}
+                  value={exercise.question}
                   onChange={(e) => updateExerciseQuestion(exerciseIndex, e.target.value)}
                   required
                 />
@@ -259,7 +259,7 @@ function CreateTests() {
                       <input 
                         className="checkbox"
                         type="checkbox" 
-                        checked={optionIndex === exercise.correctAnswer} 
+                        checked={optionIndex === exercise.correctIndex} 
                         onChange={() => updateCorrectAnswer(exerciseIndex, optionIndex)}
                       />
                       </div>
@@ -338,7 +338,7 @@ function CreateTests() {
                             Question {questionIndex + 1}:
                             <input
                               type="text"
-                              value={timerQuestion.QuestionText}
+                              value={timerQuestion.question}
                               onChange={(e) => updateTimerQuestion(exerciseIndex, questionIndex, e.target.value)}
                               required
                             />
