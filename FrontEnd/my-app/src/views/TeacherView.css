@@ -109,24 +109,21 @@ html {
   padding: 20px;
 }
 
-.average-grade-container {
-  max-width: fit-content;
-  /* adjust as needed */
-  text-align: center;
-}
-
 .grade-chart {
   max-width: fit-content;
-  max-width: 90%;
   height: auto;
   margin: 0 auto;
 }
 
 .grade-chart-container {
   display: flex;
-  justify-content: space-between;
-  /* evenly space out the two items */
-  align-items: center;
-  flex-wrap: nowrap;
-  /* this will prevent wrapping. But make sure the total widths don't exceed 100% */
+  flex-direction: column; /* Updated this */
+  align-items: center; /* Adjusted to center */
+  margin-bottom: 20px; /* Gives some space at the bottom if necessary */
+}
+
+.average-grade-container {
+  max-width: fit-content;
+  text-align: center;
+  margin-bottom: 20px; /* Added margin for spacing between the average grade and the chart */
 }

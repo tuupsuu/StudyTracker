@@ -90,6 +90,10 @@ const GradeChart = () => {
 
   return (
     <div className='grade-chart-container'>
+      <div className="average-grade-container">
+        <h4><u>Average Grade:</u></h4>
+        <p style={{backgroundColor: 'rgba(75, 192, 192, 1)'}}>{averageGrade}</p>
+      </div>
       <div className="grade-chart">
         <Bar
           data={gradesData}
@@ -128,10 +132,6 @@ const GradeChart = () => {
             }
           }}
         />
-      </div>
-      <div className="average-grade-container">
-        <h4>Average Grade:</h4>
-        <p style={{backgroundColor: 'rgba(75, 192, 192, 1)'}}>{averageGrade}</p>
       </div>
     </div>
   );
