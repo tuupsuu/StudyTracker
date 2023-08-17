@@ -185,8 +185,8 @@ function Students() {
       if (response.ok) {
         // Student deleted successfully
         console.log('Student deleted successfully');
-        // Remove student from local state
-        setStudents(students.filter(student => student.id !== selectedStudent.id));
+        // Fetch the updated list of students from the API
+        fetchStudents();   // <-- Call fetchStudents again here
         // Close the dialog
         handleCloseStudentInfoDialog();
       } else {
