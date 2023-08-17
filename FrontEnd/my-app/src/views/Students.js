@@ -124,6 +124,7 @@ function Students() {
           Email: "",
           Rights: 1
         });
+        fetchStudents();
         handleDialogClose();
       } else {
         // Handle error response
