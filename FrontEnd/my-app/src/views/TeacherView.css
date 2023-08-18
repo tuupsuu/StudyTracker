@@ -16,7 +16,6 @@ html {
   box-sizing: border-box;
 }
 
-
 .header {
   display: flex;
   justify-content: space-between;
@@ -30,28 +29,30 @@ html {
 }
 
 
-  .sidebar {
-    position: fixed;
-    width: 200px;
-    height: 100%;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    top: 0; /* Align to the top */
-    left: 0; /* Align to the left */
-    z-index: 1;
-  }
+.sidebar {
+  position: fixed;
+  width: 200px;
+  height: 100%;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  top: 0;
+  /* Align to the top */
+  left: 0;
+  /* Align to the left */
+  z-index: 1;
+}
 
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .sidebar li {
-    margin-bottom: 30px;
-    margin-top: 30px;
-    cursor: pointer;
-  }
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 30px;
+  margin-top: 30px;
+  cursor: pointer;
+}
 
 .graph {
   width: 100%;
@@ -117,15 +118,19 @@ html {
 
 .grade-chart-container {
   display: flex;
-  flex-direction: column; /* Updated this */
-  align-items: center; /* Adjusted to center */
-  margin-bottom: 20px; /* Gives some space at the bottom if necessary */
+  flex-direction: column;
+  /* Updated this */
+  align-items: center;
+  /* Adjusted to center */
+  margin-bottom: 20px;
+  /* Gives some space at the bottom if necessary */
 }
 
 .average-grade-container {
   max-width: fit-content;
   text-align: center;
-  margin-bottom: 20px; /* Added margin for spacing between the average grade and the chart */
+  margin-bottom: 20px;
+  /* Added margin for spacing between the average grade and the chart */
 }
 
 
@@ -133,6 +138,10 @@ html {
 @media (max-width: 767px) {
   .sidebar {
     display: none;
+  }
+
+  .TitleTeacher {
+    font-size: 28px;
   }
 }
 
@@ -142,8 +151,8 @@ html {
     padding: 4rem;
   }
 
-  .hamburger, .close-button, .LogoutButtonTeacher {
+  .hamburger,
+  .LogoutButtonTeacher {
     font-size: 4rem;
   }
 }
-
