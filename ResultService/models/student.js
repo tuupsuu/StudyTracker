@@ -1,7 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
-// const config = require('./config');
-// const { Class } = require('./class');
-
+const { DataTypes } = require('sequelize');
 const sequelize = require('./db');
 
 const Student = sequelize.define('Student', {
@@ -28,12 +25,6 @@ const Student = sequelize.define('Student', {
 });
 
 
-
 sequelize.sync();
 
 module.exports = { Student };
-
-// Student.belongsTo(Class, {
-//   foreignKey: 'Class_ID',
-//   onDelete: 'CASCADE'
-// });

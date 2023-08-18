@@ -1,21 +1,18 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const app = express();
+const sequelize = require('./models/db');
 const port = 3002;
-const config = require('./models/config');
+
 const resultController = require('./controllers/resultController');
 const questionController = require('./controllers/questionController');
 const sectionController = require('./controllers/sectionController');
 const studentController = require('./controllers/studentController');
 const teacherController = require('./controllers/teacherController');
 const classController = require('./controllers/classController');
-const { Sequelize, Datatypes } = require('sequelize');
+const testController = require('./controllers/testController');
 
-const sequelize = require('./models/db');
-require('./models/associations');
-
-const app = express();
-app.use(bodyParser.json());
 app.use(express.json());
+require('./models/associations');
 
 
 app.post('/results/addFromJson', async (req, res) => {
@@ -37,8 +34,23 @@ app.get('/results/:id', async (req, res) => {
   }
 })
 
+// Post test to backend
+app.post('/resultservice/tests', (req, res) => testController.postTest(req, res));
+
+// Get all tests, questions and options
+app.get('/resultservice/tests', (req, res) => testController.getTests(req, res));
+
+// Get tests by ID
+app.get('/resultservice/tests/:testId', testController.getById);
+
+
+// delete test using test ID
+app.delete('/resultservice/tests/:testId', testController.deleteTest);
+
+
 // Get students of a class by class id
 app.get('/resultservice/class/:classId/students', classController.getStudentsByClass);
+
 
 // endpoints for handling test result data
 app.post('/resultservice/results', (req, res) => resultController.add(req, res));
@@ -49,6 +61,7 @@ app.delete('/resultservice/results/:id', resultController.delete);
 
 app.get('/resultservice/results', resultController.getAll);
 
+
 // endpoints for handling question result data
 app.post('/resultservice/questionResults', (req, res) => questionController.add(req, res));
 
@@ -57,6 +70,7 @@ app.put('/resultservice/questionResults/:id', (req, res) => questionController.e
 app.delete('/resultservice/questionResults/:id', questionController.delete);
 
 app.get('/resultservice/questionResults', questionController.getAll);
+
 
 // endpoints for handling question section result data
 app.post('/resultservice/sectionResults', (req, res) => sectionController.add(req, res));
@@ -67,6 +81,7 @@ app.delete('/resultservice/sectionResults/:id', sectionController.delete);
 
 app.get('/resultservice/sectionResults', sectionController.getAll);
 
+
 // endpoints for handling student data
 app.post('/resultservice/student/', (req, res) => studentController.add(req, res));
 
@@ -75,6 +90,7 @@ app.put('/resultservice/student/:id', (req, res) => studentController.edit(req, 
 app.delete('/resultservice/student/:id', studentController.delete);
 
 app.get('/resultservice/student', studentController.getAll);
+
 
 // endpoints for handling teacher data
 app.post('/resultservice/teacher/', (req, res) => teacherController.add(req, res));

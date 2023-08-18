@@ -1,9 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const config = require('./config');
-const { Test } = require('./testCategory');
-
+const { DataTypes } = require('sequelize');
 const sequelize = require('./db');
-
 
 
 const Question = sequelize.define('Question', {
@@ -16,13 +12,23 @@ const Question = sequelize.define('Question', {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    Points: {
+    correctIndex: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 0
     },
-    Cate_ID: {
-        type:DataTypes.INTEGER,
-        allowNull: false
+    Test_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    time: {
+        type: DataTypes.INTEGER,
+        defaultValue: null
+    },
+    type: {
+        type: DataTypes.STRING(12),
+        allowNull: false,
+        defaultValue: ''
     }
 }, {
     timestamps: false,
@@ -30,11 +36,6 @@ const Question = sequelize.define('Question', {
 });
 
 
-Question.belongsTo(TestCategory, {
-    foreignKey: 'Cate_ID',
-    onDelete: 'CASCADE'
-});
-
 sequelize.sync();
 
-module.exports = Question;
+module.exports = { Question };
