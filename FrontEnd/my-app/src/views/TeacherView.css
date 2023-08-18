@@ -21,7 +21,7 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
+  padding: 2rem;
   background-color: darkslategrey;
   color: #fff;
   width: 100%;
@@ -69,20 +69,20 @@ html {
 }
 
 .hamburger {
-  font-size: xx-large;
+  font-size: 2rem;
   background: darkslategrey;
   position: relative;
   cursor: pointer;
 }
 
 .close-button {
-  font-size: xx-large;
+  font-size: 2rem;
   cursor: pointer;
   margin-top: 20px;
 }
 
 .LogoutButtonTeacher {
-  font-size: 40px;
+  font-size: 2rem;
   position: relative;
   color: white;
   border-radius: 10px;
@@ -127,3 +127,23 @@ html {
   text-align: center;
   margin-bottom: 20px; /* Added margin for spacing between the average grade and the chart */
 }
+
+
+/* For screens smaller than 768px */
+@media (max-width: 767px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+/* For screens larger than 1200px */
+@media (min-width: 1200px) {
+  .header {
+    padding: 4rem;
+  }
+
+  .hamburger, .close-button, .LogoutButtonTeacher {
+    font-size: 4rem;
+  }
+}
+
