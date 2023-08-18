@@ -114,6 +114,9 @@ function Students() {
       });
 
       if (response.ok) {
+        //Tähän väliin uus POST Resultserviseen (etunimi, sukunimi, id jne kaikkee muutakin)
+
+
         // Student added successfully
         console.log('New student added successfully');
         // Reset the newStudent state to its initial values
