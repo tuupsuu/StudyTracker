@@ -4,7 +4,7 @@
   color: #333;
   background-color: #f2f2f2;
   min-height: 1500px;
-  
+
 }
 
 
@@ -42,7 +42,7 @@
 }
 
 .low-student-count {
-  background-color: yellow ;
+  background-color: yellow;
 }
 
 .warning-container p {
@@ -108,14 +108,19 @@
 .table-container {
   width: 80%;
   margin: auto;
-  margin-top: 0;
+  margin-top: 20px;
 }
 
 table {
+  border-radius: 4px;
+  /* Rounded corners */
+  overflow: hidden;
+  /* Hide overflow for rounded corners */
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
-  border: 1px solid black; /* Add border to table */
+  border: 1px solid black;
+  /* Add border to table */
 }
 
 .link-official {
@@ -126,13 +131,16 @@ table {
 
 table thead tr {
   background-color: #f8f8f8;
-  text-align: center; /* Center the header text */
+  text-align: center;
+  /* Center the header text */
 }
 
-table th, table td {
-  padding: 12px 15px;
+table th,
+table td {
+  padding: 8px 12px;
   border-bottom: 1px solid black;
-  text-align: center; /* Center the column text */
+  text-align: left;
+  /* Center the column text */
 }
 
 /* Add style for rows with less than 30 students */
@@ -145,8 +153,13 @@ table th, table td {
 }
 
 .table-and-search-container {
-  width: 80%; /* adjust as necessary */
+  width: 80%;
+  /* adjust as necessary */
   margin: auto;
+}
+
+table thead tr {
+  background-color: #eaeaea; /* Adjust header color */
 }
 
 .filters {
@@ -195,4 +208,28 @@ table th, table td {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) { /* Adjust breakpoint as necessary */
+  .search-and-filter-container, .table-container {
+    width: 95%; /* Increase width to fit screen */
+    padding: 0 5%;
+  }
+
+  .search-and-filter-container input[type="text"], 
+  .search-and-filter-container select {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .filters {
+    flex-direction: column; /* Stack filters on top of each other */
+  }
+
+  /* Allow table to scroll horizontally on small screens */
+  .table-container {
+    overflow-x: auto;
+  }
 }
