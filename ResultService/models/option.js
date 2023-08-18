@@ -9,7 +9,7 @@ const Option = sequelize.define('Option', {
         autoIncrement: true
     },
     value: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     Ques_ID: {
