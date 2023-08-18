@@ -147,7 +147,9 @@ html {
     padding: 4rem;
   }
 
-  .hamburger,
+  .hamburger {
+    font-size: 3rem;
+  }
   .LogoutButtonTeacher {
     font-size: 4rem;
   }
