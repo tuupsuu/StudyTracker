@@ -136,10 +136,6 @@ html {
 
 /* For screens smaller than 768px */
 @media (max-width: 767px) {
-  .sidebar {
-    display: none;
-  }
-
   .TitleTeacher {
     font-size: 28px;
   }
