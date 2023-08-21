@@ -109,7 +109,7 @@ function StudentView() {
     <div className="StudentView-Container">
       <div className="StudentView-TopBar">
         <Header
-          Name={Name}
+          Name="Tests"
           isNameLoaded={isNameLoaded}
           isSidebarOpen={isSidebarOpen}
           setSidebarOpen={setSidebarOpen}
@@ -131,7 +131,7 @@ function StudentView() {
                     {test.TestName}
                 </h2>
                 <div className="TestContainerInfo">
-                  <p style={{color:"black"}}>{test.StartTime} {test.EndTime}</p>
+                  <p style={{color:"black"}}>{test.StartTime} <span style={{marginLeft:"20px", marginRight:"20px"}}>|</span> {test.EndTime}</p>
                 </div>
             </div>
         </div>
