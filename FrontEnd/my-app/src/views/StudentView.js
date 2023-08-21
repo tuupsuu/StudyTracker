@@ -109,7 +109,8 @@ function StudentView() {
     <div className="StudentView-Container">
       <div className="StudentView-TopBar">
         <Header
-          Name="Tests"
+          title="tests"
+          Name={tests}
           isNameLoaded={isNameLoaded}
           isSidebarOpen={isSidebarOpen}
           setSidebarOpen={setSidebarOpen}
