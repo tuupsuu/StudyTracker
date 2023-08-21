@@ -12,6 +12,20 @@ function StudentView() {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [tests, setTests] = useState([]);
 
+  function getRandomColor() {
+    const colors = [
+      '#FF5733',  // color 1
+      '#33FF57',  // color 2
+      '#3357FF',  // color 3
+      '#FF33D4',  // color 4
+      '#FFD133',  // color 5
+      // ... add as many colors as you'd like
+    ];
+  
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+  
+
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem('jwtTokenExpiration');
     return new Date().getTime() > expirationTime;
@@ -113,17 +127,12 @@ function StudentView() {
             }}
         >
             <div className="TestContainer">
-                <h2 className="TestContainerTitle">
+                <h2 className="TestContainerTitle" style={{ backgroundColor: getRandomColor() }}>
                     {test.TestName}
                 </h2>
                 <div className="TestContainerInfo">
-                    {/* Add additional test attributes as required. 
-                        I've commented out the original ones since the test object structure seems to have changed.
-                    */}
-                    {/* 
-                    <p className="InfoText">Teacher: {test.teacher}</p>
-                    <p className="InfoText">{test.requiresPassword ? 'Requires password' : ''}</p>
-                    */}
+                  <p>{test.StartTime}</p>
+                  <p>{test.EndTime}</p>
                 </div>
             </div>
         </div>

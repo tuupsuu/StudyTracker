@@ -25,7 +25,7 @@ function App() {
             <Route path="/student" element={<PrivateRoute element={<StudentView />} />} />
             <Route path="/teacher" element={<PrivateRoute element={<TeacherView />} />} />
             <Route path="/official" element={<PrivateRoute element={<OfficialView />} />} />
-            <Route path="/start-test:testId" element={<PrivateRoute element={<StartTest />} />} />
+            <Route path="/start-test" element={<PrivateRoute element={<StartTest />} />} />
             <Route path="/examine-tests" element={<PrivateRoute element={<ExamineTests />} />} />
             <Route path="/example-test" element={<PrivateRoute element={<ExampleTest />} />} />
             <Route path="/create-tests" element={<PrivateRoute element={<CreateTests />} />} />
