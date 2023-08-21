@@ -20,8 +20,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: auto;
-    height: auto;
+    max-width: 90%; /* <-- set a maximum width */
+    min-width: 50%;
+    margin: 0 auto; /* <-- center the form */
     padding: 40px;
     background-color: #ffffff;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
@@ -34,9 +35,10 @@
   }
   
   .loginRole,
-  .loginPassword,
-  .loginId {
-    width: 300px;
+  .loginId,
+  .loginPassword {
+    width: 100%; /* <-- Ensure these are responsive too */
+    max-width: 300px; /* <-- But they don't get too large on big screens */
   }
 
   .loginOptions {
@@ -64,7 +66,8 @@
     background-color: #007bff;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 350px;
+    width: 100%; /* <-- Make it responsive */
+    max-width: 300px; /* <-- But don't let it get too wide */
   }
   
   .login-form input[type="submit"]:hover {
