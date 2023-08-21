@@ -131,8 +131,7 @@ function StudentView() {
                     {test.TestName}
                 </h2>
                 <div className="TestContainerInfo">
-                  <p>{test.StartTime}</p>
-                  <p>{test.EndTime}</p>
+                  <p style={{color:"black"}}>{test.StartTime} {test.EndTime}</p>
                 </div>
             </div>
         </div>
