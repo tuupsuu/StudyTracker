@@ -123,27 +123,28 @@ function ExamineTests() {
       />
       <section className="content">
         <div className='controls'>
-          <div className='sortButtons'>
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-            >
-              <option value="name">Name</option>
-              <option value="grade-high">Grade (High to Low)</option>
-              <option value="grade-low">Grade (Low to High)</option>
-              <option value="below-average">Below Average</option>
-            </select>
-            <input
-              type="text"
-              placeholder="Search by name or grade"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          <div className='csvButton'>
-            <button className='DownloadCSV' onClick={downloadCSV}><BiPrinter></BiPrinter></button>
+          <div className='sortAndSearchWrapper'>
+            <div className='sortButtons'>
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+              >
+                <option value="name">Name</option>
+                <option value="grade-high">Grade (High to Low)</option>
+                <option value="grade-low">Grade (Low to High)</option>
+                <option value="below-average">Below Average</option>
+              </select>
+              <input
+                type="text"
+                placeholder="Search by name or grade"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <button className='DownloadCSVExamine' onClick={downloadCSV}><BiPrinter></BiPrinter></button>
           </div>
         </div>
+
 
         {displayStudents.map((student) => (
           <div key={student.id} className="student">
