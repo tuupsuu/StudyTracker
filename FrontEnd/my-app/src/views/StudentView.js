@@ -11,7 +11,6 @@ function StudentView() {
   const [Name,] = useState('');
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [tests, setTests] = useState([]);
-  
 
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem('jwtTokenExpiration');
@@ -114,7 +113,7 @@ function StudentView() {
             }}
         >
             <div className="TestContainer">
-                <h2 className="TestContainerTitle" style={{ backgroundColor: getRandomColor() }}>
+                <h2 className="TestContainerTitle">
                     {test.TestName}
                 </h2>
                 <div className="TestContainerInfo">
