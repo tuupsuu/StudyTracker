@@ -102,7 +102,6 @@ function StudentView() {
   console.log("tests:" + tests)
 
   const Links = [
-    { label: "Frontpage" },
   ];
 
   return (
