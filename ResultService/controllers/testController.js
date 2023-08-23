@@ -8,14 +8,17 @@ class TestController extends BaseController {
         super(Test);
     }
 
+    // Create a new test along with its questions and options
     async postTest(req, res) {
         try {
             const { testName, questions } = req.body;
 
+            // Create the test
             const test = await Test.create({
                 TestName: testName
             });
 
+            // Create questions and their options for the test
             for (const questionData of questions) {
                 const question = await Question.create({
                     QuestionText: questionData.question,
@@ -25,23 +28,22 @@ class TestController extends BaseController {
                     type: questionData.type || ''
                 });
 
-                for (const optionValues of questionData.options) {
-                    for (const optionValue of optionValues) {
-                        await Option.create({
-                            value: optionValue,
-                            Ques_ID: question.Ques_ID,
-                        });
-                    }
+                for (const optionValue of questionData.options) {
+                    await Option.create({
+                        value: optionValue,
+                        Ques_ID: question.Ques_ID,
+                    });
                 }
             }
 
-            res.status(201).json({ message: 'Test created succesfully.'});
+            res.status(201).json({ message: 'Test created successfully.' });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'An error occurred while creating the test'});
+            res.status(500).json({ error: 'An error occurred while creating the test' });
         }
     }
 
+    // Fetch all tests along with their questions and options
     async getTests(req, res) {
         try {
             const tests = await Test.findAll({
@@ -58,7 +60,7 @@ class TestController extends BaseController {
         }
     }
 
-
+    // Fetch a test by its ID along with its questions and options
     async getById(req, res) {
         try {
             const testId = req.params.testId;
@@ -81,6 +83,7 @@ class TestController extends BaseController {
         }
     }
 
+    // Delete a test by its ID, including its questions and options
     async deleteTest(req, res) {
         try {
             const testId = req.params.testId;
@@ -96,6 +99,7 @@ class TestController extends BaseController {
                 return res.status(404).json({ error: 'Test not found' });
             }
             
+            // Delete options associated with each question
             for (const question of test.Questions) {
                 await Option.destroy({
                     where: {
@@ -104,17 +108,19 @@ class TestController extends BaseController {
                 });
             }
             
+            // Delete questions associated with the test
             await Question.destroy({
                 where: {
                     Test_ID: testId
                 }
-            })
+            });
 
+            // Delete the test itself
             await Test.destroy({
                 where: {
                     Test_ID: testId
                 }
-            })
+            });
 
             res.json({ message: 'Test deleted successfully' });
         } catch (error) {
